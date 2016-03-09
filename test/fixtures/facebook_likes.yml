@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 
+  likes: 
+  unlikes: 
+  allLikes: 
+  date: 2016-03-08
+
+two:
+  id: 
+  likes: 
+  unlikes: 
+  allLikes: 
+  date: 2016-03-08

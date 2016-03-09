@@ -1,0 +1,16 @@
+<div id='data-block'>
+  <h1>Facebook Insights</h1>
+  <h3>Total Likes</h3>
+  <%= area_chart @all_likes.pluck(:date, :page_fans), discrete: true, library: {
+    xAxis: {
+      labels: {
+        enabled: true,
+        step: 7
+    }
+  }}
+ %>
+ <%= @text %>
+  <h3>Likes and Unlikes</h3>
+  <%= line_chart [ {name: "Likes", data: @all_likes.map { |t| [t.date, t.page_fan_adds]}}, {name: "Unlikes", data: @all_likes.map { |t| [t.date, -1*t.page_fan_removes]}}, {name: "Likes net", data: @all_likes.map { |t| [t.date, (t.page_fan_adds -
+  t.page_fan_removes)]}} ], discrete: true %>
+</div>

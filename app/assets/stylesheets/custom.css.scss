@@ -1,0 +1,43 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+
+.row.content {
+    height: 100vh;
+}
+
+
+/* Set gray background color and 100% height */
+
+.sidenav {
+    background-color: #f1f1f1;
+    height: 100%;
+    position: fixed;
+    float: left;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+}
+
+/* like the bootstrap divider but in blue */
+
+.divider-blue {
+    height: 1px;
+    width: 100%;
+    display: block;
+    /* for use on default inline elements like span */
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: skyblue;
+}
+
+/* so that the dashboard with the stats can be scrolled */
+
+.overflow {
+    overflow-y: scroll;
+    max-height: 100hv;
+    float: right;
+}
