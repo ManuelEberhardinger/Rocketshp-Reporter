@@ -1,14 +1,25 @@
 <div id='data-block'>
   <h1>Facebook Insights</h1>
-  <%= button_to 'Create report', '/facebook/create_report', method: :get, class: 'btn btn-info', submit: 'field_to_submit'  %>
-  <h3>Total Likes</h3>
-  <%= area_chart @all_likes.pluck(:date, :page_fans) %>
-  <h3>Likes and Unlikes</h3>
-  <%= line_chart [
-    {name: "Likes", data: @all_likes.map { |t| [t.date, t.page_fan_adds]}},
-    {name: "Unlikes", data: @all_likes.map { |t| [t.date, -1*t.page_fan_removes]}},
-    {name: "Likes net", data: @all_likes.map { |t| [t.date, (t.page_fan_adds - t.page_fan_removes)]}}
-  ]
-  %>
+  <%= button_to 'Fresh up data', '/facebook/fresh_up_data', method: :get, class: 'btn btn-info' %>
+  <br>
+  <%= form_tag("/facebook/report.pdf", method: :get) do %>
+    <%= submit_tag("Create Report", class: "btn btn-info") %>
+    <h3>Total Likes</h3>
+    <%= area_chart @all_fans %>
+    <%= text_area_tag(:description_all_fans, "", class: "form-control", maxlength: "500", rows: 4) %>
+    <h3>Likes and Unlikes</h3>
+    <%= line_chart [
+      {name: "Likes", data: @page_adds},
+      {name: "Unlikes", data: @page_removes.map { |key, value| [key, value*=-1]}},
+      {name: "Likes net", data: @likes_net}
+    ]
+    %>
+    <%= text_area_tag(:description_likes_unlikes, "", class: "form-control", maxlength: "500", rows: 4) %>
+    <h3>Page impressions</h3>
+    <%= area_chart @page_impressions %>
+    <%= text_area_tag(:description_page_impressions, "", class: "form-control", maxlength: "500", rows: 4) %>
+  <% end %>
 </div>
-<footer>  <%= @face.html_safe %></div> </footer>
+<footer>
+  <%= @face.html_safe %></div>
+</footer>

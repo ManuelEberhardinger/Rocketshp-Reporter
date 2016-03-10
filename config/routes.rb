@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'facebook/callback'
   get 'facebook/login_page'
   get 'facebook/report'
-  get 'facebook/create_report'
+  get 'facebook/fresh_up_data'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

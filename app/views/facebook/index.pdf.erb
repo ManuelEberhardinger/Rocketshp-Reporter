@@ -1,7 +1,11 @@
 <div id='data-block'>
-  <h1>Facebook Insights</h1>
+
+  <h1 id="pdf-header">Facebook Insights</h1>
+
+  <p style='page-break-after:always;'></p>
+
   <h3>Total Likes</h3>
-  <%= area_chart @all_likes.pluck(:date, :page_fans), discrete: true, library: {
+  <%= area_chart @all_fans, discrete: true, library: {
     xAxis: {
       labels: {
         enabled: true,
@@ -9,8 +13,20 @@
     }
   }}
  %>
- <%= @text %>
-  <h3>Likes and Unlikes</h3>
-  <%= line_chart [ {name: "Likes", data: @all_likes.map { |t| [t.date, t.page_fan_adds]}}, {name: "Unlikes", data: @all_likes.map { |t| [t.date, -1*t.page_fan_removes]}}, {name: "Likes net", data: @all_likes.map { |t| [t.date, (t.page_fan_adds -
-  t.page_fan_removes)]}} ], discrete: true %>
+ <%= @description_all_fans %>
+ <br><br>
+ <h3>Likes and Unlikes</h3>
+ <%= line_chart [
+   {name: "Likes", data: @page_adds},
+   {name: "Unlikes", data: @page_removes.map { |key, value| [key, value*=-1]}},
+   {name: "Likes net", data: @likes_net}
+ ], discrete: true
+ %>
+ <%= @description_likes_unlikes %>
+
+ <p style='page-break-after:always;'></p>
+
+ <h3>Reach and Impressions</h3>
+ <%= area_chart @page_impressions, discrete: true %>
+ <%= @description_page_impressions %>
 </div>

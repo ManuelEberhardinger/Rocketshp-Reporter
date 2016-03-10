@@ -11,16 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308010945) do
-
-  create_table "facebook_likes", force: :cascade do |t|
-    t.integer  "page_id",          limit: 8
-    t.integer  "page_fan_adds"
-    t.integer  "page_fan_removes"
-    t.integer  "page_fans"
-    t.date     "date"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end
