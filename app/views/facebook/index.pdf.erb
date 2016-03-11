@@ -27,6 +27,9 @@
  <p style='page-break-after:always;'></p>
 
  <h3>Reach and Impressions</h3>
- <%= area_chart @page_impressions, discrete: true %>
+ <%= area_chart [
+   {name: "Paid", data: @page_impressions_paid},
+   {name: "Organic", data: @page_impressions_organic}
+ ], discrete: true, stacked: true %>
  <%= @description_page_impressions %>
 </div>

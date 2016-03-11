@@ -3,21 +3,77 @@
   <%= button_to 'Fresh up data', '/facebook/fresh_up_data', method: :get, class: 'btn btn-info' %>
   <br>
   <%= form_tag("/facebook/report.pdf", method: :get) do %>
-    <%= submit_tag("Create Report", class: "btn btn-info") %>
-    <h3>Total Likes</h3>
-    <%= area_chart @all_fans %>
-    <%= text_area_tag(:description_all_fans, "", class: "form-control", maxlength: "500", rows: 4) %>
-    <h3>Likes and Unlikes</h3>
-    <%= line_chart [
+  <%= submit_tag("Create Report", class: "btn btn-info") %>
+  <h3>Total Likes</h3>
+  <%= area_chart @all_fans %>
+  <%= text_area_tag(:description_all_fans, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Likes and Unlikes</h3>
+  <%= line_chart [
       {name: "Likes", data: @page_adds},
       {name: "Unlikes", data: @page_removes.map { |key, value| [key, value*=-1]}},
       {name: "Likes net", data: @likes_net}
     ]
     %>
-    <%= text_area_tag(:description_likes_unlikes, "", class: "form-control", maxlength: "500", rows: 4) %>
-    <h3>Page impressions</h3>
-    <%= area_chart @page_impressions %>
-    <%= text_area_tag(:description_page_impressions, "", class: "form-control", maxlength: "500", rows: 4) %>
+  <%= text_area_tag(:description_likes_unlikes, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Places of Likes</h3>
+  <%= bar_chart get_series_hash_for_chartkick(@page_likes_by_source), stacked: true, height: "400px" %>
+  <%= text_area_tag(:description_likes_by_source, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Page Impressions</h3>
+  <%= area_chart [
+      {name: "Page Impressions", data: @page_impressions},
+      {name: "Paid", data: @page_impressions_paid},
+      {name: "Organic", data: @page_impressions_organic}
+    ], stacked: false %>
+  <%= text_area_tag(:description_page_impressions, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Page Posts Impressions</h3>
+  <%= area_chart [
+      {name: "Page Posts Impressions", data: @page_posts_impressions},
+      {name: "Paid", data: @page_posts_impressions_paid},
+      {name: "Organic", data: @page_posts_impressions_organic}
+    ], stacked: false %>
+  <%= text_area_tag(:description_page_posts_impressions, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Positive Feedback</h3>
+  <%= line_chart get_series_hash_for_chartkick(@page_positive_feedback_by_type) %>
+  <%= text_area_tag(:description_positive_feedback, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Negative Feedback</h3>
+  <%= line_chart get_series_hash_for_chartkick(@page_negative_feedback_by_type) %>
+  <%= text_area_tag(:description_negative_feedback, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Page Views</h3>
+  <%= area_chart [
+      {name: "Page Views", data: @page_views},
+      {name: "Page Views Unique", data: @page_views_login_unique}
+    ], stacked: false %>
+  <%= text_area_tag(:description_page_views, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Page Tab Views</h3>
+  <%= bar_chart get_series_hash_for_chartkick(@page_tab_views_login_top), stacked: true, height: "400px" %>
+  <%= text_area_tag(:description_tab_views, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Video Views <%= get_number_of_views(@page_video_views_paid) +
+                      get_number_of_views(@page_video_views_organic) %></h3>
+  <%= column_chart [
+    {name: "Paid Views", data: @page_video_views_paid},
+    {name: "Organic Views", data: @page_video_views_organic}
+  ], stacked: true %>
+  <%= text_area_tag(:description_video_views, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>30 Sec Video Views <%=  get_number_of_views(@page_video_complete_views_30s_paid) +
+                              get_number_of_views(@page_video_complete_views_30s_organic)%></h3>
+  <%= column_chart [
+    {name: "Paid Views", data: @page_video_complete_views_30s_paid},
+    {name: "Organic Views", data: @page_video_complete_views_30s_organic}
+  ], stacked: true %>
+  <%= text_area_tag(:description_complete_video_views, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <%= bar_chart get_series_hash_for_chartkick(@page_fans_gender_age), stacked: true, height: "1000px" %>
+
   <% end %>
 </div>
 <footer>

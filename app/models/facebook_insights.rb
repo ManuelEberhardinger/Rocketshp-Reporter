@@ -1,11 +1,15 @@
 class FacebookInsights
-  def self.connect_with_mongodb
-    @db = 'facebookdb'
+  def self.connect_with_mongodb(db)
+    close_connection
+
+    @db = db
     @client = Mongo::Client.new(['127.0.0.1:27017'], database: @db)
   end
 
   def self.close_connection
-    @client.close
+    if(!@client.nil?)
+      @client.close
+    end
   end
 
   def self.fresh_up_data(name, insights)

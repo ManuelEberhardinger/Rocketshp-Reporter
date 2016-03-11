@@ -14,7 +14,7 @@ class FacebookController < ApplicationController
 
   def get_insights_variables
     name = @@page['id']
-    FacebookInsights.connect_with_mongodb
+    FacebookInsights.connect_with_mongodb('facebookdb')
 
     if FacebookInsights.collection_exists?(name) == false
       fresh_up_data_without_redirect
@@ -23,14 +23,37 @@ class FacebookController < ApplicationController
     @all_fans = FacebookInsights.get_single_metric(name, 'page_fans')
     @page_adds = FacebookInsights.get_single_metric(name, 'page_fan_adds')
     @page_removes = FacebookInsights.get_single_metric(name, 'page_fan_removes')
+    @page_likes_by_source = FacebookInsights.get_single_metric(name, 'page_fans_by_like_source')
     @likes_net = @page_adds.merge(@page_removes) { |_k, a_value, b_value| a_value - b_value }
+
     @page_impressions = FacebookInsights.get_single_metric(name, 'page_impressions')
+    @page_impressions_paid = FacebookInsights.get_single_metric(name, 'page_impressions_paid')
+    @page_impressions_organic = FacebookInsights.get_single_metric(name, 'page_impressions_organic')
+
+    @page_posts_impressions = FacebookInsights.get_single_metric(name, 'page_posts_impressions')
+    @page_posts_impressions_paid = FacebookInsights.get_single_metric(name, 'page_posts_impressions_paid')
+    @page_posts_impressions_organic = FacebookInsights.get_single_metric(name, 'page_posts_impressions_organic')
+
+    @page_positive_feedback_by_type = FacebookInsights.get_single_metric(name, 'page_positive_feedback_by_type')
+    @page_negative_feedback_by_type = FacebookInsights.get_single_metric(name, 'page_negative_feedback_by_type')
+
+    @page_views = FacebookInsights.get_single_metric(name, 'page_views')
+    @page_views_login_unique = FacebookInsights.get_single_metric(name, 'page_views_login_unique')
+    @page_tab_views_login_top = FacebookInsights.get_single_metric(name, 'page_tab_views_login_top')
+
+    @page_video_views_paid = FacebookInsights.get_single_metric(name, 'page_video_views_paid')
+    @page_video_views_organic = FacebookInsights.get_single_metric(name, 'page_video_views_organic')
+
+    @page_video_complete_views_30s_paid = FacebookInsights.get_single_metric(name, 'page_video_complete_views_30s_paid')
+    @page_video_complete_views_30s_organic = FacebookInsights.get_single_metric(name, 'page_video_complete_views_30s_organic')
+
+    @page_fans_gender_age = FacebookInsights.get_single_metric(name, 'page_fans_gender_age')
+
     FacebookInsights.close_connection
   end
 
   def fresh_up_data
-    insights = @@graph.get_object(@@page['id'] + '/insights?since=2016-02-01&until=2016-03-01')
-    FacebookInsights.fresh_up_data(@@page['id'], insights)
+    fresh_up_data_without_redirect
     redirect_to '/facebook'
   end
 
@@ -41,7 +64,7 @@ class FacebookController < ApplicationController
 
   def report
     get_description_from_params
-    FacebookInsights.connect_with_mongodb
+    FacebookInsights.connect_with_mongodb('facebookdb')
     get_insights_variables
     FacebookInsights.close_connection
     respond_to do |format|
