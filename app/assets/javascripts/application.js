@@ -15,5 +15,7 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require highcharts.js
+//= require country-codes.js
+//= require chart-creator.js
 //= require chartkick
 //= require_tree .

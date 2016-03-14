@@ -40,6 +40,7 @@ class FacebookController < ApplicationController
     @page_views = FacebookInsights.get_single_metric(name, 'page_views')
     @page_views_login_unique = FacebookInsights.get_single_metric(name, 'page_views_login_unique')
     @page_tab_views_login_top = FacebookInsights.get_single_metric(name, 'page_tab_views_login_top')
+    @page_views_external_referrals = FacebookInsights.get_single_metric(name, 'page_views_external_referrals')
 
     @page_video_views_paid = FacebookInsights.get_single_metric(name, 'page_video_views_paid')
     @page_video_views_organic = FacebookInsights.get_single_metric(name, 'page_video_views_organic')
@@ -48,8 +49,38 @@ class FacebookController < ApplicationController
     @page_video_complete_views_30s_organic = FacebookInsights.get_single_metric(name, 'page_video_complete_views_30s_organic')
 
     @page_fans_gender_age = FacebookInsights.get_single_metric(name, 'page_fans_gender_age')
+    @page_fans_reached_gender_age = FacebookInsights.get_single_metric_with_period(name, 'page_impressions_by_age_gender_unique', "days_28")
+    @page_storytellers_gender_age = FacebookInsights.get_single_metric_with_period(name, 'page_storytellers_by_age_gender', "days_28")
+
+    @page_fans_country = FacebookInsights.get_single_metric(name, 'page_fans_country')
+    @page_fans_city = FacebookInsights.get_single_metric(name, 'page_fans_city')
+    @page_fans_locale = FacebookInsights.get_single_metric(name, 'page_fans_locale')
+
+    gon.page_fans_country = get_last_element_of_hash @page_fans_country
+    gon.page_fans_city = get_last_element_of_hash @page_fans_city
+    gon.page_fans_locale = get_last_element_of_hash @page_fans_locale
+
+    @page_impressions_by_country_unique = FacebookInsights.get_single_metric_with_period(name, 'page_impressions_by_country_unique', 'days_28')
+    @page_impressions_by_city_unique = FacebookInsights.get_single_metric_with_period(name, 'page_impressions_by_city_unique', 'days_28')
+    @page_impressions_by_locale_unique = FacebookInsights.get_single_metric_with_period(name, 'page_impressions_by_locale_unique', 'days_28')
+
+    gon.page_impressions_by_country_unique = get_last_element_of_hash @page_impressions_by_country_unique
+    gon.page_impressions_by_city_unique = get_last_element_of_hash @page_impressions_by_city_unique
+    gon.page_impressions_by_locale_unique = get_last_element_of_hash @page_impressions_by_locale_unique
+
+    @page_storytellers_by_country = FacebookInsights.get_single_metric_with_period(name, 'page_storytellers_by_country', 'days_28')
+    @page_storytellers_by_city = FacebookInsights.get_single_metric_with_period(name, 'page_storytellers_by_city', 'days_28')
+    @page_storytellers_by_locale = FacebookInsights.get_single_metric_with_period(name, 'page_storytellers_by_locale', 'days_28')
+
+    gon.page_storytellers_by_country = get_last_element_of_hash @page_storytellers_by_country
+    gon.page_storytellers_by_city = get_last_element_of_hash @page_storytellers_by_city
+    gon.page_storytellers_by_locale = get_last_element_of_hash @page_storytellers_by_locale
 
     FacebookInsights.close_connection
+  end
+
+  def get_last_element_of_hash(element)
+    return element[element.keys.last]
   end
 
   def fresh_up_data
@@ -85,6 +116,18 @@ class FacebookController < ApplicationController
     @description_all_fans = params[:description_all_fans]
     @description_likes_unlikes = params[:description_likes_unlikes]
     @description_page_impressions = params[:description_page_impressions]
+    @description_likes_by_source = params[:description_likes_by_source]
+    @description_page_posts_impressions = params[:description_page_posts_impressions]
+    @description_page_views = params[:description_page_views]
+    @description_video_views = params[:description_video_views]
+    @description_fans_gender_age = params[:description_fans_gender_age]
+    @description_positive_feedback = params[:description_positive_feedback]
+    @description_negative_feedback = params[:description_negative_feedback]
+    @description_storytellers_gender_age = params[:description_storytellers_gender_age]
+    @description_reached_fans_gender_age = params[:description_reached_fans_gender_age]
+    @description_complete_video_views = params[:description_complete_video_views]
+    @description_external_referrals = params[:description_external_referrals]
+    @description_tab_views = params[:description_tab_views]
   end
 
   def login_page

@@ -25,6 +25,8 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'active_median'
 
+gem 'gon'
+
 # tools for creating the pdf file
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge'

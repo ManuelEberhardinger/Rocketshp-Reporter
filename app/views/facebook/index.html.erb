@@ -2,7 +2,7 @@
   <h1>Facebook Insights</h1>
   <%= button_to 'Fresh up data', '/facebook/fresh_up_data', method: :get, class: 'btn btn-info' %>
   <br>
-  <%= form_tag("/facebook/report.pdf", method: :get) do %>
+  <%= form_tag("/facebook/report.pdf", method: :post) do %>
   <%= submit_tag("Create Report", class: "btn btn-info") %>
   <h3>Total Likes</h3>
   <%= area_chart @all_fans %>
@@ -56,7 +56,12 @@
   <%= bar_chart get_series_hash_for_chartkick(@page_tab_views_login_top), stacked: true, height: "400px" %>
   <%= text_area_tag(:description_tab_views, "", class: "form-control", maxlength: "500", rows: 4) %>
 
-  <h3>Video Views <%= get_number_of_views(@page_video_views_paid) +
+  <h3>External Refferals</h3>
+  <%= column_chart format_external_referrals(@page_views_external_referrals), stacked: true %>
+  <%= text_area_tag(:description_external_referrals, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Video Views:
+    <%= get_number_of_views(@page_video_views_paid) +
                       get_number_of_views(@page_video_views_organic) %></h3>
   <%= column_chart [
     {name: "Paid Views", data: @page_video_views_paid},
@@ -64,7 +69,8 @@
   ], stacked: true %>
   <%= text_area_tag(:description_video_views, "", class: "form-control", maxlength: "500", rows: 4) %>
 
-  <h3>30 Sec Video Views <%=  get_number_of_views(@page_video_complete_views_30s_paid) +
+  <h3>30 Sec Video Views:
+    <%=  get_number_of_views(@page_video_complete_views_30s_paid) +
                               get_number_of_views(@page_video_complete_views_30s_organic)%></h3>
   <%= column_chart [
     {name: "Paid Views", data: @page_video_complete_views_30s_paid},
@@ -72,7 +78,44 @@
   ], stacked: true %>
   <%= text_area_tag(:description_complete_video_views, "", class: "form-control", maxlength: "500", rows: 4) %>
 
-  <%= bar_chart get_series_hash_for_chartkick(@page_fans_gender_age), stacked: true, height: "1000px" %>
+  <h3>Fans by Gender and Age</h3>
+  <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_gender_age, "M")}, {name: "Unisex", data: create_new_sorted_hash_for(@page_fans_gender_age,
+  "U")} ] %>
+  <%= text_area_tag(:description_fans_gender_age, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Page Fans Informations</h3>
+  <br>
+  <div id="fb-fans-country" style='display:inline; margin:10px;'></div>
+  <div id="fb-fans-city" style='display:inline; margin:10px;'></div>
+  <div id="fb-fans-locale" style='display:inline; margin:10px;'></div>
+  <br><br>
+  <%= text_area_tag(:description_fans_locale_information, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Reached Fans by Gender and Age in the last 28 days</h3>
+  <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "M")}, {name: "Unisex", data:
+  create_new_sorted_hash_for(@page_fans_reached_gender_age, "U")} ] %>
+  <%= text_area_tag(:description_reached_fans_gender_age, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Reached Fans Informations</h3>
+  <br>
+  <div id="fb-fans-reached-country" style='display:inline; margin:10px;'></div>
+  <div id="fb-fans-reached-city" style='display:inline; margin:10px;'></div>
+  <div id="fb-fans-reached-locale" style='display:inline; margin:10px;'></div>
+  <br><br>
+  <%= text_area_tag(:description_fans_locale_information, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Storytellers by Gender and Age in the last 28 days</h3>
+  <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "M")}, {name: "Unisex", data:
+  create_new_sorted_hash_for(@page_storytellers_gender_age, "U")} ] %>
+  <%= text_area_tag(:description_storytellers_gender_age, "", class: "form-control", maxlength: "500", rows: 4) %>
+
+  <h3>Storytellers Informations</h3>
+  <br>
+  <div id="fb-storytellers-country" style='display:inline; margin:10px;'></div>
+  <div id="fb-storytellers-city" style='display:inline; margin:10px;'></div>
+  <div id="fb-storytellers-locale" style='display:inline; margin:10px;'></div>
+  <br><br>
+  <%= text_area_tag(:description_fans_locale_information, "", class: "form-control", maxlength: "500", rows: 4) %>
 
   <% end %>
 </div>

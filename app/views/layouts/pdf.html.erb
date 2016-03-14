@@ -3,9 +3,11 @@
     <title>Report</title>
     <%= wicked_pdf_stylesheet_link_tag    "application", :media => "all" %>
     <%= wicked_pdf_javascript_include_tag "application" %>
+    <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+    <%= Gon::Base.render_data %>
     <%= csrf_meta_tags %>
   </head>
-  <body>
+  <body onload="init()">
     <%= yield %>
   </body>
 </html>

@@ -5,31 +5,122 @@
   <p style='page-break-after:always;'></p>
 
   <h3>Total Likes</h3>
-  <%= area_chart @all_fans, discrete: true, library: {
-    xAxis: {
-      labels: {
-        enabled: true,
-        step: 7
-    }
-  }}
- %>
- <%= @description_all_fans %>
- <br><br>
- <h3>Likes and Unlikes</h3>
- <%= line_chart [
-   {name: "Likes", data: @page_adds},
-   {name: "Unlikes", data: @page_removes.map { |key, value| [key, value*=-1]}},
-   {name: "Likes net", data: @likes_net}
- ], discrete: true
- %>
- <%= @description_likes_unlikes %>
+  <%= area_chart @all_fans, discrete: true %>
+  <%= @description_all_fans %>
+  <br><br>
+  <h3>Likes and Unlikes</h3>
+  <%= line_chart [
+     {name: "Likes", data: @page_adds},
+     {name: "Unlikes", data: @page_removes.map { |key, value| [key, value*=-1]}},
+     {name: "Likes net", data: @likes_net}
+   ], discrete: true
+   %>
+  <%= @description_likes_unlikes %>
 
- <p style='page-break-after:always;'></p>
+  <p style='page-break-after:always;'></p>
 
- <h3>Reach and Impressions</h3>
- <%= area_chart [
-   {name: "Paid", data: @page_impressions_paid},
-   {name: "Organic", data: @page_impressions_organic}
- ], discrete: true, stacked: true %>
- <%= @description_page_impressions %>
+  <h3>Places of Likes</h3>
+  <%= bar_chart get_series_hash_for_chartkick(@page_likes_by_source), stacked: true, height: "400px", discrete: true %>
+  <%= @description_likes_by_source %>
+
+  <h3>Page Impressions</h3>
+  <%= area_chart [
+       {name: "Page Impressions", data: @page_impressions},
+       {name: "Paid", data: @page_impressions_paid},
+       {name: "Organic", data: @page_impressions_organic}
+     ], stacked: false, discrete: true %>
+  <%= @description_page_impressions %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Page Posts Impressions</h3>
+  <%= area_chart [ {name: "Page Posts Impressions", data: @page_posts_impressions}, {name: "Paid", data: @page_posts_impressions_paid}, {name: "Organic", data: @page_posts_impressions_organic} ], stacked: false, discrete: true %>
+  <%= @description_page_posts_impressions %>
+
+  <br><br>
+
+  <h3>Positive Feedback</h3>
+  <%= line_chart get_series_hash_for_chartkick(@page_positive_feedback_by_type), discrete: true %>
+  <%= @description_positive_feedback %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Negative Feedback</h3>
+  <%= line_chart get_series_hash_for_chartkick(@page_negative_feedback_by_type), discrete: true %>
+  <%= @description_negative_feedback %>
+
+  <br><br>
+
+  <h3>Page Views</h3>
+  <%= area_chart [
+     {name: "Page Views", data: @page_views},
+     {name: "Page Views Unique", data: @page_views_login_unique}
+   ], stacked: false, discrete: true %>
+  <%= @description_page_views %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Page Tab Views</h3>
+  <%= bar_chart get_series_hash_for_chartkick(@page_tab_views_login_top), stacked: true, height: "400px", discrete: true %>
+  <%= @description_tab_views %>
+
+  <h3>External Refferals</h3>
+  <%= column_chart format_external_referrals(@page_views_external_referrals), stacked: true, discrete: true %>
+  <%= @description_external_referrals %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Video Views:
+    <%= get_number_of_views(@page_video_views_paid) +
+                       get_number_of_views(@page_video_views_organic) %></h3>
+  <%= column_chart [
+     {name: "Paid Views", data: @page_video_views_paid},
+     {name: "Organic Views", data: @page_video_views_organic}
+   ], stacked: true, discrete: true %>
+  <%= @description_video_views%>
+
+  <br><br>
+
+  <h3>30 Sec Video Views:
+    <%=  get_number_of_views(@page_video_complete_views_30s_paid) +
+                               get_number_of_views(@page_video_complete_views_30s_organic)%></h3>
+  <%= column_chart [
+     {name: "Paid Views", data: @page_video_complete_views_30s_paid},
+     {name: "Organic Views", data: @page_video_complete_views_30s_organic}
+   ], stacked: true, discrete: true %>
+  <%= @description_complete_video_views %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Fans by Gender and Age</h3>
+  <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_gender_age, "M")}, {name: "Unisex", data: create_new_sorted_hash_for(@page_fans_gender_age,
+  "U")} ], discrete: true %>
+  <%= @description_fans_gender_age %>
+
+  <br><br>
+
+  <h3>Reached Fans by Gender and Age in the last 28 days</h3>
+  <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "M")}, {name: "Unisex", data:
+  create_new_sorted_hash_for(@page_fans_reached_gender_age, "U")} ], discrete: true %>
+  <%= @description_reached_fans_gender_age %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Storytellers by Gender and Age in the last 28 days</h3>
+  <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "M")}, {name: "Unisex", data:
+  create_new_sorted_hash_for(@page_storytellers_gender_age, "U")} ], discrete: true %>
+  <%= @description_storytellers_gender_age %>
+
+  <br><br>
+
+  <h3>Page Fans Informations</h3>
+  <br>
+  <div id="fb-fans-country" style='display:inline; margin:10px;'>
+  </div>
+  <div id="fb-fans-city" style='display:inline; margin:10px;'>
+  </div>
+  <div id="fb-fans-locale" style='display:inline; margin:10px;'>
+  </div>
+  <br><br>
+  
 </div>

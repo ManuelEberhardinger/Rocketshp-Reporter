@@ -22,6 +22,10 @@ class FacebookInsights
     convert_to_display_hash(find_insight(name, metric))
   end
 
+  def self.get_single_metric_with_period(name, metric, period)
+    convert_to_display_hash(find_insight_with_period(name, metric, period))
+  end
+
   def self.convert_to_display_hash(elements)
     Hash[elements.map do |item|
       [Date.parse(item['end_time']), item['value']]
@@ -30,6 +34,10 @@ class FacebookInsights
 
   def self.find_insight(name, metric)
     @client[name].find(name: metric).projection(values: 1, _id: 0).to_a[0]['values']
+  end
+
+  def self.find_insight_with_period(name, metric, period)
+    @client[name].find({name: metric, period: period}).projection(values: 1, _id: 0).to_a[0]['values']
   end
 
   def self.collection_exists?(collection_name)
