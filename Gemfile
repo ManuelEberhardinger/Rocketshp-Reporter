@@ -27,6 +27,9 @@ gem 'active_median'
 
 gem 'gon'
 
+gem 'iso_country_codes'
+gem 'iso-639'
+
 # tools for creating the pdf file
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge'

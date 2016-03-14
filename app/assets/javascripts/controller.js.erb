@@ -3,19 +3,4 @@ function init() {
         $('.collapse.in').collapse('hide');
     });
     charts.init();
-    google.charts.setOnLoadCallback(drawTables);
-}
-
-function drawTables() {
-  charts.drawFacebookFansTableFor('Country', gon.page_fans_country, document.getElementById('fb-fans-country'));
-  charts.drawFacebookFansTableFor('City', gon.page_fans_city, document.getElementById('fb-fans-city'));
-  charts.drawFacebookFansTableFor('Language', gon.page_fans_locale, document.getElementById('fb-fans-locale'));
-
-  charts.drawFacebookFansTableFor('Country', gon.page_impressions_by_country_unique, document.getElementById('fb-fans-reached-country'));
-  charts.drawFacebookFansTableFor('City', gon.page_impressions_by_city_unique, document.getElementById('fb-fans-reached-city'));
-  charts.drawFacebookFansTableFor('Language', gon.page_impressions_by_locale_unique, document.getElementById('fb-fans-reached-locale'));
-
-  charts.drawFacebookFansTableFor('Country', gon.page_storytellers_by_country, document.getElementById('fb-storytellers-country'));
-  charts.drawFacebookFansTableFor('City', gon.page_storytellers_by_city, document.getElementById('fb-storytellers-city'));
-  charts.drawFacebookFansTableFor('Language', gon.page_storytellers_by_locale, document.getElementById('fb-storytellers-locale'));
 }

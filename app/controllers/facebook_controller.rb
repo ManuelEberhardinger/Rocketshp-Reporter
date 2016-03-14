@@ -7,9 +7,20 @@ class FacebookController < ApplicationController
       @@graph = Koala::Facebook::API.new(session['access_token'])
       @@page = @@graph.get_object('me/accounts')[0]
       get_insights_variables
+      get_all_posts
     else
       redirect_to '/facebook/login_page'
     end
+  end
+
+  def get_all_posts
+    FacebookInsights.connect_with_mongodb('facebookdb')
+
+    if FacebookInsights.collection_exists?(name) == false
+      fresh_up_data_without_redirect
+    end
+
+
   end
 
   def get_insights_variables
@@ -89,8 +100,10 @@ class FacebookController < ApplicationController
   end
 
   def fresh_up_data_without_redirect
-    insights = @@graph.get_object(@@page['id'] + '/insights?since=2016-02-01&until=2016-03-01')
+    insights = @@graph.get_object(@@page['id'] + '/insights?since=2016-01-01&until=2016-02-01')
+    
     FacebookInsights.fresh_up_data(@@page['id'], insights)
+
   end
 
   def report
@@ -128,6 +141,9 @@ class FacebookController < ApplicationController
     @description_complete_video_views = params[:description_complete_video_views]
     @description_external_referrals = params[:description_external_referrals]
     @description_tab_views = params[:description_tab_views]
+    @description_fans_information = params[:description_fans_information]
+    @description_reached_fans_information = params[:description_reached_fans_information]
+    @description_storytellers_information = params[:description_storytellers_information]
   end
 
   def login_page

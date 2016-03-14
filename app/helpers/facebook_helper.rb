@@ -41,6 +41,10 @@ module FacebookHelper
     values = element[element.keys.last]
   end
 
+  def get_last_element_sorted_by_value(element)
+    Hash[get_last_element_of_hash(element).sort_by{|k, v| v}.reverse]
+  end
+
   def create_new_sorted_hash_for(element, name_to_sort)
     values = get_last_element_of_hash(element)
     new_hash = {}
@@ -58,7 +62,7 @@ module FacebookHelper
       next if value.nil?
       value.each { |site, number|
         key = Addressable::URI.parse(site).host
-        key = "no domain" if key.nil?
+        key = "unknown domain" if key.nil?
         if all_sites[key].nil?
           all_sites[key] = number
         else

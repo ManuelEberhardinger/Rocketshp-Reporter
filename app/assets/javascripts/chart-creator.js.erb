@@ -1,0 +1,65 @@
+var charts = (function() {
+
+  // init the google charts api
+  function publicInit() {
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {
+      'packages': ['table']
+    });
+    google.charts.setOnLoadCallback(drawTables);
+  }
+  
+  function drawTables() {
+    charts.drawFacebookFansTableFor('Country', gon.page_fans_country, document.getElementById('fb-fans-country'));
+    charts.drawFacebookFansTableFor('City', gon.page_fans_city, document.getElementById('fb-fans-city'));
+    charts.drawFacebookFansTableFor('Language', gon.page_fans_locale, document.getElementById('fb-fans-locale'));
+
+    charts.drawFacebookFansTableFor('Country', gon.page_impressions_by_country_unique, document.getElementById('fb-fans-reached-country'));
+    charts.drawFacebookFansTableFor('City', gon.page_impressions_by_city_unique, document.getElementById('fb-fans-reached-city'));
+    charts.drawFacebookFansTableFor('Language', gon.page_impressions_by_locale_unique, document.getElementById('fb-fans-reached-locale'));
+
+    charts.drawFacebookFansTableFor('Country', gon.page_storytellers_by_country, document.getElementById('fb-storytellers-country'));
+    charts.drawFacebookFansTableFor('City', gon.page_storytellers_by_city, document.getElementById('fb-storytellers-city'));
+    charts.drawFacebookFansTableFor('Language', gon.page_storytellers_by_locale, document.getElementById('fb-storytellers-locale'));
+  }
+
+  function publicDrawFacebookFansTableFor(name, fbData, block) {
+    var allValues = fbData;
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', name);
+    data.addColumn('number', 'Fans');
+
+    for (var row in allValues) {
+      data.addRow([(function() {
+          switch (name) {
+            case 'Country':
+              return getCountryName(row);
+            case 'Language':
+              return getLanguage(row.toLowerCase());
+            default:
+              return row;
+          }
+        })(),
+        allValues[row]
+      ]);
+    }
+    var options = {
+      title: "Fans by " + name,
+      height: 500,
+      sortAscending: false,
+      sortColumn: 1,
+      allowHTML: true
+    };
+    var table = new google.visualization.Table(block);
+    table.draw(data, options);
+
+  }
+
+  return {
+    init: publicInit,
+    drawFacebookFansTableFor: publicDrawFacebookFansTableFor
+  }
+
+})();
