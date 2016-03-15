@@ -30,6 +30,8 @@ gem 'gon'
 gem 'iso_country_codes'
 gem 'iso-639'
 
+gem 'bootstrap-datepicker-rails'
+
 # tools for creating the pdf file
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge'

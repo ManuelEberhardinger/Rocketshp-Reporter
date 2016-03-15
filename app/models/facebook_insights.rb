@@ -36,6 +36,10 @@ class FacebookInsights
     @client[name].find(name: metric).projection(values: 1, _id: 0).to_a[0]['values']
   end
 
+  def self.find_all(name)
+    @client[name].find().to_a
+  end
+
   def self.find_insight_with_period(name, metric, period)
     @client[name].find({name: metric, period: period}).projection(values: 1, _id: 0).to_a[0]['values']
   end

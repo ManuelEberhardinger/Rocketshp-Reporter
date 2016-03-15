@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require bootstrap-datepicker
 //= require highcharts.js
 //= require country-codes.js
 //= require chart-creator.js

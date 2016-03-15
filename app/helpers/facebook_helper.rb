@@ -45,8 +45,19 @@ module FacebookHelper
     Hash[get_last_element_of_hash(element).sort_by{|k, v| v}.reverse]
   end
 
+  def sort_by_value(element)
+    Hash[element.sort_by{|k, v| v}.reverse]
+  end
+
+  def find_by_id(posts, id)
+    posts.each { |value|
+      return value if value['id'] == id
+    }
+  end
+
   def create_new_sorted_hash_for(element, name_to_sort)
     values = get_last_element_of_hash(element)
+    return if values.nil?
     new_hash = {}
     values.keys.each { |k|
       if k.include? name_to_sort

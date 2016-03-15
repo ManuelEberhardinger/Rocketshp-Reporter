@@ -4,6 +4,33 @@
 
   <p style='page-break-after:always;'></p>
 
+  <h3>Posts</h3>
+  <table class="table table-striped table-condensed">
+    <tr>
+      <th>Date</th>
+      <th>Post</th>
+      <th>Likes</th>
+      <th>Comments</th>
+      <th>Reached</th>
+    </tr>
+    <% sort_by_value(@posts_impressions).first(10).each do |key, value| %>
+    <% if find_by_id(@posts, key)['message'].nil? %>
+      <% next %>
+    <% end %>
+    <tr>
+      <td><%= Date.parse(find_by_id(@posts, key)['created_time']) %></td>
+      <td><%= link_to find_by_id(@posts, key)['message'][0..80].to_s, "https://www.facebook.com/" + key.to_s, target: "_blank" %></td>
+      <td><%= @posts_likes[key] %></td>
+      <td><%= @posts_comments[key] %></td>
+      <td><%= @posts_impressions[key] %></td>
+    </tr>
+    <% end %>
+  </table>
+
+  <%= @description_posts %>
+
+  <p style='page-break-after:always;'></p>
+
   <h3>Total Likes</h3>
   <%= area_chart @all_fans, discrete: true %>
   <%= @description_all_fans %>

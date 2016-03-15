@@ -14,13 +14,28 @@ class FacebookController < ApplicationController
   end
 
   def get_all_posts
+    name = @@page['id'].to_s + '_posts'
+
     FacebookInsights.connect_with_mongodb('facebookdb')
 
     if FacebookInsights.collection_exists?(name) == false
       fresh_up_data_without_redirect
     end
 
+    @posts = FacebookInsights.find_all(name)
 
+    @posts_likes = {}
+    @posts_comments = {}
+    @posts_impressions = {}
+
+    @posts.each { |value|
+      print "next"
+      id = value['id']
+      @infos = @@graph.get_object(value['id'], :fields => "likes.summary(true),comments.summary(true)")
+      @posts_likes[id] = @infos["likes"]["summary"]["total_count"]
+      @posts_comments[id] = @infos["comments"]["summary"]["total_count"]
+      @posts_impressions[id] = @@graph.get_object(value['id'] + '/insights/post_impressions_unique').first['values'].first['value']
+    }
   end
 
   def get_insights_variables
@@ -95,22 +110,32 @@ class FacebookController < ApplicationController
   end
 
   def fresh_up_data
+    @since = params[:since]
+    @until = params[:until]
+
+    if(@since.nil?)
+      @date_range = ""
+    elsif(@until.nil?)
+      @date_range = "?since=" + @since.to_s
+    else
+      @date_range = "?since=" + @since.to_s + "&until=" + @until.to_s
+    end
+
     fresh_up_data_without_redirect
     redirect_to '/facebook'
   end
 
   def fresh_up_data_without_redirect
-    insights = @@graph.get_object(@@page['id'] + '/insights?since=2016-01-01&until=2016-02-01')
-    
+    insights = @@graph.get_object(@@page['id'] + '/insights' + @date_range)
+    posts = @@graph.get_object(@@page['id'] + '/posts' + @date_range)
     FacebookInsights.fresh_up_data(@@page['id'], insights)
-
+    FacebookInsights.fresh_up_data(@@page['id'].to_s + "_posts", posts)
   end
 
   def report
     get_description_from_params
-    FacebookInsights.connect_with_mongodb('facebookdb')
     get_insights_variables
-    FacebookInsights.close_connection
+    get_all_posts
     respond_to do |format|
       format.pdf do
         render  pdf: 'report',
@@ -144,6 +169,7 @@ class FacebookController < ApplicationController
     @description_fans_information = params[:description_fans_information]
     @description_reached_fans_information = params[:description_reached_fans_information]
     @description_storytellers_information = params[:description_storytellers_information]
+    @description_posts = params[:description_posts]
   end
 
   def login_page
