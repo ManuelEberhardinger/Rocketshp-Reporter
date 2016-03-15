@@ -42,7 +42,16 @@
     float: right;
 }
 
-#pdf-header {
-    align-self: center;
-    vertical-align:middle;
+#pdf-footer {
+    text-align: right;
+    font: Arial;
+}
+
+#pdf-cover {
+  text-align: center;
+  //color: white;
+  //background-color: #3b5998;
+  font-size: 70px;
+  height: 25cm;
+  line-height: 25cm;
 }

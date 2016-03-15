@@ -1,6 +1,6 @@
 <div id='data-block'>
 
-  <h1 id="pdf-header">Facebook Insights</h1>
+  <h1 id="pdf-cover">Facebook</h1>
 
   <p style='page-break-after:always;'></p>
 
@@ -15,7 +15,7 @@
     </tr>
     <% sort_by_value(@posts_impressions).first(10).each do |key, value| %>
     <% if find_by_id(@posts, key)['message'].nil? %>
-      <% next %>
+    <% next %>
     <% end %>
     <tr>
       <td><%= Date.parse(find_by_id(@posts, key)['created_time']) %></td>
@@ -26,7 +26,6 @@
     </tr>
     <% end %>
   </table>
-
   <%= @description_posts %>
 
   <p style='page-break-after:always;'></p>

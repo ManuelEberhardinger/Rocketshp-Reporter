@@ -142,10 +142,14 @@ class FacebookController < ApplicationController
                 layout: 'layouts/pdf.html',
                 template: 'facebook/index.pdf.erb',
                 javascript_delay: 3000,
+                encoding: "UTF-8",
                 :margin => {:top                => 15,
                             :bottom             => 10,
                             :left               => 20,
-                            :right              => 20}
+                            :right              => 20},
+                :footer => {
+                  :content => render_to_string(:template => 'layouts/footer.pdf.erb')
+                }
       end
     end
   end

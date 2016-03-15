@@ -25,11 +25,14 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'active_median'
 
+# for using ruby variables in js files
 gem 'gon'
 
+# converting coutry and language codes into full names
 gem 'iso_country_codes'
 gem 'iso-639'
 
+# datepicker in bootstrap format
 gem 'bootstrap-datepicker-rails'
 
 # tools for creating the pdf file
