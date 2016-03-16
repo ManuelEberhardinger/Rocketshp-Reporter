@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+
   get 'facebook' => 'facebook#index'
+  get 'twitter' => 'twitter#index'
 
   get 'facebook/login'
   get 'facebook/logout'
@@ -7,6 +9,9 @@ Rails.application.routes.draw do
   get 'facebook/login_page'
   post 'facebook/report'
   get 'facebook/fresh_up_data'
+
+  get 'twitter/login_page'
+  get 'auth/twitter/callback' => 'twitter#callback'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

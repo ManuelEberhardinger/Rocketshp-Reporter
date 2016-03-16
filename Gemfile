@@ -20,6 +20,11 @@ gem 'mongo'
 # use koala for getting facebook data
 gem 'koala'
 
+# twitter gems
+gem 'twitter'
+gem 'twitter-ads'
+gem 'omniauth-twitter'
+
 # use chartkick, groupdate, active_median for creating charts
 gem 'chartkick'
 gem 'groupdate'
