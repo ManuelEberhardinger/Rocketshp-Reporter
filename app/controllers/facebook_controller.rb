@@ -11,6 +11,8 @@ class FacebookController < ApplicationController
     else
       redirect_to '/facebook/login_page'
     end
+  rescue
+    logout
   end
 
   def get_all_posts

@@ -49,10 +49,16 @@
 
 #pdf-cover {
   text-align: center;
-  //color: white;
-  //background-color: #3b5998;
   font-family: 'Arial Black', 'Arial Bold';
   font-size: 70px;
+  height: 25cm;
+  line-height: 25cm;
+}
+
+#ga-pdf-cover {
+  text-align: center;
+  font-family: 'Arial Black', 'Arial Bold';
+  font-size: 60px;
   height: 25cm;
   line-height: 25cm;
 }

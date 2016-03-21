@@ -1,6 +1,5 @@
 <div id="data-block">
   <h1>Google Analytics</h1>
-  <h3><%= @since.strftime("%d/%m/%Y") %> - <%= @until.strftime("%d/%m/%Y") %></h3>
   <%= form_tag("/google_analytics/fresh_up_data", method: :get) do %>
   <div class="form-inline">
     <div class="input-group date">
@@ -19,22 +18,58 @@
   </div>
   <% end %>
 
+  <%= form_tag("/google_analytics/report.pdf", method: :post) do %>
+
   <h3>Page Views:
     <%= @page_views.totals_for_all_results.values.first %></h3>
   <%= area_chart format_data_to_display(@page_views.rows) %>
+  <%= text_area_tag(:description_page_views, "", class: "form-control", maxlength: "485", rows: 3) %>
 
   <h3>Sessions:
     <%= @sessions.totals_for_all_results.values.first %></h3>
   <%= area_chart format_data_to_display(@sessions.rows) %>
+  <%= text_area_tag(:description_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+  <h3>New and Returning Visitors</h3>
+  <%= pie_chart @new_returning_visitors.rows.to_h %>
+  <%= text_area_tag(:description_new_returning_visitors, "", class: "form-control", maxlength: "485", rows: 3) %>
 
   <h3>Users:
     <%= @users.totals_for_all_results.values.first %></h3>
   <%= area_chart format_data_to_display(@users.rows) %>
+  <%= text_area_tag(:description_users, "", class: "form-control", maxlength: "485", rows: 3) %>
 
   <h3>Pages / Session:
-    <%= @page_views_per_session.totals_for_all_results.values.first[0..3] %></h3>
-  <%= area_chart round_values(format_data_to_display(@page_views_per_session.rows)) %>
+    <%= '%.2f' % @page_views_per_session.totals_for_all_results.values.first %></h3>
+  <%= area_chart round_values format_data_to_display(@page_views_per_session.rows) %>
+  <%= text_area_tag(:description_pages_per_session, "", class: "form-control", maxlength: "485", rows: 3) %>
 
+  <h3>Avg. Session Duration:
+    <%= '%.2f' % @avg_session_duration.totals_for_all_results.values.first %></h3>
+  <%= area_chart round_values format_data_to_display(@avg_session_duration.rows) %>
+  <%= text_area_tag(:description_avg_session_duration, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+  <h3>Bounce Rate:
+    <%= '%.2f' % @bounce_rate.totals_for_all_results.values.first %></h3>
+  <%= area_chart round_values format_data_to_display(@bounce_rate.rows) %>
+  <%= text_area_tag(:description_bounce_rate, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+  <h3>% New Sessions:
+    <%= '%.2f' % @percent_new_sessions.totals_for_all_results.values.first %></h3>
+  <%= area_chart round_values format_data_to_display(@percent_new_sessions.rows) %>
+  <%= text_area_tag(:description_percent_new_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+  <h3>Mobile Operating System</h3>
+  <%= pie_chart @mobile_os.rows.to_h %>
+  <%= text_area_tag(:description_mobile_os, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+  <h3>Browsers</h3>
+  <%= pie_chart @browser_sessions.rows.to_h %>
+  <%= text_area_tag(:description_browser_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
+  <br><br>
+  <%= submit_tag("Create Report", class: "btn btn-info") %>
+  <% end %>
+  <br>
 </div>
 
 <footer>

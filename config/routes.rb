@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'auth/google_oauth2/callback' => 'google_analytics#callback'
   get 'google_analytics/logout'
   get 'google_analytics/fresh_up_data'
+  post 'google_analytics/report'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
