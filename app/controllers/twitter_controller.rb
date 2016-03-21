@@ -1,9 +1,9 @@
 class TwitterController < ApplicationController
   def index
-    if session['auth_hash'] && defined? @@client
+    if session['twitter_auth_hash'] && defined? @@client
       @face = @@client.home_timeline
     else
-      session['auth_hash'] = nil
+      session['twitter_auth_hash'] = nil
       redirect_to '/twitter/login_page'
     end
   end
@@ -19,10 +19,19 @@ class TwitterController < ApplicationController
       config.access_token        = auth_hash.token
       config.access_token_secret = auth_hash.secret
     end
+
+    # not supported right now
+    # @@ads_client = TwitterAds::Client.new(
+    #   Rails.application.secrets.twitter_api_key,
+    #   Rails.application.secrets.twitter_api_secret,
+    #   auth_hash.token,
+    #   auth_hash.secret
+    # )
+
     redirect_to '/twitter'
   end
 
   def auth_hash
-    session['auth_hash'] ||= request.env['omniauth.auth'].credentials
+    session['twitter_auth_hash'] ||= request.env['omniauth.auth'].credentials
   end
 end

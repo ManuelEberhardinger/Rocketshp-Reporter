@@ -1,0 +1,42 @@
+<div id="data-block">
+  <h1>Google Analytics</h1>
+  <h3><%= @since.strftime("%d/%m/%Y") %> - <%= @until.strftime("%d/%m/%Y") %></h3>
+  <%= form_tag("/google_analytics/fresh_up_data", method: :get) do %>
+  <div class="form-inline">
+    <div class="input-group date">
+      <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+    <div class="input-group date">
+      <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+    <%= submit_tag('Fresh up data', class: 'btn btn-info') %>
+  </div>
+  <% end %>
+
+  <h3>Page Views:
+    <%= @page_views.totals_for_all_results.values.first %></h3>
+  <%= area_chart format_data_to_display(@page_views.rows) %>
+
+  <h3>Sessions:
+    <%= @sessions.totals_for_all_results.values.first %></h3>
+  <%= area_chart format_data_to_display(@sessions.rows) %>
+
+  <h3>Users:
+    <%= @users.totals_for_all_results.values.first %></h3>
+  <%= area_chart format_data_to_display(@users.rows) %>
+
+  <h3>Pages / Session:
+    <%= @page_views_per_session.totals_for_all_results.values.first[0..3] %></h3>
+  <%= area_chart round_values(format_data_to_display(@page_views_per_session.rows)) %>
+
+</div>
+
+<footer>
+  <%= @face.html_safe %>
+</footer>

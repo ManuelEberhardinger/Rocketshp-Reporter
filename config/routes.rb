@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get 'facebook' => 'facebook#index'
   get 'twitter' => 'twitter#index'
+  get 'google_analytics' => 'google_analytics#index'
 
   get 'facebook/login'
   get 'facebook/logout'
@@ -12,6 +13,11 @@ Rails.application.routes.draw do
 
   get 'twitter/login_page'
   get 'auth/twitter/callback' => 'twitter#callback'
+
+  get 'google_analytics/login_page'
+  get 'auth/google_oauth2/callback' => 'google_analytics#callback'
+  get 'google_analytics/logout'
+  get 'google_analytics/fresh_up_data'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -25,6 +25,10 @@ gem 'twitter'
 gem 'twitter-ads'
 gem 'omniauth-twitter'
 
+# google
+gem 'google-api-client', require: 'google/apis/analytics_v3'
+gem "omniauth-google-oauth2"
+
 # use chartkick, groupdate, active_median for creating charts
 gem 'chartkick'
 gem 'groupdate'

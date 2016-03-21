@@ -5,7 +5,6 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-    <%= Gon::Base.render_data %>
     <%= csrf_meta_tags %>
   </head>
   <body onload="init()">
@@ -31,7 +30,7 @@
                   <a href="#dashboard">Dashboard</a>
                 </li>
                 <li>
-                  <a href="#google-analytics">Google Analytics</a>
+                  <a href="/google_analytics">Google Analytics</a>
                 </li>
                 <li>
                   <a href="#site-performance">Site Performances</a>
@@ -70,10 +69,10 @@
               <div id="collapse-social" class="collapse nav nav-pills nav-stacked">
                 <li class="divider-blue"></li>
                 <li>
-                  <a href="twitter" id="twitter-link">Twitter</a>
+                  <a href="/twitter" id="twitter-link">Twitter</a>
                 </li>
                 <li>
-                  <a href="facebook" id="fb-link">Facebook</a>
+                  <a href="/facebook" id="fb-link">Facebook</a>
                 </li>
                 <li class="divider-blue"></li>
               </div>
