@@ -50,12 +50,95 @@
 
   <p style='page-break-after:always;'></p>
 
+  <h3>Device Category</h3>
+  <%= pie_chart @device_category.rows.to_h %>
+  <%= @description_device_category %>
+
   <h3>Mobile Operating System</h3>
   <%= pie_chart @mobile_os.rows.to_h, library: show_pie_chart_value %>
   <%= @description_mobile_os %>
 
+  <p style='page-break-after:always;'></p>
+
   <h3>Browsers</h3>
   <%= pie_chart @browser_sessions.rows.to_h, library: show_pie_chart_value %>
   <%= @description_browser_sessions %>
+
+  <h3>Avg. Page Load Time:
+    <%= '%.2f' % @avg_page_load_time.totals_for_all_results.values.first %></h3>
+  <%= area_chart round_values(format_data_to_display(@avg_page_load_time.rows)), discrete: true %>
+  <%= @description_avg_page_load_time %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Channels</h3>
+  <table class="table table-striped table-condensed">
+    <col width="80%">
+    <col width="20%">
+    <tr>
+      <th>Default Channel Grouping</th>
+      <th>Sessions</th>
+    </tr>
+    <% @channel_grouping.rows.to_h.each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= @description_channel_grouping %>
+
+  <h3>Best 10 Source / Medium</h3>
+  <table class="table table-striped table-condensed">
+    <col width="80%">
+    <col width="20%">
+    <tr>
+      <th>Source / Medium</th>
+      <th>Sessions</th>
+    </tr>
+    <% @source_medium.rows.to_h.first(10).each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= @description_source_medium %>
+
+  <p style='page-break-after:always;'></p>
+
+  <h3>Best 10 Landing Pages</h3>
+  <table class="table table-striped table-condensed">
+    <col width="80%">
+    <col width="20%">
+    <tr>
+      <th>Landing Page</th>
+      <th>Sessions</th>
+    </tr>
+    <% @landing_pages.rows.to_h.first(10).each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= @description_landing_pages %>
+
+  <h3>Social Networks</h3>
+  <table class="table table-striped table-condensed">
+    <col width="80%">
+    <col width="20%">
+    <tr>
+      <th>Social Network</th>
+      <th>Sessions</th>
+    </tr>
+    <% @social_networks.rows.to_h.each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= @description_social_networks %>
 
 </div>

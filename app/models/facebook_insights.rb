@@ -28,7 +28,7 @@ class FacebookInsights
 
   def self.convert_to_display_hash(elements)
     Hash[elements.map do |item|
-      [Date.parse(item['end_time']), item['value']]
+      [Date.parse(item['end_time']), item['value'] ||= 0]
     end]
   end
 

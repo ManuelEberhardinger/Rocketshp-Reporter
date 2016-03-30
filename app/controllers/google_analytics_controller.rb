@@ -29,9 +29,15 @@ class GoogleAnalyticsController < ApplicationController
     @page_views_per_session = get_metric_from_api('ga:pageviewsPerSession', 'ga:date')
     @avg_session_duration = get_metric_from_api('ga:avgSessionDuration', 'ga:date')
     @bounce_rate = get_metric_from_api('ga:bounceRate', 'ga:date')
+    @device_category = get_metric_from_api('ga:sessions', 'ga:deviceCategory')
     @percent_new_sessions = get_metric_from_api('ga:percentNewSessions', 'ga:date')
     @mobile_os = get_metric_from_api('ga:sessions', 'ga:operatingsystem', 'gaid::-11')
     @browser_sessions = get_metric_from_api('ga:sessions', 'ga:browser')
+    @avg_page_load_time = get_metric_from_api('ga:avgPageLoadTime', 'ga:date')
+    @source_medium = get_metric_from_api('ga:sessions', 'ga:sourcemedium', nil, '-ga:sessions')
+    @landing_pages = get_metric_from_api('ga:sessions', 'ga:landingpagepath', nil, '-ga:sessions')
+    @channel_grouping = get_metric_from_api('ga:sessions', 'ga:channelgrouping')
+    @social_networks = get_metric_from_api('ga:sessions', 'ga:socialnetwork')
   end
 
   def check_since_and_until
@@ -78,9 +84,15 @@ class GoogleAnalyticsController < ApplicationController
     @description_pages_per_session = params[:description_pages_per_session]
     @description_avg_session_duration = params[:description_avg_session_duration]
     @description_bounce_rate = params[:description_bounce_rate]
+    @description_device_category = params[:description_device_category]
     @description_percent_new_sessions = params[:description_percent_new_sessions]
     @description_mobile_os = params[:description_mobile_os]
     @description_browser_sessions = params[:description_browser_sessions]
+    @description_avg_page_load_time = params[:description_avg_page_load_time]
+    @description_source_medium = params[:description_source_medium]
+    @description_landing_pages = params[:description_landing_pages]
+    @description_channel_grouping = params[:description_channel_grouping]
+    @description_social_networks = params[:description_social_networks]
   end
 
   def fresh_up_data

@@ -14,4 +14,8 @@ module GoogleAnalyticsHelper
   def show_pie_chart_value
     options = { plotOptions: { pie: { dataLabels: { enabled: true, format: '<b>{key}</b>: {point.y}', } } }, }
   end
+
+  def geo_map_options
+    options = { colorAxis: {colors: ['#e6ffe6','green']}, legend: {textStyle: {fontSize: 10}} }
+  end
 end

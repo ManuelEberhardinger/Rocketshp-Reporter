@@ -20,6 +20,8 @@ gem 'mongo'
 # use koala for getting facebook data
 gem 'koala'
 
+gem 'omniauth-oauth2', '1.3.1'
+
 # twitter gems
 gem 'twitter'
 gem 'twitter-ads'
@@ -28,6 +30,14 @@ gem 'omniauth-twitter'
 # google
 gem 'google-api-client', require: 'google/apis/analytics_v3'
 gem "omniauth-google-oauth2"
+
+# linkedin
+gem 'omniauth-linkedin-oauth2'
+gem 'linkedin'
+gem "linkedin-oauth2", github: 'emorikawa/linkedin-oauth2', branch: 'master' 
+
+# instagram
+gem 'instagram'
 
 # use chartkick, groupdate, active_median for creating charts
 gem 'chartkick'

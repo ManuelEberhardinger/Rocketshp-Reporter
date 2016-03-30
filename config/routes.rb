@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'facebook' => 'facebook#index'
   get 'twitter' => 'twitter#index'
   get 'google_analytics' => 'google_analytics#index'
+  get 'linkedin' => 'linkedin#index'
+  get 'instagram' => 'instagram#index'
 
   get 'facebook/login'
   get 'facebook/logout'
@@ -13,6 +15,15 @@ Rails.application.routes.draw do
 
   get 'twitter/login_page'
   get 'auth/twitter/callback' => 'twitter#callback'
+
+  get 'linkedin/login_page'
+  get 'auth/linkedin/callback' => 'linkedin#callback'
+  get 'linkedin/logout'
+
+  get 'instagram/login_page'
+  get 'instagram/callback'
+  get 'instagram/logout'
+  get 'instagram/login'
 
   get 'google_analytics/login_page'
   get 'auth/google_oauth2/callback' => 'google_analytics#callback'

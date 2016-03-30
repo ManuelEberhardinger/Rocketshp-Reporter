@@ -2,7 +2,7 @@ module FacebookHelper
   def convert_hash_to_single_elements_hash(elements, name)
     hash_of_name = {}
     elements.each { |key, value|
-      next if value.nil?
+      next if value.nil? || value == 0
       hash_of_name[key] = value[name]
     }
     return hash_of_name
@@ -11,7 +11,7 @@ module FacebookHelper
   def get_all_keys_of_hash_value(elements)
     value_keys = Set.new
     elements.each { |key, value|
-      next if value.nil?
+      next if value.nil? || value == 0
       value.each { |k, v|
         value_keys.add(k)
       }
@@ -70,7 +70,7 @@ module FacebookHelper
   def format_external_referrals(refs)
     all_sites = {}
     refs.each { |k, value|
-      next if value.nil?
+      next if value.nil? || value == 0
       value.each { |site, number|
         key = Addressable::URI.parse(site).host
         key = "unknown domain" if key.nil?
