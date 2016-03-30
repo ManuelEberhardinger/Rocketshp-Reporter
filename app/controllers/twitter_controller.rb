@@ -1,7 +1,13 @@
 class TwitterController < ApplicationController
   def index
-    if session['twitter_auth_hash'] && defined? @@client
-      @face = @@client.home_timeline
+    if session['twitter_auth_hash']
+      @client = Twitter::REST::Client.new do |config|
+        config.consumer_key = Rails.application.secrets.twitter_api_key
+        config.consumer_secret     = Rails.application.secrets.twitter_api_secret
+        config.access_token        = auth_hash['token']
+        config.access_token_secret = auth_hash['secret']
+      end
+      @face = @client.home_timeline
     else
       redirect_if_not_logged_in
     end
@@ -10,7 +16,6 @@ class TwitterController < ApplicationController
   end
 
   def redirect_if_not_logged_in
-    @@client = nil
     session['twitter_auth_hash'] = nil
     redirect_to '/twitter/login_page'
   end
@@ -20,13 +25,7 @@ class TwitterController < ApplicationController
   end
 
   def callback
-    @@client = Twitter::REST::Client.new do |config|
-      config.consumer_key = Rails.application.secrets.twitter_api_key
-      config.consumer_secret     = Rails.application.secrets.twitter_api_secret
-      config.access_token        = auth_hash.token
-      config.access_token_secret = auth_hash.secret
-    end
-
+    auth_hash
     # not supported right now
     # @@ads_client = TwitterAds::Client.new(
     #   Rails.application.secrets.twitter_api_key,

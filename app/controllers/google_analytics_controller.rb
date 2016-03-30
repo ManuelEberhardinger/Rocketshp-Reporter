@@ -1,27 +1,26 @@
 class GoogleAnalyticsController < ApplicationController
   def index
-    if session['google_auth_hash'] && defined? @@drive
+    if session['google_auth_hash']
       @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a><br>'
-      @profile = @@drive.list_account_summaries
-      @@profile_id = 'ga:' + @profile.items[0].web_properties[0].profiles[0].id
+      @drive = Google::Apis::AnalyticsV3::AnalyticsService.new
+      @drive.authorization = auth_hash['token']
+      @profile = @drive.list_account_summaries
+      @profile_id = 'ga:' + @profile.items[0].web_properties[0].profiles[0].id
       get_all_metrics
     else
       redirect_if_not_logged_in
     end
-  rescue
-    redirect_if_not_logged_in
+  #rescue
+  #  redirect_if_not_logged_in
   end
 
   def redirect_if_not_logged_in
-    @@drive = nil
     session['google_auth_hash'] = nil
     redirect_to '/google_analytics/login_page'
   end
 
   def get_all_metrics
     check_since_and_until
-    @since = @@since
-    @until = @@until
     @page_views = get_metric_from_api('ga:pageviews', 'ga:date')
     @sessions = get_metric_from_api('ga:sessions', 'ga:date')
     @new_returning_visitors = get_metric_from_api('ga:sessions', 'ga:usertype')
@@ -41,18 +40,18 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def check_since_and_until
-    @@since = Date.today - 31 unless defined? @@since
-    @@until = Date.today - 1 unless defined? @@until
+    session['since'] = Date.today - 31 if session['since'].nil?
+    session['until'] = Date.today - 1 if session['until'].nil?
   end
 
   def get_metric_from_api(_metric, _dimensions, _segment = nil, _sort = nil)
-    @@drive.get_ga_data(@@profile_id,
-                        @@since.strftime('%F'),
-                        @@until.strftime('%F'),
-                        _metric,
-                        dimensions: _dimensions,
-                        segment: _segment,
-                        sort: _sort)
+    @drive.get_ga_data(@profile_id,
+                      session['since'].strftime('%F'),
+                      session['until'].strftime('%F'),
+                      _metric,
+                      dimensions: _dimensions,
+                      segment: _segment,
+                      sort: _sort)
   end
 
   def report
@@ -96,9 +95,9 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def fresh_up_data
-    @@since = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
-    @@until = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
-    @@since = @@until - 7 if @@since >= @@until
+    session['since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
+    session['until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
+    session['since'] = session['until'] - 7 if session['since'] >= session['until']
     redirect_to '/google_analytics'
   end
 
@@ -108,13 +107,10 @@ class GoogleAnalyticsController < ApplicationController
 
   def callback
     auth_hash
-    @@drive = Google::Apis::AnalyticsV3::AnalyticsService.new
-    @@drive.authorization = auth_hash['token']
     redirect_to '/google_analytics'
   end
 
   def logout
-    @@drive = nil
     session['google_auth_hash'] = nil
     redirect_to '/google_analytics'
   end

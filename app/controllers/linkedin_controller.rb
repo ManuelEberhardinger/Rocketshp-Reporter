@@ -1,10 +1,11 @@
 class LinkedinController < ApplicationController
   def index
-    if session['linkedin_auth_hash'] && defined? @@client
+    if session['linkedin_auth_hash']
+      @client = LinkedIn::API.new(auth_hash["token"])
       @face = 'You are logged in! <a href="/linkedin/logout">Logout</a><br>'
-      @all_companies = @@client.company(is_admin: 'true')
+      @all_companies = @client.company(is_admin: 'true')
       @id = @all_companies.all[0].id
-      @return = @@client.profile
+      @return = @client.profile
     else
       redirect_if_not_logged_in
     end
@@ -21,14 +22,12 @@ class LinkedinController < ApplicationController
   end
 
   def redirect_if_not_logged_in
-    @@client = nil
     session['linkedin_auth_hash'] = nil
     redirect_to '/linkedin/login_page'
   end
 
   def callback
     auth_hash
-    @@client = LinkedIn::API.new(auth_hash["token"])
     redirect_to '/linkedin'
   end
 

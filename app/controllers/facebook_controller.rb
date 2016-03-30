@@ -4,8 +4,7 @@ class FacebookController < ApplicationController
   def index
     if session['access_token']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a><br>'
-      @@graph = Koala::Facebook::API.new(session['access_token'])
-      @@page = @@graph.get_object('me/accounts')[0]
+      create_client
       get_insights_variables
       get_all_posts
     else
@@ -15,8 +14,13 @@ class FacebookController < ApplicationController
     logout
   end
 
+  def create_client
+    @graph = Koala::Facebook::API.new(session['access_token'])
+    @page = @graph.get_object('me/accounts')[0]
+  end
+
   def get_all_posts
-    name = @@page['id'].to_s + '_posts'
+    name = @page['id'].to_s + '_posts'
 
     FacebookInsights.connect_with_mongodb('facebookdb')
 
@@ -33,15 +37,15 @@ class FacebookController < ApplicationController
     @posts.each { |value|
       print "next"
       id = value['id']
-      @infos = @@graph.get_object(value['id'], :fields => "likes.summary(true),comments.summary(true)")
+      @infos = @graph.get_object(value['id'], :fields => "likes.summary(true),comments.summary(true)")
       @posts_likes[id] = @infos["likes"]["summary"]["total_count"]
       @posts_comments[id] = @infos["comments"]["summary"]["total_count"]
-      @posts_impressions[id] = @@graph.get_object(value['id'] + '/insights/post_impressions_unique').first['values'].first['value']
+      @posts_impressions[id] = @graph.get_object(value['id'] + '/insights/post_impressions_unique').first['values'].first['value']
     }
   end
 
   def get_insights_variables
-    name = @@page['id']
+    name = @page['id']
     FacebookInsights.connect_with_mongodb('facebookdb')
 
     if FacebookInsights.collection_exists?(name) == false
@@ -112,26 +116,32 @@ class FacebookController < ApplicationController
   end
 
   def fresh_up_data
-    @since = params[:since]
-    @until = params[:until]
+    date_since = params[:since]
+    date_until = params[:until]
 
-    if(@since.nil?)
-      @date_range = ""
-    elsif(@until.nil?)
-      @date_range = "?since=" + @since.to_s
-    else
-      @date_range = "?since=" + @since.to_s + "&until=" + @until.to_s
-    end
+    date_range = create_date_range(date_since, date_until)
 
-    fresh_up_data_without_redirect
+    fresh_up_data_without_redirect(date_range)
     redirect_to '/facebook'
   end
 
-  def fresh_up_data_without_redirect
-    insights = @@graph.get_object(@@page['id'] + '/insights' + @date_range)
-    posts = @@graph.get_object(@@page['id'] + '/posts' + @date_range)
-    FacebookInsights.fresh_up_data(@@page['id'], insights)
-    FacebookInsights.fresh_up_data(@@page['id'].to_s + "_posts", posts)
+  def create_date_range(date_since, date_until)
+    if(date_since.nil?)
+      date_range = ""
+    elsif(date_until.nil?)
+      date_range = "?since=" + date_since.to_s
+    else
+      date_range = "?since=" + date_since.to_s + "&until=" + date_until.to_s
+    end
+    return date_range
+  end
+
+  def fresh_up_data_without_redirect(date_range)
+    create_client
+    insights = @graph.get_object(@page['id'] + '/insights' + date_range)
+    posts = @graph.get_object(@page['id'] + '/posts' + date_range)
+    FacebookInsights.fresh_up_data(@page['id'], insights)
+    FacebookInsights.fresh_up_data(@page['id'].to_s + "_posts", posts)
   end
 
   def report
@@ -184,14 +194,13 @@ class FacebookController < ApplicationController
 
   def login
     # generate a new oauth object with your app data and your callback url
-    @@oauth = Koala::Facebook::OAuth.new(SITE_URL + 'facebook/callback')
+    oauth = Koala::Facebook::OAuth.new(SITE_URL + 'facebook/callback')
 
     # redirect to facebook to get your code
-    redirect_to @@oauth.url_for_oauth_code
+    redirect_to oauth.url_for_oauth_code
   end
 
   def logout
-    @@oauth = nil
     session['access_token'] = nil
     redirect_to '/facebook'
   end
@@ -199,7 +208,7 @@ class FacebookController < ApplicationController
   # method to handle the redirect from facebook back to you
   def callback
     # get the access token from facebook with your code
-    session['access_token'] = @@oauth.get_access_token(params[:code])
+    session['access_token'] = Koala::Facebook::OAuth.new(SITE_URL + 'facebook/callback').get_access_token(params[:code])
     redirect_to '/facebook'
   end
 end
