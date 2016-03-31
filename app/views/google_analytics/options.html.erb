@@ -1,0 +1,22 @@
+<%= form_tag("/google_analytics", method: :get) do %>
+<div class="modal-body">
+  <div class="form-inline">
+    <div class="input-group date">
+      <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+    <div class="input-group date">
+      <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+    <%= select_tag :page_id, options_for_select(@profiles.collect {|p| [ p[:name], p[:web_properties][0][:profiles][0][:id] ] }), class: "form-control" %>
+  </div>
+</div>
+<div class="modal-footer">
+  <%= submit_tag('Submit', class: 'btn btn-success') %>
+</div>
+<% end %>

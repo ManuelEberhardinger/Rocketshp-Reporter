@@ -1,17 +1,31 @@
 class GoogleAnalyticsController < ApplicationController
   def index
-    if session['google_auth_hash']
+    session['google_page_id'] = params[:page_id] unless params[:page_id].nil?
+
+    if session['google_auth_hash'] && session['google_page_id']
       @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a><br>'
-      @drive = Google::Apis::AnalyticsV3::AnalyticsService.new
-      @drive.authorization = auth_hash['token']
-      @profile = @drive.list_account_summaries
-      @profile_id = 'ga:' + @profile.items[0].web_properties[0].profiles[0].id
       get_all_metrics
+    elsif session['google_auth_hash']
+      redirect_to '/google_analytics/options'
     else
       redirect_if_not_logged_in
     end
   #rescue
   #  redirect_if_not_logged_in
+  end
+
+  def create_client
+    @client = Google::Apis::AnalyticsV3::AnalyticsService.new
+    @client.authorization = auth_hash['token']
+    all_profiles = @client.list_account_summaries
+    @profiles = []
+    all_profiles.items.each { |p|
+      @profiles.push(p.to_h)
+    }
+  end
+
+  def options
+    create_client
   end
 
   def redirect_if_not_logged_in
@@ -20,7 +34,9 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def get_all_metrics
+    create_client
     check_since_and_until
+    @profile_id = "ga:" + session['google_page_id']
     @page_views = get_metric_from_api('ga:pageviews', 'ga:date')
     @sessions = get_metric_from_api('ga:sessions', 'ga:date')
     @new_returning_visitors = get_metric_from_api('ga:sessions', 'ga:usertype')
@@ -40,14 +56,14 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def check_since_and_until
-    session['since'] = Date.today - 31 if session['since'].nil?
-    session['until'] = Date.today - 1 if session['until'].nil?
+    session['google_since'] = Date.today - 31 if session['google_since'].nil?
+    session['google_until'] = Date.today - 1 if session['google_until'].nil?
   end
 
   def get_metric_from_api(_metric, _dimensions, _segment = nil, _sort = nil)
-    @drive.get_ga_data(@profile_id,
-                      session['since'].strftime('%F'),
-                      session['until'].strftime('%F'),
+    @client.get_ga_data(@profile_id,
+                      Date.parse(session['google_since']).strftime('%F'),
+                      Date.parse(session['google_until']).strftime('%F'),
                       _metric,
                       dimensions: _dimensions,
                       segment: _segment,
@@ -95,9 +111,9 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def fresh_up_data
-    session['since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
-    session['until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
-    session['since'] = session['until'] - 7 if session['since'] >= session['until']
+    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
+    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
+    session['google_since'] = session['google_until'] - 7 if session['google_since'] >= session['google_until']
     redirect_to '/google_analytics'
   end
 

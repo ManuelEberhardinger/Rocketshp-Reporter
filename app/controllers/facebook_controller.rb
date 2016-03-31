@@ -2,11 +2,16 @@ class FacebookController < ApplicationController
   SITE_URL = 'http://localhost:3000/'.freeze
 
   def index
-    if session['access_token']
+    session['fb_page_id'] = params[:page_id] unless params[:page_id].nil?
+
+    if session['fb_access_token'] && session['fb_page_id']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a><br>'
+      @page = session['fb_page_id']
       create_client
       get_insights_variables
       get_all_posts
+    elsif session['fb_access_token']
+      redirect_to '/facebook/options'
     else
       redirect_to '/facebook/login_page'
     end
@@ -15,12 +20,16 @@ class FacebookController < ApplicationController
   end
 
   def create_client
-    @graph = Koala::Facebook::API.new(session['access_token'])
-    @page = @graph.get_object('me/accounts')[0]
+    @graph = Koala::Facebook::API.new(session['fb_access_token'])
+    @pages = @graph.get_object('me/accounts')
+  end
+
+  def options
+    create_client
   end
 
   def get_all_posts
-    name = @page['id'].to_s + '_posts'
+    name = @page.to_s + '_posts'
 
     FacebookInsights.connect_with_mongodb('facebookdb')
 
@@ -45,7 +54,7 @@ class FacebookController < ApplicationController
   end
 
   def get_insights_variables
-    name = @page['id']
+    name = @page
     FacebookInsights.connect_with_mongodb('facebookdb')
 
     if FacebookInsights.collection_exists?(name) == false
@@ -138,13 +147,15 @@ class FacebookController < ApplicationController
 
   def fresh_up_data_without_redirect(date_range)
     create_client
-    insights = @graph.get_object(@page['id'] + '/insights' + date_range)
-    posts = @graph.get_object(@page['id'] + '/posts' + date_range)
-    FacebookInsights.fresh_up_data(@page['id'], insights)
-    FacebookInsights.fresh_up_data(@page['id'].to_s + "_posts", posts)
+    insights = @graph.get_object(@page + '/insights' + date_range)
+    posts = @graph.get_object(@page + '/posts' + date_range)
+    FacebookInsights.fresh_up_data(@page, insights)
+    FacebookInsights.fresh_up_data(@page.to_s + "_posts", posts)
   end
 
   def report
+    @page = session['fb_page_id']
+    create_client
     get_description_from_params
     get_insights_variables
     get_all_posts
@@ -201,14 +212,14 @@ class FacebookController < ApplicationController
   end
 
   def logout
-    session['access_token'] = nil
+    session['fb_access_token'] = nil
     redirect_to '/facebook'
   end
 
   # method to handle the redirect from facebook back to you
   def callback
     # get the access token from facebook with your code
-    session['access_token'] = Koala::Facebook::OAuth.new(SITE_URL + 'facebook/callback').get_access_token(params[:code])
+    session['fb_access_token'] = Koala::Facebook::OAuth.new(SITE_URL + 'facebook/callback').get_access_token(params[:code])
     redirect_to '/facebook'
   end
 end
