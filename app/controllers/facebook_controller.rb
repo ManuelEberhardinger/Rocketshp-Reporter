@@ -147,6 +147,7 @@ class FacebookController < ApplicationController
 
   def fresh_up_data_without_redirect(date_range)
     create_client
+    @page = session['fb_page_id']
     insights = @graph.get_object(@page + '/insights' + date_range)
     posts = @graph.get_object(@page + '/posts' + date_range)
     FacebookInsights.fresh_up_data(@page, insights)
@@ -213,6 +214,7 @@ class FacebookController < ApplicationController
 
   def logout
     session['fb_access_token'] = nil
+    session['fb_page_id'] = nil
     redirect_to '/facebook'
   end
 

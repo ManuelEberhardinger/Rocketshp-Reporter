@@ -10,8 +10,8 @@ class GoogleAnalyticsController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  #rescue
-  #  redirect_if_not_logged_in
+  rescue
+    redirect_if_not_logged_in
   end
 
   def create_client
@@ -30,6 +30,7 @@ class GoogleAnalyticsController < ApplicationController
 
   def redirect_if_not_logged_in
     session['google_auth_hash'] = nil
+    session['google_page_id'] = nil
     redirect_to '/google_analytics/login_page'
   end
 
