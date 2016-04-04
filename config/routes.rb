@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+
+  resources :contacts
+  resources :companies
   get 'facebook' => 'facebook#index'
   get 'twitter' => 'twitter#index'
   get 'google_analytics' => 'google_analytics#index'

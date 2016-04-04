@@ -2,7 +2,7 @@ class FacebookController < ApplicationController
   SITE_URL = 'http://localhost:3000/'.freeze
 
   def index
-    session['fb_page_id'] = params[:page_id] unless params[:page_id].nil?
+    session['fb_page_id'] = params[:page_id] unless params[:page_id].blank?
 
     if session['fb_access_token'] && session['fb_page_id']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a><br>'
@@ -51,6 +51,7 @@ class FacebookController < ApplicationController
       @posts_comments[id] = @infos["comments"]["summary"]["total_count"]
       @posts_impressions[id] = @graph.get_object(value['id'] + '/insights/post_impressions_unique').first['values'].first['value']
     }
+    FacebookInsights.close_connection
   end
 
   def get_insights_variables
@@ -135,9 +136,9 @@ class FacebookController < ApplicationController
   end
 
   def create_date_range(date_since, date_until)
-    if(date_since.nil?)
+    if(date_since.blank?)
       date_range = ""
-    elsif(date_until.nil?)
+    elsif(date_until.blank?)
       date_range = "?since=" + date_since.to_s
     else
       date_range = "?since=" + date_since.to_s + "&until=" + date_until.to_s

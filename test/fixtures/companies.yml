@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyString
+  lead_source: MyString
+  job_types: MyString
+  website: MyString
+  monthly_total: 1
+  predicting_value: 1
+  address: MyString
+  lost: false
+
+two:
+  name: MyString
+  description: MyString
+  lead_source: MyString
+  job_types: MyString
+  website: MyString
+  monthly_total: 1
+  predicting_value: 1
+  address: MyString
+  lost: false

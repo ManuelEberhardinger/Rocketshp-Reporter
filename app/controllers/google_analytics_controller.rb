@@ -1,6 +1,8 @@
 class GoogleAnalyticsController < ApplicationController
   def index
-    session['google_page_id'] = params[:page_id] unless params[:page_id].nil?
+    session['google_page_id'] = params[:page_id] unless params[:page_id].blank?
+    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since].blank?
+    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until].blank?
 
     if session['google_auth_hash'] && session['google_page_id']
       @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a><br>'
@@ -10,8 +12,8 @@ class GoogleAnalyticsController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  rescue
-    redirect_if_not_logged_in
+  #rescue
+  #  redirect_if_not_logged_in
   end
 
   def create_client
@@ -31,6 +33,8 @@ class GoogleAnalyticsController < ApplicationController
   def redirect_if_not_logged_in
     session['google_auth_hash'] = nil
     session['google_page_id'] = nil
+    session['google_since'] = nil
+    session['google_until'] = nil
     redirect_to '/google_analytics/login_page'
   end
 
@@ -57,14 +61,14 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def check_since_and_until
-    session['google_since'] = Date.today - 31 if session['google_since'].nil?
-    session['google_until'] = Date.today - 1 if session['google_until'].nil?
+    session['google_since'] = Date.today - 31 if session['google_since'].blank?
+    session['google_until'] = Date.today - 1 if session['google_until'].blank?
   end
 
   def get_metric_from_api(_metric, _dimensions, _segment = nil, _sort = nil)
     @client.get_ga_data(@profile_id,
-                      Date.parse(session['google_since']).strftime('%F'),
-                      Date.parse(session['google_until']).strftime('%F'),
+                      Date.parse(session['google_since'].to_s).strftime('%F'),
+                      Date.parse(session['google_until'].to_s).strftime('%F'),
                       _metric,
                       dimensions: _dimensions,
                       segment: _segment,
@@ -128,8 +132,7 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def logout
-    session['google_auth_hash'] = nil
-    redirect_to '/google_analytics'
+    redirect_if_not_logged_in
   end
 
   def auth_hash

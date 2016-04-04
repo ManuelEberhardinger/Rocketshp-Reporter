@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company_id: 
+  facebook_id: MyString
+  google_analytics_id: MyString
+  linkedin_id: MyString
+
+two:
+  company_id: 
+  facebook_id: MyString
+  google_analytics_id: MyString
+  linkedin_id: MyString

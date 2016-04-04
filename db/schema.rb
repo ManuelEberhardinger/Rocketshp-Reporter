@@ -11,6 +11,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160404032904) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "lead_source"
+    t.string   "job_types"
+    t.string   "website"
+    t.integer  "monthly_total"
+    t.integer  "predicting_value"
+    t.string   "address"
+    t.boolean  "lost"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.integer  "company_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone"
+    t.string   "mobile"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "contacts", ["company_id"], name: "index_contacts_on_company_id", using: :btree
+
+  create_table "social_ids", force: :cascade do |t|
+    t.integer  "company_id"
+    t.string   "facebook_id"
+    t.string   "google_analytics_id"
+    t.string   "linkedin_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "social_ids", ["company_id"], name: "index_social_ids_on_company_id", using: :btree
+
+  add_foreign_key "contacts", "companies"
+  add_foreign_key "social_ids", "companies"
 end

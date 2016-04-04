@@ -1,0 +1,53 @@
+<%= form_for(@company) do |f| %>
+  <% if @company.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <strong><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</strong>
+
+      <ul>
+      <% @company.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :lead_source %><br>
+    <%= f.text_field :lead_source %>
+  </div>
+  <div class="field">
+    <%= f.label :job_types %><br>
+    <%= f.text_field :job_types %>
+  </div>
+  <div class="field">
+    <%= f.label :website %><br>
+    <%= f.text_field :website %>
+  </div>
+  <div class="field">
+    <%= f.label :monthly_total %><br>
+    <%= f.number_field :monthly_total %>
+  </div>
+  <div class="field">
+    <%= f.label :predicting_value %><br>
+    <%= f.number_field :predicting_value %>
+  </div>
+  <div class="field">
+    <%= f.label :address %><br>
+    <%= f.text_field :address %>
+  </div>
+  <div class="field">
+    <%= f.label :lost %><br>
+    <%= f.check_box :lost %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
