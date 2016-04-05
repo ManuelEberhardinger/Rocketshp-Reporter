@@ -11,8 +11,6 @@
 </div>
 <% end %>
 
-<%= ('<h3>Total Pipeline: $' + sum_up_monthly_total(@companies.where(lost: false)).to_s + '</h3>').html_safe unless @show_lost %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -45,8 +43,22 @@
   </tbody>
 </table>
 
-<br>
+<div class="row vertical-align">
+  <div class="col-sm-4">
+    <h3>Lead Source</h3>
+    <%= pie_chart @companies.where(lost: @show_lost).group(:lead_source).count %>
+  </div>
+  <div class="col-sm-4">
+    <h3>Job Types</h3>
+    <%= pie_chart @companies.where(lost: @show_lost).group(:job_types).count %>
+  </div>
+  <div class="col-sm-4">
+    <%= ('<h3>Total Pipeline: $' + sum_up_monthly_total(@companies.where(lost: @show_lost)).to_s + '</h3>').html_safe %>
+    <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies.where(lost: @show_lost)) * 12).to_s + '</h3>').html_safe %>
+  </div>
+</div>
 
+<br>
 <% if @show_lost %>
 <%= link_to 'Back', companies_path %>
 <% else %>
