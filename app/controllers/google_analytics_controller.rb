@@ -1,11 +1,13 @@
 class GoogleAnalyticsController < ApplicationController
   def index
-    session['google_page_id'] = params[:page_id] unless params[:page_id].blank?
+    session[:google_company_id] = params[:id] unless params[:id].blank?
+    @company = Company.find(session[:google_company_id])
+    check_for_page_id_in_session
     session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since].blank?
     session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until].blank?
 
     if session['google_auth_hash'] && session['google_page_id']
-      @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a><br>'
+      @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a>'
       get_all_metrics
     elsif session['google_auth_hash']
       redirect_to '/google_analytics/options'
@@ -14,6 +16,16 @@ class GoogleAnalyticsController < ApplicationController
     end
   rescue
     redirect_if_not_logged_in
+  end
+
+  def check_for_page_id_in_session
+    if @company.social_id.google_analytics_id.blank? && !params[:page_id].blank?
+      @company.social_id.google_analytics_id = "ga:" + params[:page_id].to_s
+      session['google_page_id'] = @company.social_id.google_analytics_id
+      @company.save!
+    elsif @company.social_id.google_analytics_id
+      session['google_page_id'] = @company.social_id.google_analytics_id
+    end
   end
 
   def create_client
@@ -41,7 +53,7 @@ class GoogleAnalyticsController < ApplicationController
   def get_all_metrics
     create_client
     check_since_and_until
-    @profile_id = "ga:" + session['google_page_id']
+    @profile_id = session['google_page_id']
     @page_views = get_metric_from_api('ga:pageviews', 'ga:date')
     @sessions = get_metric_from_api('ga:sessions', 'ga:date')
     @new_returning_visitors = get_metric_from_api('ga:sessions', 'ga:usertype')

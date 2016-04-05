@@ -1,6 +1,11 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Listing Contacts</h1>
+
+<% if notice %>
+<div class="alert alert-info">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <p><%= notice %></p>
+</div>
+<% end %>
 
 <table class="table table-striped">
   <thead>

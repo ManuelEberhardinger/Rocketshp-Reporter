@@ -1,5 +1,10 @@
 
-<% @face.each do |value| %>
+<% @timeline.each do |value| %>
 <%= value.text %>
 <br>
 <% end %>
+
+<footer>
+  <%= @face.html_safe %> |
+  <%= link_to 'Back to Company Page', @company %>
+</footer>

@@ -1,14 +1,11 @@
-<p id="notice"><%= notice %></p>
+<h3><%= @contact.first_name + " " + @contact.last_name %></h3>
 
-<p>
-  <strong>First name:</strong>
-  <%= @contact.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @contact.last_name %>
-</p>
+<% if notice %>
+<div class="alert alert-info">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <p><%= notice %></p>
+</div>
+<% end %>
 
 <p>
   <strong>Phone:</strong>

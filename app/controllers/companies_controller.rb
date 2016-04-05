@@ -16,7 +16,6 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
-    session[:fb_page_id] = @company.social_id.facebook_id
   end
 
   # GET /companies/new

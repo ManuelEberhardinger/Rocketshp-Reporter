@@ -2,10 +2,13 @@ class FacebookController < ApplicationController
   SITE_URL = 'http://localhost:3000/'.freeze
 
   def index
-    session['fb_page_id'] = params[:page_id] unless params[:page_id].blank?
+    session[:fb_company_id] = params[:id] unless params[:id].blank?
+    @company = Company.find(session[:fb_company_id])
+
+    check_for_page_id_in_session
 
     if session['fb_access_token'] && session['fb_page_id']
-      @face = 'You are logged in! <a href="/facebook/logout">Logout</a><br>'
+      @face = 'You are logged in! <a href="/facebook/logout">Logout</a>'
       @page = session['fb_page_id']
       create_client
       get_insights_variables
@@ -17,6 +20,16 @@ class FacebookController < ApplicationController
     end
   rescue
     logout
+  end
+
+  def check_for_page_id_in_session
+    if @company.social_id.facebook_id.blank? && !params[:page_id].blank?
+      @company.social_id.facebook_id = params[:page_id]
+      session['fb_page_id'] = @company.social_id.facebook_id
+      @company.save!
+    elsif @company.social_id.facebook_id
+      session['fb_page_id'] = @company.social_id.facebook_id
+    end
   end
 
   def create_client

@@ -1,9 +1,14 @@
-<p id="notice"><%= notice %></p>
-
 <% if @show_lost %>
 <h1>Lost Companies</h1>
 <% else %>
 <h1>Listing Companies</h1>
+<% end %>
+
+<% if notice %>
+<div class="alert alert-info">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <p><%= notice %></p>
+</div>
 <% end %>
 
 <%= ('<h3>Total Pipeline: $' + sum_up_monthly_total(@companies.where(lost: false)).to_s + '</h3>').html_safe unless @show_lost %>
@@ -29,7 +34,7 @@
       <td><%= company.description %></td>
       <td><%= company.lead_source %></td>
       <td><%= company.job_types %></td>
-      <td><%= company.website %></td>
+      <td><%= link_to company.website, company.website, target: 'blank' %></td>
       <td>$<%= company.monthly_total.to_i %></td>
       <td>$<%= company.monthly_total.to_i * 12%></td>
       <td><%= link_to 'Show', company %></td>
@@ -42,12 +47,12 @@
 
 <br>
 
+<% if @show_lost %>
+<%= link_to 'Back', companies_path %>
+<% else %>
 <%= link_to 'New Company', new_company_path %>
 |
 <%= link_to 'All Contacts', contacts_path %>
 |
-<% if @show_lost %>
-<%= link_to 'Companies', companies_path %>
-<% else %>
 <%= link_to 'Lost', companies_path(show_lost: true) %>
 <% end %>

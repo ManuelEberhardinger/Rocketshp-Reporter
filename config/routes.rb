@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   get 'twitter/login_page'
   get 'auth/twitter/callback' => 'twitter#callback'
+  get 'twitter/logout'
 
   get 'linkedin/login_page'
   get 'auth/linkedin/callback' => 'linkedin#callback'

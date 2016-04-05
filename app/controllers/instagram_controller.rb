@@ -2,10 +2,13 @@ class InstagramController < ApplicationController
   CALLBACK_URL = 'http://localhost:3000/instagram/callback'.freeze
 
   def index
+    session[:instagram_company_id] = params[:id] unless params[:id].blank?
+    @company = Company.find(session[:instagram_company_id])
+
     if session['instagram_auth_hash']
       client = Instagram.client(:access_token => session['instagram_auth_hash'])
-      @return = client.user_recent_media({max_timestamp: Time.utc(2016, 3, 1).to_i, min_timestamp: Time.utc(2016, 2, 1).to_i})
-      @face = 'You are logged in! <a href="/instagram/logout">Logout</a><br>'
+      @return = client.user_recent_media
+      @face = 'You are logged in! <a href="/instagram/logout">Logout</a>'
     else
       redirect_to '/instagram/login_page'
     end
