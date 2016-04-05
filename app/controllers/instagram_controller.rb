@@ -38,6 +38,6 @@ class InstagramController < ApplicationController
 
   def logout
     session['instagram_auth_hash'] = false
-    redirect_to '/instagram/login_page'
+    redirect_to '/companies/' + session[:instagram_company_id].to_s
   end
 end

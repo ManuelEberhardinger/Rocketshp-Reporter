@@ -22,9 +22,11 @@ class GoogleAnalyticsController < ApplicationController
     if @company.social_id.google_analytics_id.blank? && !params[:page_id].blank?
       @company.social_id.google_analytics_id = "ga:" + params[:page_id].to_s
       session['google_page_id'] = @company.social_id.google_analytics_id
-      @company.save!
+      @company.social_id.save!
     elsif @company.social_id.google_analytics_id
       session['google_page_id'] = @company.social_id.google_analytics_id
+    else
+      session['google_page_id'] = nil
     end
   end
 
@@ -144,7 +146,11 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def logout
-    redirect_if_not_logged_in
+    session['google_auth_hash'] = nil
+    session['google_page_id'] = nil
+    session['google_since'] = nil
+    session['google_until'] = nil
+    redirect_to '/companies/' + session[:google_company_id].to_s
   end
 
   def auth_hash

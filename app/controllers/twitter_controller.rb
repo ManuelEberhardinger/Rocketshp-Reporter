@@ -20,7 +20,8 @@ class TwitterController < ApplicationController
   end
 
   def logout
-    redirect_if_not_logged_in
+    session['twitter_auth_hash'] = nil
+    redirect_to '/companies/' + session[:twitter_company_id].to_s
   end
 
   def redirect_if_not_logged_in

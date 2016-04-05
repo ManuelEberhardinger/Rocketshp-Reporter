@@ -26,9 +26,11 @@ class FacebookController < ApplicationController
     if @company.social_id.facebook_id.blank? && !params[:page_id].blank?
       @company.social_id.facebook_id = params[:page_id]
       session['fb_page_id'] = @company.social_id.facebook_id
-      @company.save!
+      @company.social_id.save!
     elsif @company.social_id.facebook_id
       session['fb_page_id'] = @company.social_id.facebook_id
+    else
+      session['fb_page_id'] = nil
     end
   end
 
@@ -229,7 +231,7 @@ class FacebookController < ApplicationController
   def logout
     session['fb_access_token'] = nil
     session['fb_page_id'] = nil
-    redirect_to '/facebook'
+    redirect_to '/companies/' + session[:fb_company_id].to_s
   end
 
   # method to handle the redirect from facebook back to you
