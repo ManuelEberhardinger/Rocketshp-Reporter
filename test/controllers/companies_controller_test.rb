@@ -18,7 +18,7 @@ class CompaniesControllerTest < ActionController::TestCase
 
   test "should create company" do
     assert_difference('Company.count') do
-      post :create, company: { address: @company.address, description: @company.description, job_types: @company.job_types, lead_source: @company.lead_source, lost: @company.lost, monthly_total: @company.monthly_total, name: @company.name, predicting_value: @company.predicting_value, website: @company.website }
+      post :create, company: { address: @company.address, description: @company.description, job_types: @company.job_types, lead_source: @company.lead_source, lost: @company.lost, monthly_total: @company.monthly_total, name: "test", website: @company.website }
     end
 
     assert_redirected_to company_path(assigns(:company))
@@ -35,8 +35,8 @@ class CompaniesControllerTest < ActionController::TestCase
   end
 
   test "should update company" do
-    patch :update, id: @company, company: { address: @company.address, description: @company.description, job_types: @company.job_types, lead_source: @company.lead_source, lost: @company.lost, monthly_total: @company.monthly_total, name: @company.name, predicting_value: @company.predicting_value, website: @company.website }
-    assert_redirected_to company_path(assigns(:company))
+    patch :update, id: @company, company: { address: @company.address, description: @company.description, job_types: @company.job_types, lead_source: @company.lead_source, lost: @company.lost, monthly_total: @company.monthly_total, name: @company.name, website: @company.website }
+    assert_response :success
   end
 
   test "should destroy company" do

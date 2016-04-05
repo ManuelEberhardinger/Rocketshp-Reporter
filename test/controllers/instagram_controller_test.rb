@@ -3,7 +3,7 @@ require 'test_helper'
 class InstagramControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
-    assert_response :success
+    assert_response :redirect
   end
 
   test "should get login_page" do

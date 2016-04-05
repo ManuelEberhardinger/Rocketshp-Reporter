@@ -3,6 +3,7 @@ require 'test_helper'
 class ContactsControllerTest < ActionController::TestCase
   setup do
     @contact = contacts(:one)
+    @company = companies(:one)
   end
 
   test "should get index" do
@@ -18,10 +19,10 @@ class ContactsControllerTest < ActionController::TestCase
 
   test "should create contact" do
     assert_difference('Contact.count') do
-      post :create, contact: { company_id: @contact.company_id, email: @contact.email, first_name: @contact.first_name, last_name: @contact.last_name, mobile: @contact.mobile, phone: @contact.phone }
+      post :create, contact: { company_id: @company.id, email: @contact.email, first_name: @contact.first_name, last_name: @contact.last_name, mobile: @contact.mobile, phone: @contact.phone }
     end
 
-    assert_redirected_to contact_path(assigns(:contact))
+    assert_redirected_to @company
   end
 
   test "should show contact" do
@@ -35,8 +36,8 @@ class ContactsControllerTest < ActionController::TestCase
   end
 
   test "should update contact" do
-    patch :update, id: @contact, contact: { company_id: @contact.company_id, email: @contact.email, first_name: @contact.first_name, last_name: @contact.last_name, mobile: @contact.mobile, phone: @contact.phone }
-    assert_redirected_to contact_path(assigns(:contact))
+    patch :update, id: @contact, contact: { company_id: @company.id, email: @contact.email, first_name: @contact.first_name, last_name: @contact.last_name, mobile: @contact.mobile, phone: @contact.phone }
+    assert_redirected_to @company
   end
 
   test "should destroy contact" do
