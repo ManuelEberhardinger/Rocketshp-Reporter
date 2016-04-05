@@ -1,6 +1,12 @@
 <p id="notice"><%= notice %></p>
 
+<% if @show_lost %>
+<h1>Lost Companies</h1>
+<% else %>
 <h1>Listing Companies</h1>
+<% end %>
+
+<%= ('<h3>Total Pipeline: $' + sum_up_monthly_total(@companies.where(lost: false)).to_s + '</h3>').html_safe unless @show_lost %>
 
 <table class="table table-striped">
   <thead>
@@ -11,29 +17,25 @@
       <th>Job types</th>
       <th>Website</th>
       <th>Monthly total</th>
-      <th>Predicting value</th>
-      <th>Address</th>
-      <th>Lost</th>
+      <th>Anual value</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @companies.each do |company| %>
-      <tr>
-        <td><%= company.name %></td>
-        <td><%= company.description %></td>
-        <td><%= company.lead_source %></td>
-        <td><%= company.job_types %></td>
-        <td><%= company.website %></td>
-        <td><%= company.monthly_total %></td>
-        <td><%= company.predicting_value %></td>
-        <td><%= company.address %></td>
-        <td><%= company.lost %></td>
-        <td><%= link_to 'Show', company %></td>
-        <td><%= link_to 'Edit', edit_company_path(company) %></td>
-        <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <% @companies.where(lost: @show_lost).each do |company| %>
+    <tr>
+      <td><%= company.name %></td>
+      <td><%= company.description %></td>
+      <td><%= company.lead_source %></td>
+      <td><%= company.job_types %></td>
+      <td><%= company.website %></td>
+      <td>$<%= company.monthly_total.to_i %></td>
+      <td>$<%= company.monthly_total.to_i * 12%></td>
+      <td><%= link_to 'Show', company %></td>
+      <td><%= link_to 'Edit', edit_company_path(company) %></td>
+      <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>
@@ -41,3 +43,11 @@
 <br>
 
 <%= link_to 'New Company', new_company_path %>
+|
+<%= link_to 'All Contacts', contacts_path %>
+|
+<% if @show_lost %>
+<%= link_to 'Companies', companies_path %>
+<% else %>
+<%= link_to 'Lost', companies_path(show_lost: true) %>
+<% end %>

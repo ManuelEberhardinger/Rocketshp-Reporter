@@ -4,13 +4,19 @@ class CompaniesController < ApplicationController
   # GET /companies
   # GET /companies.json
   def index
+    if params[:show_lost]
+      @show_lost = params[:show_lost]
+    else
+      @show_lost = false
+    end
+
     @companies = Company.all
   end
 
   # GET /companies/1
   # GET /companies/1.json
   def show
-    @contacts = Contact.where(company: @company.id)
+    session[:fb_page_id] = @company.social_id.facebook_id
   end
 
   # GET /companies/new
@@ -26,7 +32,7 @@ class CompaniesController < ApplicationController
   # POST /companies.json
   def create
     @company = Company.new(company_params)
-
+    @company.create_social_id
     respond_to do |format|
       if @company.save
         format.html { redirect_to @company, notice: 'Company was successfully created.' }
@@ -70,6 +76,6 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :predicting_value, :address, :lost)
+      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :address, :lost)
     end
 end

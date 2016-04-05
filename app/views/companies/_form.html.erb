@@ -1,53 +1,60 @@
 <%= form_for(@company) do |f| %>
+
   <% if @company.errors.any? %>
-    <div id="error_explanation" class="alert alert-danger">
-      <strong><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</strong>
+  <div id="error_explanation" class="alert alert-danger">
+    <strong><%= pluralize(@company.errors.count, "error") %>
+      prohibited this company from being saved:</strong>
 
-      <ul>
+    <ul>
       <% @company.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
+    </ul>
+  </div>
   <% end %>
-
+  <br>
   <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.label :name %>:
+    <%= f.text_field :name, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
+    <%= f.label :description %>:
+    <%= f.text_field :description, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :lead_source %><br>
-    <%= f.text_field :lead_source %>
+    <%= f.label :lead_source %>:
+    <%= f.text_field :lead_source, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :job_types %><br>
-    <%= f.text_field :job_types %>
+    <%= f.label :job_types %>:
+    <%= f.text_field :job_types, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :website %><br>
-    <%= f.text_field :website %>
+    <%= f.label :website %>:
+    <%= f.text_field :website, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :monthly_total %><br>
-    <%= f.number_field :monthly_total %>
+    <%= f.label :monthly_total %>:
+    <%= f.number_field :monthly_total, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :predicting_value %><br>
-    <%= f.number_field :predicting_value %>
+    <%= f.label :address %>:
+    <%= f.text_field :address, class: "form-control" %>
   </div>
+  <br>
   <div class="field">
-    <%= f.label :address %><br>
-    <%= f.text_field :address %>
-  </div>
-  <div class="field">
-    <%= f.label :lost %><br>
+    <%= f.label :lost %>:
     <%= f.check_box :lost %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <br>
+  <div class="form-inline">
+    <%= f.submit class: "btn btn-info btn-block"%>
   </div>
+
 <% end %>

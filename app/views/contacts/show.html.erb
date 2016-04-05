@@ -1,11 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Company:</strong>
-  <%= @contact.company %>
-</p>
-
-<p>
   <strong>First name:</strong>
   <%= @contact.first_name %>
 </p>
@@ -30,5 +25,4 @@
   <%= @contact.email %>
 </p>
 
-<%= link_to 'Edit', edit_contact_path(@contact) %> |
-<%= link_to 'Back', contacts_path %>
+<%= link_to 'Back', :back %>

@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<h3>Client Information</h3>
 <p>
   <strong>Name:</strong>
   <%= @company.name %>
@@ -22,17 +22,17 @@
 
 <p>
   <strong>Website:</strong>
-  <%= @company.website %>
+  <%= link_to @company.website, @company.website, target: 'blank' %>
 </p>
 
 <p>
   <strong>Monthly total:</strong>
-  <%= @company.monthly_total %>
+  $<%= @company.monthly_total.to_i %>
 </p>
 
 <p>
-  <strong>Predicting value:</strong>
-  <%= @company.predicting_value %>
+  <strong>Anual value:</strong>
+  $<%= @company.monthly_total.to_i * 12 %>
 </p>
 
 <p>
@@ -44,14 +44,13 @@
   <strong>Lost:</strong>
   <%= @company.lost %>
 </p>
+<%= link_to 'Edit Company', edit_company_path(@company) %> <br>
 
-
-<h1>Listing Contacts</h1>
+<h3>Listing Contacts</h3>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Company</th>
       <th>First name</th>
       <th>Last name</th>
       <th>Phone</th>
@@ -62,9 +61,8 @@
   </thead>
 
   <tbody>
-    <% @contacts.each do |contact| %>
+    <% @company.contacts.each do |contact| %>
       <tr>
-        <td><%= contact.company %></td>
         <td><%= contact.first_name %></td>
         <td><%= contact.last_name %></td>
         <td><%= contact.phone %></td>
@@ -77,6 +75,13 @@
     <% end %>
   </tbody>
 </table>
+<%= link_to 'Add Contact', new_contact_path(company_id: @company.id) %> <br>
 
-<%= link_to 'Edit', edit_company_path(@company) %> |
+<h3>Insights and Analytics</h3>
+<%= link_to 'Facebook', '/facebook' %> |
+<%= link_to 'Google Analytics', '/google_analytics' %> |
+<%= link_to 'Twitter', '/twitter' %> |
+<%= link_to 'LinkendIn', '/linkedin' %> |
+<%= link_to 'Instagram', '/instagram' %>
+<br><br>
 <%= link_to 'Back', companies_path %>

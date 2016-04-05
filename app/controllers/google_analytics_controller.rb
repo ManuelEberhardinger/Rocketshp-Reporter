@@ -12,8 +12,8 @@ class GoogleAnalyticsController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  #rescue
-  #  redirect_if_not_logged_in
+  rescue
+    redirect_if_not_logged_in
   end
 
   def create_client
