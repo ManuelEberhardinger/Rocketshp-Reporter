@@ -36,12 +36,15 @@
       <td>$<%= company.monthly_total.to_i %></td>
       <td>$<%= company.monthly_total.to_i * 12%></td>
       <td><%= link_to 'Show', company %></td>
+      <% if current_user.admin? %>
       <td><%= link_to 'Edit', edit_company_path(company) %></td>
       <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
     </tr>
     <% end %>
   </tbody>
 </table>
+<%= link_to 'New Company', new_company_path %>
 
 <div class="row vertical-align">
   <div class="col-sm-4">
@@ -59,12 +62,3 @@
 </div>
 
 <br>
-<% if @show_lost %>
-<%= link_to 'Back', companies_path %>
-<% else %>
-<%= link_to 'New Company', new_company_path %>
-|
-<%= link_to 'All Contacts', contacts_path %>
-|
-<%= link_to 'Lost', companies_path(show_lost: true) %>
-<% end %>

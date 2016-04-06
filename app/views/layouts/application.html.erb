@@ -11,6 +11,11 @@
     <div class="container-fluid">
       <%= yield %>
     </div>
+    <% if logged_in? %>
+    <div class="container-fluid">
+      <%= render 'layouts/footer' %>
+    </div>
+    <% end %>
     <br><br>
   </body>
 </html>
