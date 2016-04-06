@@ -4,9 +4,17 @@ module SessionsHelper
     session[:user_id] = user.id
   end
 
+  def remember_company(company)
+    session[:company_id] = company.id
+  end
+
   # Returns the current logged-in user (if any).
   def current_user
     @current_user ||= User.find_by(id: session[:user_id])
+  end
+
+  def current_company
+    @current_company = Company.find_by(id: session[:company_id])
   end
 
   # Returns true if the given user is the current user.

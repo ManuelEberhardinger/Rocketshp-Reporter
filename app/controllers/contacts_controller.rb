@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
-  before_action :admin_user, only: :destroy
+  before_action :admin_user, only: [:destroy]
 
   # GET /contacts
   # GET /contacts.json
@@ -16,7 +16,7 @@ class ContactsController < ApplicationController
   # GET /contacts/new
   def new
     @contact = Contact.new
-    @contact.company_id = params[:company_id]
+    @contact.company_id = current_company.id
   end
 
   # GET /contacts/1/edit
@@ -58,7 +58,7 @@ class ContactsController < ApplicationController
   def destroy
     id = @contact.company.id.to_s unless @contact.company.nil?
     if @contact.company.nil?
-      url = '/contacts'
+      url = contacts_path
     else
       url = '/companies/' + id
     end

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+
   resources :contacts
   resources :companies
   resources :users
+  resources :time_trackings
 
   root 'companies#index'
 
@@ -40,6 +42,6 @@ Rails.application.routes.draw do
   get 'google_analytics/options'
 
   get 'login' => 'sessions#new'
-  post   'login'   => 'sessions#create'
+  post 'login'   => 'sessions#create'
   get 'logout'  => 'sessions#destroy'
 end

@@ -1,5 +1,10 @@
+
 function init() {
-    $('.collapse-close').click(function () {
-        $('.collapse.in').collapse('hide');
-    });
+  $('.datepicker').datepicker({
+     format: 'dd/mm/yyyy'
+  });
+
+  $('.collapse-close').click(function () {
+      $('.collapse.in').collapse('hide');
+  });
 }

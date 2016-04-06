@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406031303) do
+ActiveRecord::Schema.define(version: 20160406211623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,20 @@ ActiveRecord::Schema.define(version: 20160406031303) do
 
   add_index "social_ids", ["company_id"], name: "index_social_ids_on_company_id", using: :btree
 
+  create_table "time_trackings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "company_id"
+    t.decimal  "spent_time"
+    t.decimal  "hourly_rate"
+    t.date     "date"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "time_trackings", ["company_id"], name: "index_time_trackings_on_company_id", using: :btree
+  add_index "time_trackings", ["user_id"], name: "index_time_trackings_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -64,4 +78,6 @@ ActiveRecord::Schema.define(version: 20160406031303) do
 
   add_foreign_key "contacts", "companies"
   add_foreign_key "social_ids", "companies"
+  add_foreign_key "time_trackings", "companies"
+  add_foreign_key "time_trackings", "users"
 end

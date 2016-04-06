@@ -1,0 +1,40 @@
+<h3>Time tracked by <%= @time_tracking.user.name %></h3>
+
+<% if notice %>
+<div class="alert alert-info">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <p><%= notice %></p>
+</div>
+<% end %>
+
+<p>
+  <strong>Total Value:</strong>
+  <%= @time_tracking.hourly_rate * @time_tracking.spent_time %>$
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @time_tracking.company.name %>
+</p>
+
+<p>
+  <strong>Spent Time</strong>
+  <%= @time_tracking.spent_time %>h
+</p>
+
+<p>
+  <strong>Hourly Rate:</strong>
+  <%= @time_tracking.hourly_rate %>$
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @time_tracking.date %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @time_tracking.description %>
+</p>
+
+<%= link_to "Back", :back %>
