@@ -173,7 +173,7 @@ class FacebookController < ApplicationController
   end
 
   def report
-    @company = Company.find(session[:fb_company_id])
+    @company = current_company
     @page = @company.name.split.join
     create_client
     get_description_from_params
