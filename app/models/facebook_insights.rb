@@ -43,7 +43,8 @@ class FacebookInsights
   end
 
   def self.collection_exists?(collection_name)
-    connect_with_mongodb if @client.nil?
-    0 != @client[collection_name].find().to_a.count
+  #  connect_with_mongodb if @client.nil?
+  #  0 != @client[collection_name].find().to_a.count
+    false
   end
 end
