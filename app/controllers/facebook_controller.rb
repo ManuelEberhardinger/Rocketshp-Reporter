@@ -164,6 +164,7 @@ class FacebookController < ApplicationController
 
   def fresh_up_data_without_redirect(date_range)
     create_client
+    FacebookInsights.connect_with_mongodb('facebookdb')
     @page = session['fb_page_id']
     insights = @graph.get_object(@page + '/insights' + date_range)
     posts = @graph.get_object(@page + '/posts' + date_range)
