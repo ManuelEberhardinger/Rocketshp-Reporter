@@ -11,6 +11,7 @@ class FacebookInsights
   end
 
   def self.fresh_up_data(name, insights)
+    raise :error
     connect_with_mongodb if @client.nil?
     @client[name].drop
     @client[name].insert_many(insights)
@@ -45,6 +46,5 @@ class FacebookInsights
   def self.collection_exists?(collection_name)
     connect_with_mongodb if @client.nil?
     0 != @client[collection_name].find().to_a.count
-    false
   end
 end

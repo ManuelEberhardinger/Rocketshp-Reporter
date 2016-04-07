@@ -163,7 +163,6 @@ class FacebookController < ApplicationController
   end
 
   def fresh_up_data_without_redirect(date_range)
-    raise 
     create_client
     @page = @company.name.split.join
     page_id = session["fb_page_id"]
