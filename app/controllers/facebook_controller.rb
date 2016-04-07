@@ -2,8 +2,7 @@ class FacebookController < ApplicationController
   SITE_URL = 'https://quiet-peak-67098.herokuapp.com/'.freeze
 
   def index
-    session[:fb_company_id] = params[:id] unless params[:id].blank?
-    @company = Company.find(session[:fb_company_id])
+    @company = current_company
 
     check_for_page_id_in_session
 
@@ -174,6 +173,7 @@ class FacebookController < ApplicationController
   end
 
   def report
+    @company = Company.find(session[:fb_company_id])
     @page = @company.name.split.join
     create_client
     get_description_from_params

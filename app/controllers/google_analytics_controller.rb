@@ -1,7 +1,6 @@
 class GoogleAnalyticsController < ApplicationController
   def index
-    session[:google_company_id] = params[:id] unless params[:id].blank?
-    @company = Company.find(session[:google_company_id])
+    @company = current_company
     check_for_page_id_in_session
     session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since].blank?
     session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until].blank?
@@ -90,6 +89,8 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def report
+    @company = current_company
+    check_for_page_id_in_session
     get_description_from_params
     get_all_metrics
     respond_to do |format|
