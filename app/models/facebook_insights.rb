@@ -3,7 +3,7 @@ class FacebookInsights
     close_connection
 
     @db = db
-    @client = Mongo::Client.new(ENV['MONGOLAB_URI'], database: @db)
+    @client = Mongo::Client.new(ENV['MONGOLAB_URI'], database: "facebookdb")
   end
 
   def self.close_connection
