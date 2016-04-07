@@ -3,8 +3,8 @@
 # automatically use Facebook settings from here if none are given
 
 module Facebook
-  APP_ID = Rails.application.secrets.facebook_api_key
-  SECRET = Rails.application.secrets.facebook_api_secret
+  APP_ID = ENV["FACEBOOK_API_KEY"]
+  SECRET = ENV["FACEBOOK_API_SECRET"]
 end
 
 Koala::Facebook::OAuth.class_eval do
