@@ -18,8 +18,8 @@ class FacebookController < ApplicationController
     else
       redirect_to '/facebook/login_page'
     end
-  #rescue
-  #  logout
+  rescue
+    logout
   end
 
   def check_for_page_id_in_session
