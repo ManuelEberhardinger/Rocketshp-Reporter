@@ -9,7 +9,7 @@ class FacebookController < ApplicationController
 
     if session['fb_access_token'] && session['fb_page_id']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a>'
-      @page = session['fb_page_id']
+      @page = @company.name.split.join
       create_client
       get_insights_variables
       get_all_posts
@@ -164,16 +164,16 @@ class FacebookController < ApplicationController
 
   def fresh_up_data_without_redirect(date_range)
     create_client
-    FacebookInsights.connect_with_mongodb('facebookdb')
-    @page = session['fb_page_id']
-    insights = @graph.get_object(@page + '/insights' + date_range)
-    posts = @graph.get_object(@page + '/posts' + date_range)
+    @page = @company.name.split.join
+    page_id = session["fb_page_id"]
+    insights = @graph.get_object(page_id + '/insights' + date_range)
+    posts = @graph.get_object(page_id + '/posts' + date_range)
     FacebookInsights.fresh_up_data(@page, insights)
     FacebookInsights.fresh_up_data(@page.to_s + "_posts", posts)
   end
 
   def report
-    @page = session['fb_page_id']
+    @page = @company.name.split.join
     create_client
     get_description_from_params
     get_insights_variables
