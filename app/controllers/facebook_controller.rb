@@ -163,6 +163,7 @@ class FacebookController < ApplicationController
 
   def fresh_up_data_without_redirect(date_range)
     create_client
+    @company = current_company
     @page = @company.name.split.join
     page_id = session["fb_page_id"]
     insights = @graph.get_object(page_id + '/insights' + date_range.to_s)
