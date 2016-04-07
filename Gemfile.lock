@@ -61,6 +61,7 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     bson (4.0.4)
+    bson_ext (1.5.1)
     buftok (0.2.0)
     builder (3.2.2)
     byebug (8.2.2)
@@ -306,6 +307,7 @@ DEPENDENCIES
   bcrypt
   bootstrap-datepicker-rails
   bootstrap-sass
+  bson_ext
   byebug
   chartkick
   coffee-rails (~> 4.1.0)
