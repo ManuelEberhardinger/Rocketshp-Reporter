@@ -9,7 +9,6 @@ class FacebookController < ApplicationController
     if session['fb_access_token'] && session['fb_page_id']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a>'
       @page = @company.name.split.join
-      fresh_up_data unless params[:since].blank?
       create_client
       get_insights_variables
       get_all_posts
@@ -27,7 +26,7 @@ class FacebookController < ApplicationController
       @company.social_id.facebook_id = params[:page_id]
       session['fb_page_id'] = @company.social_id.facebook_id
       @company.social_id.save!
-      fresh_up_data_without_redirect("")
+      fresh_up_data
     elsif @company.social_id.facebook_id
       session['fb_page_id'] = @company.social_id.facebook_id
     else
