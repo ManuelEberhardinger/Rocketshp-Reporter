@@ -168,6 +168,7 @@ class FacebookController < ApplicationController
     page_id = session["fb_page_id"]
     insights = @graph.get_object(page_id + '/insights' + date_range)
     posts = @graph.get_object(page_id + '/posts' + date_range)
+    print "insights_123: " + insights.to_s
     FacebookInsights.fresh_up_data(@page, insights)
     FacebookInsights.fresh_up_data(@page.to_s + "_posts", posts)
   end
