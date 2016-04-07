@@ -27,7 +27,7 @@ class FacebookController < ApplicationController
       @company.social_id.facebook_id = params[:page_id]
       session['fb_page_id'] = @company.social_id.facebook_id
       @company.social_id.save!
-      fresh_up_data_without_redirect
+      fresh_up_data_without_redirect("")
     elsif @company.social_id.facebook_id
       session['fb_page_id'] = @company.social_id.facebook_id
     else
@@ -50,7 +50,7 @@ class FacebookController < ApplicationController
     FacebookInsights.connect_with_mongodb('facebookdb')
 
     if FacebookInsights.collection_exists?(name) == false
-      fresh_up_data_without_redirect
+      fresh_up_data_without_redirect("")
     end
 
     @posts = FacebookInsights.find_all(name)
@@ -75,7 +75,7 @@ class FacebookController < ApplicationController
     FacebookInsights.connect_with_mongodb('facebookdb')
 
     if FacebookInsights.collection_exists?(name) == false
-      fresh_up_data_without_redirect
+      fresh_up_data_without_redirect("")
     end
 
     @all_fans = FacebookInsights.get_single_metric(name, 'page_fans')
