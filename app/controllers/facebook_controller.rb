@@ -1,5 +1,5 @@
 class FacebookController < ApplicationController
-  SITE_URL = 'https://quiet-peak-67098.herokuapp.com'.freeze
+  SITE_URL = 'https://quiet-peak-67098.herokuapp.com/'.freeze
 
   def index
     session[:fb_company_id] = params[:id] unless params[:id].blank?
