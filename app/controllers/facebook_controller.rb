@@ -10,6 +10,7 @@ class FacebookController < ApplicationController
     if session['fb_access_token'] && session['fb_page_id']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a>'
       @page = @company.name.split.join
+      fresh_up_data unless params[:since].blank?
       create_client
       get_insights_variables
       get_all_posts
