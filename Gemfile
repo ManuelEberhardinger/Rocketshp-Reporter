@@ -18,6 +18,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'bcrypt'
 # use mongo for facebook data
 gem 'mongo'
+gem 'bson_ext'
 
 # use koala for getting facebook data
 gem 'koala'
