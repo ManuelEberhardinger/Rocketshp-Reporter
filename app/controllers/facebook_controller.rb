@@ -27,6 +27,7 @@ class FacebookController < ApplicationController
       @company.social_id.facebook_id = params[:page_id]
       session['fb_page_id'] = @company.social_id.facebook_id
       @company.social_id.save!
+      fresh_up_data_without_redirect
     elsif @company.social_id.facebook_id
       session['fb_page_id'] = @company.social_id.facebook_id
     else
