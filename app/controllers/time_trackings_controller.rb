@@ -4,7 +4,18 @@ class TimeTrackingsController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
 
   def index
-    @time_trackings = TimeTracking.all
+    @time_trackings = TimeTracking.order(date: :desc)
+    companies = Company.all
+    @values = companies.collect {|p| [ p['name'], p['id'] ] }
+    @values.unshift(['All', 0])
+    @since = @until = nil
+    id = params[:company]
+    @time_trackings = @time_trackings.where(company_id: id) unless id.blank? || id == "0"
+    if(!params[:since].blank? && !params[:until].blank?)
+      @since = Date.parse(params[:since])
+      @until = Date.parse(params[:until])
+      @time_trackings = @time_trackings.where("date >= ?", @since).where("date <= ?", @until)
+    end
   end
 
   def show

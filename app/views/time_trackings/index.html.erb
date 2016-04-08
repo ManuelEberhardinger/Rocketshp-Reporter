@@ -1,9 +1,28 @@
 <h1>Listing Time Trackings</h1>
-<h4>Total Value: <%= sum_up_total_value_of_time_trackings(@time_trackings) %>$</h4>
+<h4>Total Value:
+  <%= sum_up_total_value_of_time_trackings(@time_trackings) %>$</h4>
 <% if notice %>
 <div class="alert alert-info">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   <p><%= notice %></p>
+</div>
+<% end %>
+<%= form_tag("/time_trackings", method: :get) do %>
+<div class="form-inline">
+  <div class="input-group date">
+    <%= text_field_tag :since, preset_value(@since), class: "datepicker form-control" %>
+    <span class="input-group-addon">
+      <i class="glyphicon glyphicon-th"></i>
+    </span>
+  </div>
+  <div class="input-group date">
+    <%= text_field_tag :until, preset_value(@until), class: "datepicker form-control" %>
+    <span class="input-group-addon">
+      <i class="glyphicon glyphicon-th"></i>
+    </span>
+  </div>
+  <%= select_tag "company", options_for_select(@values), class: "form-control" %>
+  <%= submit_tag('Search', class: 'btn btn-primary') %>
 </div>
 <% end %>
 
@@ -34,7 +53,7 @@
       <td><%= link_to 'Show', time_tracking %></td>
       <% if current_user.admin? || current_user?(time_tracking.user) %>
       <td><%= link_to('Edit', edit_time_tracking_path(time_tracking)) %></td>
-      <% else %>
+    <% else %>
       <td></td>
       <% end %>
       <% if current_user.admin? %>
