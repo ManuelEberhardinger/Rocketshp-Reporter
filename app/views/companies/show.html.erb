@@ -49,6 +49,11 @@
     </p>
 
     <p>
+      <strong>Total hours per month:</strong>
+      <%= @company.total_hours %>
+    </p>
+
+    <p>
       <strong>Lost:</strong>
       <%= @company.lost %>
     </p>
@@ -104,7 +109,7 @@
 <div class="row">
   <div class="container-fluid">
     <h3>Time Trackings</h3>
-    <h4>Total Value: <%= sum_up_total_value_of_time_trackings(@company.time_trackings) %>$</h4>
+    <h4>Total Value: <%= sum_up_total_value_of_time_trackings(@time_trackings) %>$</h4>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -119,7 +124,7 @@
       </thead>
 
       <tbody>
-        <% @company.time_trackings.each do |time_tracking| %>
+        <% @time_trackings.each do |time_tracking| %>
         <tr>
           <td><%= time_tracking.user.name %></td>
           <td><%= time_tracking.spent_time %>h</td>
@@ -144,5 +149,25 @@
     </table>
     <%= link_to 'Add Time', new_time_tracking_path %>
   </div>
+</div>
+<div class="row">
+  <% if @company.total_hours %>
+  <div class="col-sm-4">
+    <h3>Time</h3>
+    <%= pie_chart sum_up_total_hours_to_display(@time_trackings, @company.total_hours) %>
+  </div>
+  <% end %>
+  <% if @company.monthly_total %>
+  <div class="col-sm-4">
+    <h3>Income</h3>
+    <%= pie_chart get_total_values_to_display(@time_trackings, @company.monthly_total) %>
+  </div>
+  <div class="col-sm-4">
+    <% if @time_trackings.count > 0 %>
+    <h3>Employees</h3>
+    <%= column_chart get_spent_time_of_employees(@time_trackings) %>
+    <% end %>
+  </div>
+  <% end %>
 </div>
 <br>

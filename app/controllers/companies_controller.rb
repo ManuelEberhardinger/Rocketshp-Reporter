@@ -18,6 +18,7 @@ class CompaniesController < ApplicationController
   # GET /companies/1.json
   def show
     remember_company @company
+    @time_trackings = @company.time_trackings.where("date >= ?", Date.today.beginning_of_month).where("date <= ?", Date.today.end_of_month)
   end
 
   # GET /companies/new
@@ -77,6 +78,6 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :address, :lost)
+      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :address, :lost, :total_hours)
     end
 end

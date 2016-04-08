@@ -7,7 +7,7 @@ module TimeTrackingsHelper
     sum
   end
 
-  def preset_value
-    @time_tracking.date.strftime('%d/%m/%Y') unless @time_tracking.date.nil?
+  def preset_value(time)
+    time.strftime('%d/%m/%Y') unless time.nil?
   end
 end

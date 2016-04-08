@@ -34,7 +34,7 @@
   <div class="field">
     <%= f.label :date %>
     <div class="input-group date">
-      <%= f.text_field :date, value: preset_value, class: "datepicker form-control" %><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+      <%= f.text_field :date, value: preset_value(@time_tracking.date), class: "datepicker form-control" %><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
     </div>
   </div>
   <br>
