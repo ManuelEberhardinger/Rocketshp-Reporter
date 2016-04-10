@@ -37,6 +37,10 @@ class FacebookController < ApplicationController
   def create_client
     @graph = Koala::Facebook::API.new(session['fb_access_token'])
     @pages = @graph.get_object('me/accounts')
+  rescue
+    session['fb_access_token'] = nil
+    session['fb_page_id'] = nil
+    redirect_to "/facebook/login_page"
   end
 
   def options
@@ -234,7 +238,7 @@ class FacebookController < ApplicationController
   def logout
     session['fb_access_token'] = nil
     session['fb_page_id'] = nil
-    redirect_to '/companies/' + session[:fb_company_id].to_s
+    redirect_to current_company
   end
 
   # method to handle the redirect from facebook back to you
