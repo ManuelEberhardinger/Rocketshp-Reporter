@@ -21,7 +21,8 @@
       <i class="glyphicon glyphicon-th"></i>
     </span>
   </div>
-  <%= select_tag "company", options_for_select(@values), class: "form-control" %>
+  <%= select_tag "user", options_for_select(@users), class: "form-control" %>
+  <%= select_tag "company", options_for_select(@companies), class: "form-control" %>
   <%= submit_tag('Search', class: 'btn btn-primary') %>
 </div>
 <% end %>

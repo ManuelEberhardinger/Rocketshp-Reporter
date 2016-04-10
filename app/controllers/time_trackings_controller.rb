@@ -6,11 +6,16 @@ class TimeTrackingsController < ApplicationController
   def index
     @time_trackings = TimeTracking.order(date: :desc)
     companies = Company.all
-    @values = companies.collect {|p| [ p['name'], p['id'] ] }
-    @values.unshift(['All', 0])
+    user = User.all
+    @companies = companies.collect {|p| [ p['name'], p['id'] ] }
+    @companies.unshift(['All', 0])
+    @users = user.collect {|p| [ p['name'] +, p['id'] ] }
+    @users.unshift(['All', 0])
     @since = @until = nil
-    id = params[:company]
-    @time_trackings = @time_trackings.where(company_id: id) unless id.blank? || id == "0"
+    company_id = params[:company]
+    user_id = params[:user]
+    @time_trackings = @time_trackings.where(company_id: company_id) unless company_id.blank? || company_id == "0"
+    @time_trackings = @time_trackings.where(user_id: user_id) unless user_id.blank? || user_id == "0"
     if(!params[:since].blank? && !params[:until].blank?)
       @since = Date.parse(params[:since])
       @until = Date.parse(params[:until])
