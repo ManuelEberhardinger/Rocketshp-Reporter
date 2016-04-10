@@ -37,6 +37,8 @@ class GoogleAnalyticsController < ApplicationController
     all_profiles.items.each { |p|
       @profiles.push(p.to_h)
     }
+  rescue
+    redirect_if_not_logged_in
   end
 
   def options
