@@ -2,8 +2,7 @@ class InstagramController < ApplicationController
   CALLBACK_URL = 'http://localhost:3000/instagram/callback'.freeze
 
   def index
-    session[:instagram_company_id] = params[:id] unless params[:id].blank?
-    @company = Company.find(session[:instagram_company_id])
+    @company = current_company
 
     if session['instagram_auth_hash']
       client = Instagram.client(:access_token => session['instagram_auth_hash'])
@@ -38,6 +37,6 @@ class InstagramController < ApplicationController
 
   def logout
     session['instagram_auth_hash'] = false
-    redirect_to '/companies/' + session[:instagram_company_id].to_s
+    redirect_to current_company
   end
 end

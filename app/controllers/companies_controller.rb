@@ -63,6 +63,7 @@ class CompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
+    destroy_facebook_insights
     @company.destroy
     respond_to do |format|
       format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }
@@ -71,6 +72,13 @@ class CompaniesController < ApplicationController
   end
 
   private
+
+    # destroy collections of facebook insights
+    def destroy_facebook_insights
+      name = @company.name.split.join
+      FacebookInsights.destroy_collection(name)
+      FacebookInsights.destroy_collection(name.to_s + "_posts")
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_company
       @company = Company.find(params[:id])

@@ -1,7 +1,6 @@
 class TwitterController < ApplicationController
   def index
-    session[:twitter_company_id] = params[:id] unless params[:id].blank?
-    @company = Company.find(session[:twitter_company_id])
+    @company = current_company
 
     if session['twitter_auth_hash']
       @face = 'You are logged in! <a href="/twitter/logout">Logout</a>'
@@ -21,7 +20,7 @@ class TwitterController < ApplicationController
 
   def logout
     session['twitter_auth_hash'] = nil
-    redirect_to '/companies/' + session[:twitter_company_id].to_s
+    redirect_to current_company
   end
 
   def redirect_if_not_logged_in

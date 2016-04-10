@@ -46,4 +46,9 @@ class FacebookInsights
     connect_with_mongodb if @client.nil?
     0 != @client[collection_name].find().to_a.count
   end
+
+  def self.destroy_collection(name)
+    connect_with_mongodb if @client.nil?
+    @client[name].drop
+  end
 end

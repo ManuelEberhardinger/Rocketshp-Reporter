@@ -1,7 +1,6 @@
 class LinkedinController < ApplicationController
   def index
-    session[:linkedin_company_id] = params[:id] unless params[:id].blank?
-    @company = Company.find(session[:linkedin_company_id])
+    @company = current_company
 
     if session['linkedin_auth_hash']
       @client = LinkedIn::API.new(auth_hash["token"])
@@ -22,7 +21,7 @@ class LinkedinController < ApplicationController
 
   def logout
     session['linkedin_auth_hash'] = nil
-    redirect_to '/companies/' + session[:linkedin_company_id].to_s
+    redirect_to current_company
   end
 
   def redirect_if_not_logged_in
