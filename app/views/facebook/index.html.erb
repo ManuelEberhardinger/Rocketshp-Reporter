@@ -13,7 +13,6 @@ $(document).on('page:load', charts.init());
       <div class="input-group date">
         <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
       </div>
-      <%= select_tag "page_id", options_for_select(@pages.collect {|p| [ p['name'], p['id'] ] }), class: "form-control" %>
       <%= submit_tag('Fresh up data', class: 'btn btn-info') %>
     </div>
   <% end %>

@@ -2,8 +2,6 @@ class GoogleAnalyticsController < ApplicationController
   def index
     @company = current_company
     check_for_page_id_in_session
-    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since].blank?
-    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until].blank?
 
     if session['google_auth_hash'] && session['google_page_id']
       @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a>'
@@ -46,11 +44,15 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def redirect_if_not_logged_in
+    set_google_sessions_to_nil
+    redirect_to '/google_analytics/login_page'
+  end
+
+  def set_google_sessions_to_nil
     session['google_auth_hash'] = nil
     session['google_page_id'] = nil
     session['google_since'] = nil
     session['google_until'] = nil
-    redirect_to '/google_analytics/login_page'
   end
 
   def get_all_metrics
@@ -76,6 +78,9 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def check_since_and_until
+    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
+    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
+    session['google_since'] = session['google_until'] - 7 if session['google_since'] >= session['google_until']
     session['google_since'] = Date.today - 31 if session['google_since'].blank?
     session['google_until'] = Date.today - 1 if session['google_until'].blank?
   end
@@ -132,13 +137,6 @@ class GoogleAnalyticsController < ApplicationController
     @description_social_networks = params[:description_social_networks]
   end
 
-  def fresh_up_data
-    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
-    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
-    session['google_since'] = session['google_until'] - 7 if session['google_since'] >= session['google_until']
-    redirect_to '/google_analytics'
-  end
-
   def login_page
     @face = '<a href="/auth/google_oauth2">Login</a>'
   end
@@ -149,10 +147,7 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def logout
-    session['google_auth_hash'] = nil
-    session['google_page_id'] = nil
-    session['google_since'] = nil
-    session['google_until'] = nil
+    set_google_sessions_to_nil
     redirect_to '/companies/' + session[:google_company_id].to_s
   end
 
