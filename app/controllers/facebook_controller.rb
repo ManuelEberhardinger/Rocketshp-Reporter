@@ -37,14 +37,14 @@ class FacebookController < ApplicationController
   def create_client
     @graph = Koala::Facebook::API.new(session['fb_access_token'])
     @pages = @graph.get_object('me/accounts')
-  rescue
-    session['fb_access_token'] = nil
-    session['fb_page_id'] = nil
-    redirect_to "/facebook/login_page"
   end
 
   def options
     create_client
+  rescue
+    session['fb_access_token'] = nil
+    session['fb_page_id'] = nil
+    redirect_to "/facebook/login_page"
   end
 
   def get_all_posts
