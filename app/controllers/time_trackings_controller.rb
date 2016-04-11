@@ -9,7 +9,7 @@ class TimeTrackingsController < ApplicationController
     user = User.all
     @companies = companies.collect {|p| [ p['name'], p['id'] ] }
     @companies.unshift(['All', 0])
-    @users = user.collect {|p| [ p['name'] +, p['id'] ] }
+    @users = user.collect {|p| [ p['name'], p['id'] ] }
     @users.unshift(['All', 0])
     @since = @until = nil
     company_id = params[:company]
