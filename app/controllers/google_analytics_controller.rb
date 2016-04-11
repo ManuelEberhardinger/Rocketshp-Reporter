@@ -15,6 +15,22 @@ class GoogleAnalyticsController < ApplicationController
     redirect_if_not_logged_in
   end
 
+  def adwords
+    @company = current_company
+    check_for_page_id_in_session
+
+    if session['google_auth_hash'] && session['google_page_id']
+      @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a>'
+      get_all_adwords
+    elsif session['google_auth_hash']
+      redirect_to '/google_analytics/options'
+    else
+      redirect_if_not_logged_in
+    end
+  #rescue
+  #  redirect_if_not_logged_in
+  end
+
   def check_for_page_id_in_session
     if @company.social_id.google_analytics_id.blank? && !params[:page_id].blank?
       @company.social_id.google_analytics_id = "ga:" + params[:page_id].to_s
@@ -30,15 +46,15 @@ class GoogleAnalyticsController < ApplicationController
   def create_client
     @client = Google::Apis::AnalyticsV3::AnalyticsService.new
     @client.authorization = auth_hash['token']
+  end
+
+  def options
+    create_client
     all_profiles = @client.list_account_summaries
     @profiles = []
     all_profiles.items.each { |p|
       @profiles.push(p.to_h)
     }
-  end
-
-  def options
-    create_client
   rescue
     redirect_if_not_logged_in
   end
@@ -59,6 +75,7 @@ class GoogleAnalyticsController < ApplicationController
     create_client
     check_since_and_until
     @profile_id = session['google_page_id']
+
     @page_views = get_metric_from_api('ga:pageviews', 'ga:date')
     @sessions = get_metric_from_api('ga:sessions', 'ga:date')
     @new_returning_visitors = get_metric_from_api('ga:sessions', 'ga:usertype')
@@ -77,15 +94,31 @@ class GoogleAnalyticsController < ApplicationController
     @social_networks = get_metric_from_api('ga:sessions', 'ga:socialnetwork')
   end
 
+  def get_all_adwords
+    create_client
+    check_since_and_until
+    @profile_id = session['google_page_id']
+
+    @adwords_clicks = get_metric_from_api('ga:adclicks', "ga:campaign,ga:date")
+    prev_adwords_clicks = get_metric_from_api_30_days_ago('ga:adclicks')
+    @percent_adwords_clicks =  get_change(
+              @adwords_clicks.totals_for_all_results.values.first.to_f,
+              prev_adwords_clicks.rows.first.first.to_f)
+  end
+
   def check_since_and_until
-    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since] == ''
-    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until] == ''
-    session['google_since'] = session['google_until'] - 7 if session['google_since'] >= session['google_until']
+    session['google_since'] = Date.strptime(params[:since], '%m/%d/%Y') unless params[:since].blank?
+    session['google_until'] = Date.strptime(params[:until], '%m/%d/%Y') unless params[:until].blank?
+
+    if session['google_since'] && session['google_until']
+      session['google_since'] = session['google_until'] - 7 if session['google_since'] >= session['google_until']
+    end
+
     session['google_since'] = Date.today - 31 if session['google_since'].blank?
     session['google_until'] = Date.today - 1 if session['google_until'].blank?
   end
 
-  def get_metric_from_api(_metric, _dimensions, _segment = nil, _sort = nil)
+  def get_metric_from_api(_metric, _dimensions = nil, _segment = nil, _sort = nil)
     @client.get_ga_data(@profile_id,
                       Date.parse(session['google_since'].to_s).strftime('%F'),
                       Date.parse(session['google_until'].to_s).strftime('%F'),
@@ -95,16 +128,35 @@ class GoogleAnalyticsController < ApplicationController
                       sort: _sort)
   end
 
+  def get_metric_from_api_30_days_ago(_metric, _dimensions = nil, _segment = nil, _sort = nil)
+    @client.get_ga_data(@profile_id,
+                      Date.parse(session['google_since'].to_s).days_ago(30).strftime('%F'),
+                      Date.parse(session['google_until'].to_s).days_ago(30).strftime('%F'),
+                      _metric,
+                      dimensions: _dimensions,
+                      segment: _segment,
+                      sort: _sort)
+  end
+
+  def get_change(this_month, prev_month)
+    change = ((this_month - prev_month) / prev_month) * 100
+    '%.2f' % change
+  end
+
   def report
+    get_all_metrics
+    get_description_from_params
+    create_report('google_analytics/index.pdf.erb')
+  end
+
+  def create_report(template)
     @company = current_company
     check_for_page_id_in_session
-    get_description_from_params
-    get_all_metrics
     respond_to do |format|
       format.pdf do
         render  pdf: 'report',
                 layout: 'layouts/pdf.html',
-                template: 'google_analytics/index.pdf.erb',
+                template: template,
                 javascript_delay: 3000,
                 encoding: "UTF-8",
                 :margin => {:top                => 15,
@@ -116,6 +168,16 @@ class GoogleAnalyticsController < ApplicationController
                 }
       end
     end
+  end
+
+  def adwords_report
+    get_all_adwords
+    get_description_for_adwords
+    create_report('google_analytics/adwords.pdf.erb')
+  end
+
+  def get_description_for_adwords
+    @description_adwords_clicks = params[:description_adwords_clicks]
   end
 
   def get_description_from_params

@@ -1,0 +1,11 @@
+<h1 id="ga-pdf-cover">Google Adwords</h1>
+
+<p style='page-break-after:always;'></p>
+
+<h3>Clicks:
+  <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
+<h4><%= @percent_adwords_clicks %>%</h4>
+<%= column_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
+    {name: key, data: value}
+  }, stacked: false %>
+  <%= @description_adwords_clicks %>

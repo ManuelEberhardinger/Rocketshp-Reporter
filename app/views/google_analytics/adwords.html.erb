@@ -1,0 +1,39 @@
+<div id="data-block">
+  <h1>Google Adwords</h1>
+  <%= form_tag("/google_analytics/adwords", method: :get) do %>
+  <div class="form-inline">
+    <div class="input-group date">
+      <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+    <div class="input-group date">
+      <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-th"></i>
+      </span>
+    </div>
+    <%= submit_tag('Fresh up data', class: 'btn btn-primary') %>
+  </div>
+  <% end %>
+
+  <%= form_tag("/google_analytics/adwords_report.pdf", method: :post) do %>
+
+  <h3>Clicks:
+    <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
+  <h4><%= @percent_adwords_clicks %>%</h4>
+  <%= column_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
+      {name: key, data: value}
+    }, stacked: false %>
+  <%= text_area_tag(:description_adwords_clicks, "", class: "form-control", maxlength: "485", rows: 3) %>
+  <br><br>
+  <%= submit_tag("Create Report", class: "btn btn-primary") %>
+  <% end %>
+  <br>
+</div>
+
+<footer>
+  <%= @face.html_safe %> |
+  <%= link_to 'Back to Company Page', @company %>
+</footer>

@@ -37,8 +37,9 @@ Rails.application.routes.draw do
   get 'google_analytics/login_page'
   get 'auth/google_oauth2/callback' => 'google_analytics#callback'
   get 'google_analytics/logout'
-  get 'google_analytics/fresh_up_data'
+  get 'google_analytics/adwords'
   post 'google_analytics/report'
+  post 'google_analytics/adwords_report'
   get 'google_analytics/options'
 
   get 'login' => 'sessions#new'
