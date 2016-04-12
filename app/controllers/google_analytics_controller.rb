@@ -53,6 +53,7 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def options
+    @google_redirect_url = redirect_to_clicked_page
     create_client
     all_profiles = @client.list_account_summaries
     @profiles = []
@@ -102,7 +103,7 @@ class GoogleAnalyticsController < ApplicationController
     @profile_id = session['google_page_id']
 
     @adwords_clicks = get_metric_from_api('ga:adclicks', "ga:campaign,ga:date")
-    if @adwords_clicks.totals_for_all_results.blank?
+    if @adwords_clicks.rows.blank?
       redirect_to current_company, notice: 'No Google Adwords available.'
     end
     @prev_adwords_clicks = get_metric_from_api_30_days_ago('ga:adclicks')
@@ -205,8 +206,15 @@ class GoogleAnalyticsController < ApplicationController
 
   def callback
     auth_hash
-    redirect_to '/google_analytics' if session[:show_adwords] == false
-    redirect_to '/google_analytics/adwords' if session[:show_adwords] == true
+    redirect_to redirect_to_clicked_page
+  end
+
+  def redirect_to_clicked_page
+    if session[:show_adwords]
+      @google_redirect_url = '/google_analytics/adwords'
+    else
+      @google_redirect_url = '/google_analytics'
+    end
   end
 
   def logout
