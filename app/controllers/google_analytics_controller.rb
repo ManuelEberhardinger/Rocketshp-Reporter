@@ -1,5 +1,7 @@
 class GoogleAnalyticsController < ApplicationController
   def index
+    session[:show_adwords] = false
+    check_since_and_until
     @company = current_company
     check_for_page_id_in_session
 
@@ -16,6 +18,8 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def adwords
+    session[:show_adwords] = true
+    check_since_and_until
     @company = current_company
     check_for_page_id_in_session
 
@@ -27,8 +31,8 @@ class GoogleAnalyticsController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  #rescue
-  #  redirect_if_not_logged_in
+  rescue
+    redirect_if_not_logged_in
   end
 
   def check_for_page_id_in_session
@@ -73,7 +77,6 @@ class GoogleAnalyticsController < ApplicationController
 
   def get_all_metrics
     create_client
-    check_since_and_until
     @profile_id = session['google_page_id']
 
     @page_views = get_metric_from_api('ga:pageviews', 'ga:date')
@@ -96,14 +99,12 @@ class GoogleAnalyticsController < ApplicationController
 
   def get_all_adwords
     create_client
-    check_since_and_until
     @profile_id = session['google_page_id']
 
     @adwords_clicks = get_metric_from_api('ga:adclicks', "ga:campaign,ga:date")
-    prev_adwords_clicks = get_metric_from_api_30_days_ago('ga:adclicks')
-    @percent_adwords_clicks =  get_change(
-              @adwords_clicks.totals_for_all_results.values.first.to_f,
-              prev_adwords_clicks.rows.first.first.to_f)
+    @prev_adwords_clicks = get_metric_from_api_30_days_ago('ga:adclicks')
+    @adwords_campaigns = get_metric_from_api('ga:adclicks,ga:adcost,ga:cpc,ga:ctr', 'ga:campaign')
+    @prev_adwords_campaigns = get_metric_from_api_30_days_ago('ga:adclicks,ga:adcost,ga:cpc,ga:ctr', 'ga:campaign')
   end
 
   def check_since_and_until
@@ -136,11 +137,6 @@ class GoogleAnalyticsController < ApplicationController
                       dimensions: _dimensions,
                       segment: _segment,
                       sort: _sort)
-  end
-
-  def get_change(this_month, prev_month)
-    change = ((this_month - prev_month) / prev_month) * 100
-    '%.2f' % change
   end
 
   def report
@@ -178,6 +174,7 @@ class GoogleAnalyticsController < ApplicationController
 
   def get_description_for_adwords
     @description_adwords_clicks = params[:description_adwords_clicks]
+    @description_adwords_campaigns = params
   end
 
   def get_description_from_params
@@ -205,7 +202,8 @@ class GoogleAnalyticsController < ApplicationController
 
   def callback
     auth_hash
-    redirect_to '/google_analytics'
+    redirect_to '/google_analytics' if session[:show_adwords] == false
+    redirect_to '/google_analytics/adwords' if session[:show_adwords] == true
   end
 
   def logout

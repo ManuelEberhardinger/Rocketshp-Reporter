@@ -4,8 +4,16 @@
 
 <h3>Clicks:
   <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
-<h4><%= @percent_adwords_clicks %>%</h4>
-<%= column_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
+<h4><%= change_color(get_change(
+          @adwords_clicks.totals_for_all_results.values.first.to_f,
+          @prev_adwords_clicks.rows.first.first.to_f)).html_safe %></h4>
+<%= area_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
     {name: key, data: value}
-  }, stacked: false %>
-  <%= @description_adwords_clicks %>
+  }, stacked: true, discrete: true %>
+<%= @description_adwords_clicks %>
+
+<p style='page-break-after:always;'></p>
+
+<% format_campaigns(@adwords_campaigns.rows).each do |key, value| %>
+<%= render 'campaign_details', name: key, values: value, prev_hash: format_campaigns(@prev_adwords_campaigns.rows) %>
+<% end %>

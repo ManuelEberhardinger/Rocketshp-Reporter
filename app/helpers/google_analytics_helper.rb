@@ -14,6 +14,29 @@ module GoogleAnalyticsHelper
          end]
   end
 
+  def format_campaigns(data)
+    Hash[data.map do |item|
+      [item[0], Hash[
+          'clicks', item[1],
+          'cost', item[2],
+          'cpc', item[3],
+          'ctr', item[4]
+        ]
+      ]
+    end]
+  end
+
+  def get_change(this_month, prev_month)
+    this_month = this_month.to_f
+    prev_month = prev_month.to_f
+    change = ((this_month - prev_month) / prev_month) * 100
+    if change > 0
+      '+%.2f%' % change
+    else
+      '%.2f%' % change
+    end
+  end
+
   def round_values(data)
     data.each do |key, value|
       data[key] = '%.2f' % value
@@ -26,5 +49,21 @@ module GoogleAnalyticsHelper
 
   def geo_map_options
     options = { colorAxis: { colors: ['#e6ffe6', 'green'] }, legend: { textStyle: { fontSize: 10 } } }
+  end
+
+  def change_color(text)
+    if text.include? "+"
+      '<span class="label label-success">' + text + '</span>'
+    elsif text.include? "-"
+      '<span class="label label-danger">' + text + '</span>'
+    end
+  end
+
+  def change_color_reverse(text)
+    if text.include? "-"
+      '<span class="label label-success">' + text + '</span>'
+    elsif text.include? "+"
+      '<span class="label label-danger">' + text + '</span>'
+    end
   end
 end

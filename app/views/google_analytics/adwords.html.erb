@@ -20,13 +20,20 @@
 
   <%= form_tag("/google_analytics/adwords_report.pdf", method: :post) do %>
 
-  <h3>Clicks:
+  <h3>Clicks Overview:
     <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
-  <h4><%= @percent_adwords_clicks %>%</h4>
-  <%= column_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
+  <h4><%= change_color(get_change(
+            @adwords_clicks.totals_for_all_results.values.first.to_f,
+            @prev_adwords_clicks.rows.first.first.to_f)).html_safe %></h4>
+  <%= area_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
       {name: key, data: value}
-    }, stacked: false %>
+    }, stacked: true %>
   <%= text_area_tag(:description_adwords_clicks, "", class: "form-control", maxlength: "485", rows: 3) %>
+  <br>
+  <% format_campaigns(@adwords_campaigns.rows).each do |key, value| %>
+  <%= render 'campaign_details', name: key, values: value, prev_hash: format_campaigns(@prev_adwords_campaigns.rows) %>
+  <%= text_area_tag(key, "", class: "form-control", maxlength: "485", rows: 3) %>
+  <% end %>
   <br><br>
   <%= submit_tag("Create Report", class: "btn btn-primary") %>
   <% end %>

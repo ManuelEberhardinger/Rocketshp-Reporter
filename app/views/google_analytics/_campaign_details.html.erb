@@ -1,0 +1,26 @@
+<div class="row container-fluid">
+  <h3><%= name %></h3>
+
+  <div class="col-sm-3">
+    <h4>Cost</h4>
+    <%= values['cost'] %>$
+    <%= change_color(get_change(values['cost'], prev_hash[name]['cost'])).html_safe %>
+  </div>
+  <div class="col-sm-3">
+    <h4>Avg. CPC</h4>
+    <%= '%.2f' % values['cpc'] %>$
+    <%= change_color_reverse(get_change(values['cpc'], prev_hash[name]['cpc'])).html_safe %>
+  </div>
+
+  <div class="col-sm-3">
+    <h4>Clicks</h4>
+    <%= values['clicks'] %>
+    <%= change_color(get_change(values['clicks'], prev_hash[name]['clicks'])).html_safe %>
+  </div>
+    <div class="col-sm-3">
+      <h4>CTR</h4>
+      <%= '%.2f%' % values['ctr'] %>
+      <%= change_color(get_change(values['ctr'], prev_hash[name]['ctr'])).html_safe %>
+    </div>
+</div>
+<br>
