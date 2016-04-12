@@ -102,6 +102,9 @@ class GoogleAnalyticsController < ApplicationController
     @profile_id = session['google_page_id']
 
     @adwords_clicks = get_metric_from_api('ga:adclicks', "ga:campaign,ga:date")
+    if @adwords_clicks.totals_for_all_results.blank?
+      redirect_to current_company, notice: 'No Google Adwords available.'
+    end
     @prev_adwords_clicks = get_metric_from_api_30_days_ago('ga:adclicks')
     @adwords_campaigns = get_metric_from_api('ga:adclicks,ga:adcost,ga:cpc,ga:ctr', 'ga:campaign')
     @prev_adwords_campaigns = get_metric_from_api_30_days_ago('ga:adclicks,ga:adcost,ga:cpc,ga:ctr', 'ga:campaign')
