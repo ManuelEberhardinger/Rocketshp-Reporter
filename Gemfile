@@ -57,6 +57,9 @@ gem 'iso-639'
 # datepicker in bootstrap format
 gem 'bootstrap-datepicker-rails'
 
+# Use font awesome for brand glyphicons
+gem 'font-awesome-sass'
+
 # tools for creating the pdf file
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge'

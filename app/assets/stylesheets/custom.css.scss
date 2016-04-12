@@ -1,5 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 
@@ -68,4 +70,10 @@
   font-size: 60px;
   height: 25cm;
   line-height: 25cm;
+}
+
+#calendar-header {
+  text-align: center;
+  font-size: 30px;
+  font-family: 'Arial Black', 'Arial Bold';
 }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412050742) do
+ActiveRecord::Schema.define(version: 20160412220437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,15 @@ ActiveRecord::Schema.define(version: 20160412050742) do
   add_index "contacts", ["company_id"], name: "index_contacts_on_company_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "type"
+    t.string   "post_type"
     t.datetime "start_time"
     t.text     "post"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "company_id"
   end
+
+  add_index "posts", ["company_id"], name: "index_posts_on_company_id", using: :btree
 
   create_table "social_ids", force: :cascade do |t|
     t.integer  "company_id"
@@ -86,6 +89,7 @@ ActiveRecord::Schema.define(version: 20160412050742) do
   end
 
   add_foreign_key "contacts", "companies"
+  add_foreign_key "posts", "companies"
   add_foreign_key "social_ids", "companies"
   add_foreign_key "time_trackings", "companies"
   add_foreign_key "time_trackings", "users"

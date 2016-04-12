@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Company:</strong>
+  <%= @post.company.name %>
+</p>
+
+<p>
   <strong>Type:</strong>
-  <%= @post.type %>
+  <%= @post.post_type %>
 </p>
 
 <p>
@@ -17,3 +22,7 @@
 
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
+<% if current_user.admin? %>
+|
+<%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
