@@ -119,8 +119,8 @@ class GoogleAnalyticsController < ApplicationController
       session['google_since'] = session['google_until'] - 7 if session['google_since'] >= session['google_until']
     end
 
-    session['google_since'] = Date.today - 31 if session['google_since'].blank?
-    session['google_until'] = Date.today - 1 if session['google_until'].blank?
+    session['google_since'] = Date.today - 38 if session['google_since'].blank?
+    session['google_until'] = Date.today - 8 if session['google_until'].blank?
   end
 
   def get_metric_from_api(_metric, _dimensions = nil, _segment = nil, _sort = nil)
