@@ -24,10 +24,18 @@ class CompaniesController < ApplicationController
   # GET /companies/new
   def new
     @company = Company.new
+    respond_to do |format|
+      format.html # new.html.erb
+      format.js # new.js.erb
+    end
   end
 
   # GET /companies/1/edit
   def edit
+    respond_to do |format|
+      format.html # edit.html.erb
+      format.js # edit.js.erb
+    end
   end
 
   # POST /companies

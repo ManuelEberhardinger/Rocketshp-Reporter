@@ -17,10 +17,18 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new
     @contact.company_id = current_company.id
+    respond_to do |format|
+      format.html # new.html.erb
+      format.js # new.js.erb
+    end
   end
 
   # GET /contacts/1/edit
   def edit
+    respond_to do |format|
+      format.html # edit.html.erb
+      format.js # edit.js.erb
+    end
   end
 
   # POST /contacts

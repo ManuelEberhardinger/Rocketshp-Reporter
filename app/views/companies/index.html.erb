@@ -36,7 +36,7 @@
       <td>$<%= company.monthly_total.to_i %></td>
       <td>$<%= company.monthly_total.to_i * 12%></td>
       <td><%= link_to 'Show', company %></td>
-      <td><%= link_to 'Edit', edit_company_path(company) %></td>
+      <td><%= link_to 'Edit', edit_company_path(company), remote: true %></td>
       <% if current_user.admin? %>
       <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <% end %>
@@ -44,7 +44,7 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to 'New Company', new_company_path %>
+<%= link_to 'New Company', new_company_path, remote: true %>
 
 <div class="row vertical-align">
   <div class="col-sm-4">
@@ -60,5 +60,5 @@
     <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies.where(lost: @show_lost)) * 12).to_s + '</h3>').html_safe %>
   </div>
 </div>
-
+<%= render "layouts/modal" %>
 <br>

@@ -1,0 +1,6 @@
+$modal = $('.modal'),
+$modalBody = $('.modal .modal-body'),
+$modalHeading = $('.modal .modal-heading');
+$modalHeading.html("<%= @post.post_type %>");
+$modalBody.html("<%= escape_javascript(render @post) %>");
+$modal.modal();

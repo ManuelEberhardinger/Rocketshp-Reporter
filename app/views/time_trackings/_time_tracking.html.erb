@@ -1,0 +1,31 @@
+<p>
+  <strong>Total Value:</strong>
+  <%= @time_tracking.hourly_rate * @time_tracking.spent_time %>$
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @time_tracking.company.name %>
+</p>
+
+<p>
+  <strong>Spent Time</strong>
+  <%= @time_tracking.spent_time %>h
+</p>
+
+<p>
+  <strong>Hourly Rate:</strong>
+  <%= @time_tracking.hourly_rate %>$
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @time_tracking.date %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <div class="well">
+    <%= @time_tracking.description %>
+  </div>
+</p>

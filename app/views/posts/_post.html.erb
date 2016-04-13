@@ -1,0 +1,27 @@
+<p>
+  <strong>Company:</strong>
+  <%= @post.company.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @post.post_type %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @post.start_time %>
+</p>
+
+<p>
+  <strong>Post:</strong><br>
+  <div class="well">
+    <%= @post.post %>
+  </div>
+</p>
+
+<%= link_to 'Edit', edit_post_path(@post), remote: true %>
+<% if current_user.admin? %>
+|
+<%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>

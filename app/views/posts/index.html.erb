@@ -1,13 +1,16 @@
 <p id="notice"><%= notice %></p>
 
 <%= month_calendar events: @posts do |date, posts| %>
+<div class="navbar-right container-fluid">
   <%= date.day %>
-  <% posts.each do |post| %>
-    <div>
-      <%= link_to format_company_name_and_symbol(post), post %>
-    </div>
-  <% end %>
+</div>
+<% posts.each do |post| %>
+<div>
+  <%= link_to format_company_name_and_symbol(post), post, remote: true %>
+</div>
 <% end %>
+<% end %>
+<%= render "layouts/modal" %>
 
 <div class="footer">
   <% get_all_post_types.each do |key, value| %>
@@ -15,35 +18,3 @@
   <%= "|" unless key == get_all_post_types.keys.last %>
   <% end %>
 </div>
-
-<h1>Listing Posts</h1>
-
-<table class=table>
-  <thead>
-    <tr>
-      <th>Company</th>
-      <th>Type</th>
-      <th>Start time</th>
-      <th>Post</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
-      <tr>
-        <td><%= post.company.name %></td>
-        <td><%= format_type_name_and_symbol(post.post_type) %></td>
-        <td><%= post.start_time %></td>
-        <td><%= post.post %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Post', new_post_path %>
