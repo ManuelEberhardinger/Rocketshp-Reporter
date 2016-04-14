@@ -1,22 +1,27 @@
-<%= form_tag("/facebook", method: :get) do %>
-<div class="modal-body">
-  <div class="form-inline">
-    <div class="input-group date">
-      <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-th"></i>
-      </span>
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar' %>
+</div>
+<div class="col-sm-10">
+  <%= form_tag("/facebook", method: :get) do %>
+  <div class="modal-body">
+    <div class="form-inline">
+      <div class="input-group date">
+        <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
+        <span class="input-group-addon">
+          <i class="glyphicon glyphicon-th"></i>
+        </span>
+      </div>
+      <div class="input-group date">
+        <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
+        <span class="input-group-addon">
+          <i class="glyphicon glyphicon-th"></i>
+        </span>
+      </div>
+      <%= select_tag :page_id, options_for_select(@pages.collect {|p| [ p['name'], p['id'] ] }), class: "form-control" %>
     </div>
-    <div class="input-group date">
-      <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-th"></i>
-      </span>
-    </div>
-    <%= select_tag :page_id, options_for_select(@pages.collect {|p| [ p['name'], p['id'] ] }), class: "form-control" %>
   </div>
+  <div class="modal-footer">
+    <%= submit_tag('Submit', class: 'btn btn-success') %>
+  </div>
+  <% end %>
 </div>
-<div class="modal-footer">
-  <%= submit_tag('Submit', class: 'btn btn-success') %>
-</div>
-<% end %>

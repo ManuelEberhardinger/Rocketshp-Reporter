@@ -1,12 +1,7 @@
 <h1>Listing Time Trackings</h1>
 <h4>Total Value:
   <%= sum_up_total_value_of_time_trackings(@time_trackings) %>$</h4>
-<% if notice %>
-<div class="alert alert-info">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <p><%= notice %></p>
-</div>
-<% end %>
+  
 <%= form_tag("/time_trackings", method: :get) do %>
 <div class="form-inline">
   <div class="input-group date">
@@ -64,5 +59,5 @@
     <% end %>
   </tbody>
 </table>
-<%= render "layouts/modal" %>
+
 <br>

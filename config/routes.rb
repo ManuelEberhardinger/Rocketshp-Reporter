@@ -46,4 +46,8 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login'   => 'sessions#create'
   get 'logout'  => 'sessions#destroy'
+
+  get 'companies_calendar' => 'companies#calendar'
+  get 'client_information' => 'companies#client_information'
+  get 'client_contacts' => 'companies#client_contacts'
 end

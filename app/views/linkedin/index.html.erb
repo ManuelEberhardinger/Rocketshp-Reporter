@@ -1,8 +1,14 @@
-<div id="data-block">
-  <h1>LinkedIn</h1>
-  <%= @return.to_h %>
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar' %>
 </div>
-<footer>
-  <%= @face.html_safe %> |
-  <%= link_to 'Back to Company Page', @company %>
-</footer>
+<div class="col-sm-10">
+  <div id="data-block">
+    <h1>LinkedIn</h1>
+    <%= @return.to_h %>
+  </div>
+  <footer>
+    <%= @face.html_safe %>
+    |
+    <%= link_to 'Back to Company Page', @company %>
+  </footer>
+</div>

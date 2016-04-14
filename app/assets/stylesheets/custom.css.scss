@@ -7,21 +7,23 @@
 
 .row.content {
     height: 100vh;
+    margin-left: -30px;
+    margin-top: -20px;
+    display: block;
+    width: inherit;
+    background-color: #f1f1f1;
 }
-
 
 /* Set gray background color and 100% height */
 
 .sidenav {
-    background-color: #f1f1f1;
-    height: 100%;
     position: fixed;
-    float: left;
+    margin: 0px;
+    padding: 15px;
 }
 
-.logo {
-    width: 100%;
-    height: auto;
+#company-name {
+  text-align: center;
 }
 
 /* like the bootstrap divider but in blue */
@@ -74,7 +76,7 @@
 
 .calendar-header {
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   font-family: 'Arial Black', 'Arial Bold';
 }
 

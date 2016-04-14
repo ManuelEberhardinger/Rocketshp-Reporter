@@ -1,156 +1,162 @@
-<div id="data-block">
-  <h1>Google Analytics</h1>
-  <%= form_tag("/google_analytics", method: :get) do %>
-  <div class="form-inline">
-    <div class="input-group date">
-      <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-th"></i>
-      </span>
-    </div>
-    <div class="input-group date">
-      <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-th"></i>
-      </span>
-    </div>
-    <%= submit_tag('Fresh up data', class: 'btn btn-primary') %>
-  </div>
-  <% end %>
-
-  <%= form_tag("/google_analytics/report.pdf", method: :post) do %>
-
-  <h3>Page Views:
-    <%= @page_views.totals_for_all_results.values.first %></h3>
-  <%= area_chart format_data_to_display(@page_views.rows) %>
-  <%= text_area_tag(:description_page_views, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Sessions:
-    <%= @sessions.totals_for_all_results.values.first %></h3>
-  <%= area_chart format_data_to_display(@sessions.rows) %>
-  <%= text_area_tag(:description_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>New and Returning Visitors</h3>
-  <%= pie_chart @new_returning_visitors.rows.to_h %>
-  <%= text_area_tag(:description_new_returning_visitors, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Users:
-    <%= @users.totals_for_all_results.values.first %></h3>
-  <%= area_chart format_data_to_display(@users.rows) %>
-  <%= text_area_tag(:description_users, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Pages / Session:
-    <%= '%.2f' % @page_views_per_session.totals_for_all_results.values.first %></h3>
-  <%= area_chart round_values format_data_to_display(@page_views_per_session.rows) %>
-  <%= text_area_tag(:description_pages_per_session, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Avg. Session Duration:
-    <%= '%.2f' % @avg_session_duration.totals_for_all_results.values.first %></h3>
-  <%= area_chart round_values format_data_to_display(@avg_session_duration.rows) %>
-  <%= text_area_tag(:description_avg_session_duration, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Bounce Rate:
-    <%= '%.2f' % @bounce_rate.totals_for_all_results.values.first %></h3>
-  <%= area_chart round_values format_data_to_display(@bounce_rate.rows) %>
-  <%= text_area_tag(:description_bounce_rate, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>% New Sessions:
-    <%= '%.2f' % @percent_new_sessions.totals_for_all_results.values.first %></h3>
-  <%= area_chart round_values format_data_to_display(@percent_new_sessions.rows) %>
-  <%= text_area_tag(:description_percent_new_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Device Category</h3>
-  <%= pie_chart @device_category.rows.to_h %>
-  <%= text_area_tag(:description_device_category, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Mobile Operating System</h3>
-  <%= pie_chart @mobile_os.rows.to_h %>
-  <%= text_area_tag(:description_mobile_os, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Browsers</h3>
-  <%= pie_chart @browser_sessions.rows.to_h %>
-  <%= text_area_tag(:description_browser_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Avg. Page Load Time:
-    <%= '%.2f' % @avg_page_load_time.totals_for_all_results.values.first %></h3>
-  <%= area_chart round_values format_data_to_display(@avg_page_load_time.rows) %>
-  <%= text_area_tag(:description_avg_page_load_time, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Channels</h3>
-  <table class="table table-striped table-condensed">
-    <col width="80%">
-    <col width="20%">
-    <tr>
-      <th>Default Channel Grouping</th>
-      <th>Sessions</th>
-    </tr>
-    <% @channel_grouping.rows.to_h.each do |key, value| %>
-    <tr>
-      <td><%= key %></td>
-      <td><%= value %></td>
-    </tr>
-    <% end %>
-  </table>
-  <%= text_area_tag(:description_channel_grouping, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Best 10 Source / Medium</h3>
-  <table class="table table-striped table-condensed">
-    <col width="80%">
-    <col width="20%">
-    <tr>
-      <th>Source / Medium</th>
-      <th>Sessions</th>
-    </tr>
-    <% @source_medium.rows.to_h.first(10).each do |key, value| %>
-    <tr>
-      <td><%= key %></td>
-      <td><%= value %></td>
-    </tr>
-    <% end %>
-  </table>
-  <%= text_area_tag(:description_source_medium, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Best 10 Landing Pages</h3>
-  <table class="table table-striped table-condensed">
-    <col width="80%">
-    <col width="20%">
-    <tr>
-      <th>Landing Page</th>
-      <th>Sessions</th>
-    </tr>
-    <% @landing_pages.rows.to_h.first(10).each do |key, value| %>
-    <tr>
-      <td><%= key %></td>
-      <td><%= value %></td>
-    </tr>
-    <% end %>
-  </table>
-  <%= text_area_tag(:description_landing_pages, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <h3>Social Networks</h3>
-  <table class="table table-striped table-condensed">
-    <col width="80%">
-    <col width="20%">
-    <tr>
-      <th>Social Network</th>
-      <th>Sessions</th>
-    </tr>
-    <% @social_networks.rows.to_h.each do |key, value| %>
-    <tr>
-      <td><%= key %></td>
-      <td><%= value %></td>
-    </tr>
-    <% end %>
-  </table>
-  <%= text_area_tag(:description_social_networks, "", class: "form-control", maxlength: "485", rows: 3) %>
-
-  <br><br>
-  <%= submit_tag("Create Report", class: "btn btn-primary") %>
-  <% end %>
-  <br>
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar' %>
 </div>
+<div class="col-sm-10">
+  <div id="data-block">
+    <h1>Google Analytics</h1>
+    <%= form_tag("/google_analytics", method: :get) do %>
+    <div class="form-inline">
+      <div class="input-group date">
+        <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
+        <span class="input-group-addon">
+          <i class="glyphicon glyphicon-th"></i>
+        </span>
+      </div>
+      <div class="input-group date">
+        <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
+        <span class="input-group-addon">
+          <i class="glyphicon glyphicon-th"></i>
+        </span>
+      </div>
+      <%= submit_tag('Fresh up data', class: 'btn btn-primary') %>
+    </div>
+    <% end %>
 
-<footer>
-  <%= @face.html_safe %> |
-  <%= link_to 'Back to Company Page', @company %>
-</footer>
+    <%= form_tag("/google_analytics/report.pdf", method: :post) do %>
+
+    <h3>Page Views:
+      <%= @page_views.totals_for_all_results.values.first %></h3>
+    <%= area_chart format_data_to_display(@page_views.rows) %>
+    <%= text_area_tag(:description_page_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Sessions:
+      <%= @sessions.totals_for_all_results.values.first %></h3>
+    <%= area_chart format_data_to_display(@sessions.rows) %>
+    <%= text_area_tag(:description_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>New and Returning Visitors</h3>
+    <%= pie_chart @new_returning_visitors.rows.to_h %>
+    <%= text_area_tag(:description_new_returning_visitors, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Users:
+      <%= @users.totals_for_all_results.values.first %></h3>
+    <%= area_chart format_data_to_display(@users.rows) %>
+    <%= text_area_tag(:description_users, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Pages / Session:
+      <%= '%.2f' % @page_views_per_session.totals_for_all_results.values.first %></h3>
+    <%= area_chart round_values format_data_to_display(@page_views_per_session.rows) %>
+    <%= text_area_tag(:description_pages_per_session, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Avg. Session Duration:
+      <%= '%.2f' % @avg_session_duration.totals_for_all_results.values.first %></h3>
+    <%= area_chart round_values format_data_to_display(@avg_session_duration.rows) %>
+    <%= text_area_tag(:description_avg_session_duration, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Bounce Rate:
+      <%= '%.2f' % @bounce_rate.totals_for_all_results.values.first %></h3>
+    <%= area_chart round_values format_data_to_display(@bounce_rate.rows) %>
+    <%= text_area_tag(:description_bounce_rate, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>% New Sessions:
+      <%= '%.2f' % @percent_new_sessions.totals_for_all_results.values.first %></h3>
+    <%= area_chart round_values format_data_to_display(@percent_new_sessions.rows) %>
+    <%= text_area_tag(:description_percent_new_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Device Category</h3>
+    <%= pie_chart @device_category.rows.to_h %>
+    <%= text_area_tag(:description_device_category, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Mobile Operating System</h3>
+    <%= pie_chart @mobile_os.rows.to_h %>
+    <%= text_area_tag(:description_mobile_os, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Browsers</h3>
+    <%= pie_chart @browser_sessions.rows.to_h %>
+    <%= text_area_tag(:description_browser_sessions, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Avg. Page Load Time:
+      <%= '%.2f' % @avg_page_load_time.totals_for_all_results.values.first %></h3>
+    <%= area_chart round_values format_data_to_display(@avg_page_load_time.rows) %>
+    <%= text_area_tag(:description_avg_page_load_time, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Channels</h3>
+    <table class="table table-striped table-condensed">
+      <col width="80%">
+      <col width="20%">
+      <tr>
+        <th>Default Channel Grouping</th>
+        <th>Sessions</th>
+      </tr>
+      <% @channel_grouping.rows.to_h.each do |key, value| %>
+      <tr>
+        <td><%= key %></td>
+        <td><%= value %></td>
+      </tr>
+      <% end %>
+    </table>
+    <%= text_area_tag(:description_channel_grouping, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Best 10 Source / Medium</h3>
+    <table class="table table-striped table-condensed">
+      <col width="80%">
+      <col width="20%">
+      <tr>
+        <th>Source / Medium</th>
+        <th>Sessions</th>
+      </tr>
+      <% @source_medium.rows.to_h.first(10).each do |key, value| %>
+      <tr>
+        <td><%= key %></td>
+        <td><%= value %></td>
+      </tr>
+      <% end %>
+    </table>
+    <%= text_area_tag(:description_source_medium, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Best 10 Landing Pages</h3>
+    <table class="table table-striped table-condensed">
+      <col width="80%">
+      <col width="20%">
+      <tr>
+        <th>Landing Page</th>
+        <th>Sessions</th>
+      </tr>
+      <% @landing_pages.rows.to_h.first(10).each do |key, value| %>
+      <tr>
+        <td><%= key %></td>
+        <td><%= value %></td>
+      </tr>
+      <% end %>
+    </table>
+    <%= text_area_tag(:description_landing_pages, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <h3>Social Networks</h3>
+    <table class="table table-striped table-condensed">
+      <col width="80%">
+      <col width="20%">
+      <tr>
+        <th>Social Network</th>
+        <th>Sessions</th>
+      </tr>
+      <% @social_networks.rows.to_h.each do |key, value| %>
+      <tr>
+        <td><%= key %></td>
+        <td><%= value %></td>
+      </tr>
+      <% end %>
+    </table>
+    <%= text_area_tag(:description_social_networks, "", class: "form-control", maxlength: "485", rows: 3) %>
+
+    <br><br>
+    <%= submit_tag("Create Report", class: "btn btn-primary") %>
+    <% end %>
+    <br>
+  </div>
+
+  <footer>
+    <%= @face.html_safe %>
+    |
+    <%= link_to 'Back to Company Page', @company %>
+  </footer>
+</div>

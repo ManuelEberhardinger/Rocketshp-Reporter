@@ -4,13 +4,6 @@
 <h1>Listing Companies</h1>
 <% end %>
 
-<% if notice %>
-<div class="alert alert-info">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <p><%= notice %></p>
-</div>
-<% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -60,5 +53,4 @@
     <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies.where(lost: @show_lost)) * 12).to_s + '</h3>').html_safe %>
   </div>
 </div>
-<%= render "layouts/modal" %>
 <br>

@@ -1,12 +1,5 @@
 <h3>Time tracked by <%= @time_tracking.user.name %></h3>
 
-<% if notice %>
-<div class="alert alert-info">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <p><%= notice %></p>
-</div>
-<% end %>
-
 <%= render @time_tracking %>
 
 <%= link_to "Back", :back %>

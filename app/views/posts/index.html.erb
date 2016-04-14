@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 
 <%= month_calendar events: @posts do |date, posts| %>
 <div class="navbar-right container-fluid">
@@ -10,7 +9,6 @@
 </div>
 <% end %>
 <% end %>
-<%= render "layouts/modal" %>
 
 <div class="footer">
   <% get_all_post_types.each do |key, value| %>

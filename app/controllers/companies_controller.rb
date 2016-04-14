@@ -21,6 +21,18 @@ class CompaniesController < ApplicationController
     @time_trackings = @company.time_trackings.where("date >= ?", Date.today.beginning_of_month).where("date <= ?", Date.today.end_of_month)
   end
 
+  def calendar
+    @company = current_company
+  end
+
+  def client_information
+    @company = current_company
+  end
+
+  def client_contacts
+    @company = current_company
+  end
+
   # GET /companies/new
   def new
     @company = Company.new

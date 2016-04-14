@@ -1,12 +1,5 @@
 <h1>Users</h1>
 
-<% if notice %>
-<div class="alert alert-info">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <p><%= notice %></p>
-</div>
-<% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -39,5 +32,5 @@
 <% if current_user.admin? %>
 <%= link_to 'New User', new_user_path, remote: true %>
 <% end %>
-<%= render "layouts/modal" %>
+
 <br>

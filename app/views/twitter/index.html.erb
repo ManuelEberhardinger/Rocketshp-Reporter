@@ -1,10 +1,15 @@
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar' %>
+</div>
+<div class="col-sm-10">
+  <% @timeline.each do |value| %>
+  <%= value.text %>
+  <br>
+  <% end %>
 
-<% @timeline.each do |value| %>
-<%= value.text %>
-<br>
-<% end %>
-
-<footer>
-  <%= @face.html_safe %> |
-  <%= link_to 'Back to Company Page', @company %>
-</footer>
+  <footer>
+    <%= @face.html_safe %>
+    |
+    <%= link_to 'Back to Company Page', @company %>
+  </footer>
+</div>

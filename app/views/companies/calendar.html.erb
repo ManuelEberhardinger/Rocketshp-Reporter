@@ -1,0 +1,18 @@
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar' %>
+</div>
+<div class="col-sm-10">
+  <div class="row">
+    <div class="container-fluid">
+      <%= month_calendar events: @company.posts do |date, posts| %>
+      <div class="navbar-right container-fluid">
+        <%= date.day %>
+      </div>
+      <% posts.each do |post| %>
+      <%= link_to get_all_post_types[post.post_type].html_safe, post, remote: true %>
+      <% end %>
+      <% end %>
+      <%= link_to "New Post", new_post_path, remote: true %>
+    </div>
+  </div>
+</div>
