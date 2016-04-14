@@ -50,7 +50,7 @@ class FacebookController < ApplicationController
   def get_all_posts
     name = @page.to_s + '_posts'
 
-    FacebookInsights.connect_with_mongodb('facebookdb')
+    FacebookInsights.connect_with_mongodb
 
     if FacebookInsights.collection_exists?(name) == false
       fresh_up_data_without_redirect("")
@@ -75,7 +75,7 @@ class FacebookController < ApplicationController
 
   def get_insights_variables
     name = @page
-    FacebookInsights.connect_with_mongodb('facebookdb')
+    FacebookInsights.connect_with_mongodb
 
     if FacebookInsights.collection_exists?(name) == false
       fresh_up_data_without_redirect("")
