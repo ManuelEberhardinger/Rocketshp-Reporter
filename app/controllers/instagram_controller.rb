@@ -1,5 +1,5 @@
 class InstagramController < ApplicationController
-  CALLBACK_URL = 'http://localhost:3000/instagram/callback'.freeze
+  CALLBACK_URL = 'https://quiet-peak-67098.herokuapp.com/instagram/callback'.freeze
 
   def index
     @company = current_company
