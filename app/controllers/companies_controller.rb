@@ -33,6 +33,10 @@ class CompaniesController < ApplicationController
     @company = current_company
   end
 
+  def content_distribution
+    @posts = current_company.posts.where("start_time >= ?", Date.today.beginning_of_month).where("start_time <= ?", Date.today.end_of_month)
+  end
+
   # GET /companies/new
   def new
     @company = Company.new

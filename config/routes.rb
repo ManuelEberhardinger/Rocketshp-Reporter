@@ -50,4 +50,5 @@ Rails.application.routes.draw do
   get 'companies_calendar' => 'companies#calendar'
   get 'client_information' => 'companies#client_information'
   get 'client_contacts' => 'companies#client_contacts'
+  get 'content_distribution' => 'companies#content_distribution'
 end

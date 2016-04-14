@@ -1,0 +1,7 @@
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar' %>
+</div>
+<div class="col-sm-10">
+  <h3>Content Distribution</h3>
+  <%= pie_chart @posts.group(:post_type).count %>
+</div>
