@@ -38,7 +38,7 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to @contact.company, notice: 'Contact was successfully created.' }
+        format.html { redirect_to "/client_contacts", notice: 'Contact was successfully created.' }
         format.json { render :show, status: :created, location: @contact }
       else
         format.html { render :new }
