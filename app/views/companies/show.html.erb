@@ -112,7 +112,7 @@
 
 <div class="row">
   <div class="container-fluid">
-    <%= week_calendar number_of_weeks: 1, events: @company.posts do |date, posts| %>
+    <%= month_calendar events: @company.posts do |date, posts| %>
     <div class="navbar-right container-fluid">
       <%= date.day %>
     </div>
