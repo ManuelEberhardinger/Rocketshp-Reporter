@@ -2,18 +2,27 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="http://www.rocketshp.com" target="blank">Rocketshp</a>
+        <a class="navbar-brand" href="http://www.rocketshp.com" target="blank">
+          <%= image_tag "logo-trans-white01.png", height: "30", class: "navbar-logo" %>
+        </a>
       </div>
-      <ul class="nav navbar-nav">
-        <li><%= link_to 'Companies', companies_path %></li>
-        <li><%= link_to 'Lost Companies', companies_path(show_lost: true) %></li>
-        <li><%= link_to 'Users', users_path %></li>
-        <li><%= link_to 'Contacts', contacts_path %></li>
-        <li><%= link_to 'Time Trackings', time_trackings_path %></li>
-        <li><%= link_to 'Calendar', posts_path %></li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to 'Logout', logout_path %></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Menu
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Companies', companies_path %></li>
+            <li><%= link_to 'Lost Companies', companies_path(show_lost: true) %></li>
+            <li><%= link_to 'Users', users_path %></li>
+            <li><%= link_to 'Contacts', contacts_path %></li>
+            <li><%= link_to 'Time Trackings', time_trackings_path %></li>
+            <li><%= link_to 'Calendar', posts_path %></li>
+            <li class="divider"></li>
+            <li><%= link_to 'Logout', logout_path %></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
