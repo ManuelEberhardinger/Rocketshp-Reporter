@@ -51,4 +51,5 @@ Rails.application.routes.draw do
   get 'client_information' => 'companies#client_information'
   get 'client_contacts' => 'companies#client_contacts'
   get 'content_distribution' => 'companies#content_distribution'
+  get 'create_post_report' => 'companies#create_post_report'
 end

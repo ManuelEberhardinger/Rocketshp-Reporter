@@ -3,4 +3,5 @@ class Post < ActiveRecord::Base
   validates :post_type, presence: true
   validates :start_time, presence: true
   validates :post, presence: true
+  validates :title, presence: true
 end

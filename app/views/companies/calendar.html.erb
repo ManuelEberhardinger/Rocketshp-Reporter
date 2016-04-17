@@ -12,7 +12,8 @@
       <%= link_to get_all_post_types[post.post_type].html_safe, post, remote: true %>
       <% end %>
       <% end %>
-      <%= link_to "New Post", new_post_path, remote: true %>
+      <%= link_to "New Post", new_post_path, remote: true %> |
+      <%= link_to "Create Report", "create_post_report.pdf", remote: true %>
     </div>
   </div>
 </div>

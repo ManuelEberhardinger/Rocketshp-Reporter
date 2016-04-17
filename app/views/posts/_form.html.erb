@@ -17,6 +17,11 @@
   </div>
   <br>
   <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+  <br>
+  <div class="field">
     <%= f.label :post_type %><br>
     <%= f.collection_select :post_type, get_all_post_types.keys, :to_s, :to_s, class: "form-control" %>
   </div>

@@ -56,7 +56,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to @post.company, notice: 'Post was successfully updated.' }
+        format.html { redirect_to "/companies_calendar", notice: 'Post was successfully updated.' }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit }
@@ -84,6 +84,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:company_id, :post_type, :start_time, :post)
+      params.require(:post).permit(:company_id, :post_type, :start_time, :post, :title)
     end
 end

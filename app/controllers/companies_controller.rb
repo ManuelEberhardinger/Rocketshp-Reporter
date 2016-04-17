@@ -37,6 +37,26 @@ class CompaniesController < ApplicationController
     @posts = current_company.posts.where("start_time >= ?", Date.today.beginning_of_month).where("start_time <= ?", Date.today.end_of_month)
   end
 
+  def create_post_report
+    @company = current_company
+    @posts = @company.posts.where("start_time >= ?", Date.today.beginning_of_month).where("start_time <= ?", Date.today.end_of_month)
+    respond_to do |format|
+      format.pdf do
+        render  pdf: 'report',
+                layout: 'layouts/pdf.html',
+                template: 'companies/posts.pdf.erb',
+                encoding: "UTF-8",
+                :margin => {:top                => 15,
+                            :bottom             => 10,
+                            :left               => 20,
+                            :right              => 20},
+                :footer => {
+                  :content => render_to_string(:template => 'layouts/footer.pdf.erb')
+                }
+      end
+    end
+  end
+
   # GET /companies/new
   def new
     @company = Company.new
