@@ -57,11 +57,11 @@
       <h3>Income</h3>
       <%= pie_chart get_total_values_to_display(@time_trackings, @company.monthly_total) %>
     </div>
+    <% end %>
+    <% if @time_trackings.count > 0 %>
     <div class="col-sm-4">
-      <% if @time_trackings.count > 0 %>
       <h3>Employees</h3>
       <%= column_chart get_spent_time_of_employees(@time_trackings) %>
-      <% end %>
     </div>
     <% end %>
   </div>
