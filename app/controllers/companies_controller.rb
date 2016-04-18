@@ -5,13 +5,18 @@ class CompaniesController < ApplicationController
   # GET /companies
   # GET /companies.json
   def index
-    if params[:show_lost]
-      @show_lost = params[:show_lost]
+    if params[:status]
+      @status = params[:status]
     else
-      @show_lost = false
+      @status = nil
     end
 
-    @companies = Company.all
+    if @status
+      @companies = Company.where(status: @status)
+    else
+      @companies = Company.where(status: 1) # get all active clients
+      @pipeline = Company.where(status: 2) # get all clients in the pipeline
+    end
   end
 
   # GET /companies/1
@@ -105,6 +110,7 @@ class CompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @company.update(company_params)
+        remember_company(@company)
         format.html { redirect_to "/client_information", notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @company }
       else
@@ -140,6 +146,6 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :address, :lost, :total_hours)
+      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :address, :status, :total_hours)
     end
 end

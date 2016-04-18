@@ -1,4 +1,5 @@
 module CompaniesHelper
+  # sum up the total revenue of all companies
   def sum_up_monthly_total(values)
     sum = 0
     values.each { |v|
@@ -7,6 +8,7 @@ module CompaniesHelper
     sum
   end
 
+  # calculate the total amount money used with the spent time
   def sum_up_total_value_of_time_trackings(values)
     sum = 0
     values.each { |v|
@@ -15,6 +17,7 @@ module CompaniesHelper
     sum
   end
 
+  # format data to display it in a pie chart (hours of time trackings)
   def sum_up_total_hours_to_display(values, total)
     return {} if total.blank?
     hours = {}
@@ -29,6 +32,7 @@ module CompaniesHelper
     hours
   end
 
+  # format data to display it in a pie chart (money)
   def get_total_values_to_display(values, total)
     return {} if total.blank?
     sum = sum_up_total_value_of_time_trackings(values)
@@ -40,6 +44,7 @@ module CompaniesHelper
     money
   end
 
+  # sum up the time of every single employee to create a chart
   def get_spent_time_of_employees(values)
     return {} if values.nil?
     employees = Hash.new(0)
@@ -49,6 +54,7 @@ module CompaniesHelper
     employees
   end
 
+  # check for which month the post report should be created
   def get_month_for_posts_report(start_date)
     if start_date.blank?
       "create_post_report.pdf"
@@ -57,11 +63,45 @@ module CompaniesHelper
     end
   end
 
+  # for creating header in the post pdf report.
   def get_month(start_date)
     if start_date.blank?
       Date.today.strftime("%B")
     else
       start_date.strftime("%B")
+    end
+  end
+
+  # get the headline of the dashboard, depends on the status
+  def get_header(status)
+    if status == "1"
+      "Active Clients"
+    elsif status == "2"
+      "Pipeline"
+    elsif status == "3"
+      "Lost Clients"
+    else
+      "Dashboard"
+    end
+  end
+
+  # status collection for the collection_select tag
+  def get_status_collection
+    status_hash = [
+      [1, 'Active'],
+      [2, 'Pipeline'],
+      [3, 'Lost']
+    ]
+  end
+
+  # maps the status to the name
+  def get_name_of_status(status)
+    if status == 1
+      "Active"
+    elsif status == 2
+      "Pipeline"
+    elsif status == 3
+      "Lost"
     end
   end
 end

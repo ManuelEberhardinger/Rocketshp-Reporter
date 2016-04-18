@@ -1,14 +1,9 @@
-<% if @show_lost %>
-<h1>Lost Companies</h1>
-<% else %>
-<h1>Listing Companies</h1>
-<% end %>
+<h1><%= get_header(@status) %></h1>
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
       <th>Lead source</th>
       <th>Job types</th>
       <th>Website</th>
@@ -19,10 +14,9 @@
   </thead>
 
   <tbody>
-    <% @companies.where(lost: @show_lost).each do |company| %>
+    <% @companies.each do |company| %>
     <tr>
       <td><%= company.name %></td>
-      <td><%= company.description %></td>
       <td><%= company.lead_source %></td>
       <td><%= company.job_types %></td>
       <td><%= link_to company.website, company.website, target: 'blank' %></td>
@@ -42,15 +36,18 @@
 <div class="row vertical-align">
   <div class="col-sm-4">
     <h3>Lead Source</h3>
-    <%= pie_chart @companies.where(lost: @show_lost).group(:lead_source).count %>
+    <%= pie_chart @companies.group(:lead_source).count %>
   </div>
   <div class="col-sm-4">
     <h3>Job Types</h3>
-    <%= pie_chart @companies.where(lost: @show_lost).group(:job_types).count %>
+    <%= pie_chart @companies.group(:job_types).count %>
   </div>
   <div class="col-sm-4">
-    <%= ('<h3>Monthly Income: $' + sum_up_monthly_total(@companies.where(lost: @show_lost)).to_s + '</h3>').html_safe %>
-    <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies.where(lost: @show_lost)) * 12).to_s + '</h3>').html_safe %>
+    <%= ('<h3>Monthly Income: $' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
+    <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies) * 12).to_s + '</h3>').html_safe %>
+    <% if @status.nil? %>
+    <%= ('<h3>Pipeline: $' + sum_up_monthly_total(@pipeline).to_s + '</h3>').html_safe %>
+    <% end %>
   </div>
 </div>
 <br>
