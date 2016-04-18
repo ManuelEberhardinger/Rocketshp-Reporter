@@ -13,7 +13,7 @@
       <% end %>
       <% end %>
       <%= link_to "New Post", new_post_path, remote: true %> |
-      <%= link_to "Create Report", "create_post_report.pdf" %>
+      <%= link_to "Create Report", get_month_for_posts_report(@start_date) %>
     </div>
   </div>
 </div>

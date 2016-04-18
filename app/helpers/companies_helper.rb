@@ -48,4 +48,20 @@ module CompaniesHelper
     }
     employees
   end
+
+  def get_month_for_posts_report(start_date)
+    if start_date.blank?
+      "create_post_report.pdf"
+    else
+      "create_post_report.pdf?start_date=" + start_date.to_s
+    end
+  end
+
+  def get_month(start_date)
+    if start_date.blank?
+      Date.today.strftime("%B")
+    else
+      start_date.strftime("%B")
+    end
+  end
 end

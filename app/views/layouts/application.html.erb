@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Rocketshp Reporter</title>
+    <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css", media: "all", "data-turbolinks-track" => true %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
@@ -12,7 +13,7 @@
     <%= render 'layouts/header' %>
     <% end %>
     <div class="container-fluid">
-      
+
       <% if notice %>
       <div class="alert alert-info">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

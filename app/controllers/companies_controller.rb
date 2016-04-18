@@ -22,6 +22,8 @@ class CompaniesController < ApplicationController
   end
 
   def calendar
+    @start_date = nil
+    @start_date = params["start_date"] if params["start_date"]
     @company = current_company
   end
 
@@ -39,14 +41,20 @@ class CompaniesController < ApplicationController
 
   def create_post_report
     @company = current_company
-    @posts = @company.posts.where("start_time >= ?", Date.today.beginning_of_month).where("start_time <= ?", Date.today.end_of_month)
+
+    if params["start_date"]
+      @calendar_date = Date.parse(params["start_date"])
+    else
+      @calendar_date = Date.today
+    end
+
+    @posts = @company.posts.where("start_time >= ?", @calendar_date.beginning_of_month).where("start_time <= ?", @calendar_date.end_of_month)
     print "Posts: " + @posts.to_s
     respond_to do |format|
       format.pdf do
         render  pdf: 'report',
                 layout: 'layouts/pdf.html',
                 template: 'companies/posts.pdf.erb',
-                javascript_delay: 3000,
                 encoding: "UTF-8",
                 :margin => {:top                => 15,
                             :bottom             => 10,
