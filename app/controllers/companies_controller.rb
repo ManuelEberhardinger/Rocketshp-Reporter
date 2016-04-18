@@ -40,11 +40,13 @@ class CompaniesController < ApplicationController
   def create_post_report
     @company = current_company
     @posts = @company.posts.where("start_time >= ?", Date.today.beginning_of_month).where("start_time <= ?", Date.today.end_of_month)
+    print "Posts: " + @posts.to_s
     respond_to do |format|
       format.pdf do
         render  pdf: 'report',
                 layout: 'layouts/pdf.html',
                 template: 'companies/posts.pdf.erb',
+                javascript_delay: 3000,
                 encoding: "UTF-8",
                 :margin => {:top                => 15,
                             :bottom             => 10,
