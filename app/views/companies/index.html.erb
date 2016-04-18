@@ -43,7 +43,7 @@
     <%= pie_chart @companies.group(:job_types).count %>
   </div>
   <div class="col-sm-4">
-    <%= ('<h3>Monthly Income: $' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
+    <%= ('<h3>' + get_name_of_income(@status) + ' Income: $' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
     <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies) * 12).to_s + '</h3>').html_safe %>
     <% if @status.nil? %>
     <%= ('<h3>Pipeline: $' + sum_up_monthly_total(@pipeline).to_s + '</h3>').html_safe %>

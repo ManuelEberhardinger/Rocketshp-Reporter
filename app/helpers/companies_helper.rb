@@ -104,4 +104,14 @@ module CompaniesHelper
       "Lost"
     end
   end
+
+  def get_name_of_income(status)
+    if status == "2"
+      "Predicting "
+    elsif status == "3"
+      "Lost "
+    else
+      "Monthly "
+    end
+  end
 end

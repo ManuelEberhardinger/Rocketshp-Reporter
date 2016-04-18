@@ -13,18 +13,18 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><%= link_to 'Dashboard', companies_path %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-home"></i> Dashboard'.html_safe, companies_path %></li>
             <li class="divider"></li>
-            <li><%= link_to 'Active Clients', companies_path(status: 1) %></li>
-            <li><%= link_to 'Pipeline', companies_path(status: 2) %></li>
-            <li><%= link_to 'Lost Clients', companies_path(status: 3) %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-smile-o"></i> Active Clients'.html_safe, companies_path(status: 1) %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-meh-o"></i> Pipeline'.html_safe, companies_path(status: 2) %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-frown-o"></i> Lost Clients'.html_safe, companies_path(status: 3) %></li>
             <li class="divider"></li>
-            <li><%= link_to 'Users', users_path %></li>
-            <li><%= link_to 'Contacts', contacts_path %></li>
-            <li><%= link_to 'Time Trackings', time_trackings_path %></li>
-            <li><%= link_to 'Calendar', posts_path %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-users"></i> Users'.html_safe, users_path %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-phone"></i> Contacts'.html_safe, contacts_path %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-clock-o"></i> Time Trackings'.html_safe, time_trackings_path %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-calendar"></i> Calendar'.html_safe, posts_path %></li>
             <li class="divider"></li>
-            <li><%= link_to 'Logout', logout_path %></li>
+            <li><%= link_to '<i class="fa fa-fw fa-sign-out"></i>Logout'.html_safe, logout_path %></li>
           </ul>
         </li>
       </ul>
