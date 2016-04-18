@@ -2,171 +2,209 @@
 <div class="col-sm-2">
   <%= render 'layouts/sidebar' %>
 </div>
-<div class="col-sm-10 background">
+<div class="background col-sm-10">
   <script>
     $(document).on('page:load', charts.init());
   </script>
   <div id='data-block'>
-    <h1>Facebook Insights</h1>
+    <div class="well well-white">
+      <h1>Facebook Insights</h1>
 
-    <%= form_tag("/facebook/fresh_up_data", method: :get) do %>
-    <div class="form-inline">
-      <div class="input-group date">
-        <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
-        <span class="input-group-addon">
-          <i class="glyphicon glyphicon-th"></i>
-        </span>
+      <%= form_tag("/facebook/fresh_up_data", method: :get) do %>
+      <div class="form-inline">
+        <div class="input-group date">
+          <%= text_field_tag :since, "", "data-provide" => 'datepicker', class: "form-control" %>
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-th"></i>
+          </span>
+        </div>
+        <div class="input-group date">
+          <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-th"></i>
+          </span>
+        </div>
+        <%= submit_tag('Fresh up data', class: 'btn btn-primary') %>
       </div>
-      <div class="input-group date">
-        <%= text_field_tag :until, "", "data-provide" => 'datepicker', class: "form-control" %>
-        <span class="input-group-addon">
-          <i class="glyphicon glyphicon-th"></i>
-        </span>
-      </div>
-      <%= submit_tag('Fresh up data', class: 'btn btn-primary') %>
+      <% end %>
     </div>
-    <% end %>
-    <br><br>
+    <br>
 
     <%= form_tag("/facebook/report.pdf", method: :post) do %>
     <div class="well well-white">
-    <h3>Posts</h3>
-    <table class="table table-striped table-condensed">
-      <tr>
-        <th>Date</th>
-        <th>Post</th>
-        <th>Likes</th>
-        <th>Comments</th>
-        <th>Reached</th>
-      </tr>
-      <% sort_by_value(@posts_impressions).first(10).each do |key, value| %>
-      <% if find_by_id(@posts, key)['message'].nil? %>
-      <% next %>
-      <% end %>
-      <tr>
-        <td><%= Date.parse(find_by_id(@posts, key)['created_time']) %></td>
-        <td><%= link_to find_by_id(@posts, key)['message'], "https://www.facebook.com/" + key.to_s, target: "_blank" %></td>
-        <td><%= @posts_likes[key] %></td>
-        <td><%= @posts_comments[key] %></td>
-        <td><%= @posts_impressions[key] %></td>
-      </tr>
-      <% end %>
-    </table>
-    <%= text_area_tag(:description_posts, "", class: "form-control", maxlength: "1000", rows: 3) %>
+      <h3>Posts</h3>
+      <table class="table table-striped table-condensed">
+        <tr>
+          <th>Date</th>
+          <th>Post</th>
+          <th>Likes</th>
+          <th>Comments</th>
+          <th>Reached</th>
+        </tr>
+        <% sort_by_value(@posts_impressions).first(10).each do |key, value| %>
+        <% if find_by_id(@posts, key)['message'].nil? %>
+        <% next %>
+        <% end %>
+        <tr>
+          <td><%= Date.parse(find_by_id(@posts, key)['created_time']) %></td>
+          <td><%= link_to find_by_id(@posts, key)['message'], "https://www.facebook.com/" + key.to_s, target: "_blank" %></td>
+          <td><%= @posts_likes[key] %></td>
+          <td><%= @posts_comments[key] %></td>
+          <td><%= @posts_impressions[key] %></td>
+        </tr>
+        <% end %>
+      </table>
+      <%= text_area_tag(:description_posts, "", class: "form-control", maxlength: "1000", rows: 3) %>
     </div>
+
     <div class="well well-white">
       <h3>Total Likes</h3>
       <%= area_chart @all_fans %>
       <%= text_area_tag(:description_all_fans, "", class: "form-control", maxlength: "485", rows: 3) %>
     </div>
-    <h3>Likes and Unlikes</h3>
-    <%= line_chart [
+
+    <div class="well well-white">
+      <h3>Likes and Unlikes</h3>
+      <%= line_chart [
       {name: "Likes", data: @page_adds},
       {name: "Unlikes", data: @page_removes.map { |key, value| [key, value*=-1]}},
       {name: "Likes net", data: @likes_net}
     ]
     %>
-    <%= text_area_tag(:description_likes_unlikes, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <%= text_area_tag(:description_likes_unlikes, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Places of Likes</h3>
-    <%= bar_chart get_series_hash_for_chartkick(@page_likes_by_source), stacked: true, height: "400px" %>
-    <%= text_area_tag(:description_likes_by_source, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Places of Likes</h3>
+      <%= bar_chart get_series_hash_for_chartkick(@page_likes_by_source), stacked: true, height: "400px" %>
+      <%= text_area_tag(:description_likes_by_source, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Page Impressions</h3>
-    <%= area_chart [
+    <div class="well well-white">
+      <h3>Page Impressions</h3>
+      <%= area_chart [
       {name: "Page Impressions", data: @page_impressions},
       {name: "Paid", data: @page_impressions_paid},
       {name: "Organic", data: @page_impressions_organic}
     ], stacked: false %>
-    <%= text_area_tag(:description_page_impressions, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <%= text_area_tag(:description_page_impressions, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Page Posts Impressions</h3>
-    <%= area_chart [
+    <div class="well well-white">
+      <h3>Page Posts Impressions</h3>
+      <%= area_chart [
       {name: "Page Posts Impressions", data: @page_posts_impressions},
       {name: "Paid", data: @page_posts_impressions_paid},
       {name: "Organic", data: @page_posts_impressions_organic}
     ], stacked: false %>
-    <%= text_area_tag(:description_page_posts_impressions, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <%= text_area_tag(:description_page_posts_impressions, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Positive Feedback</h3>
-    <%= line_chart get_series_hash_for_chartkick(@page_positive_feedback_by_type) %>
-    <%= text_area_tag(:description_positive_feedback, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Positive Feedback</h3>
+      <%= line_chart get_series_hash_for_chartkick(@page_positive_feedback_by_type) %>
+      <%= text_area_tag(:description_positive_feedback, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Negative Feedback</h3>
-    <%= line_chart get_series_hash_for_chartkick(@page_negative_feedback_by_type) %>
-    <%= text_area_tag(:description_negative_feedback, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Negative Feedback</h3>
+      <%= line_chart get_series_hash_for_chartkick(@page_negative_feedback_by_type) %>
+      <%= text_area_tag(:description_negative_feedback, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Page Views</h3>
-    <%= area_chart [
+    <div class="well well-white">
+      <h3>Page Views</h3>
+      <%= area_chart [
       {name: "Page Views", data: @page_views},
       {name: "Page Views Unique", data: @page_views_login_unique}
     ], stacked: false %>
-    <%= text_area_tag(:description_page_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <%= text_area_tag(:description_page_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Page Tab Views</h3>
-    <%= bar_chart get_series_hash_for_chartkick(@page_tab_views_login_top), stacked: true, height: "400px" %>
-    <%= text_area_tag(:description_tab_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Page Tab Views</h3>
+      <%= bar_chart get_series_hash_for_chartkick(@page_tab_views_login_top), stacked: true, height: "400px" %>
+      <%= text_area_tag(:description_tab_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>External Refferals</h3>
-    <%= column_chart format_external_referrals(@page_views_external_referrals), stacked: true %>
-    <%= text_area_tag(:description_external_referrals, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>External Refferals</h3>
+      <%= column_chart format_external_referrals(@page_views_external_referrals), stacked: true %>
+      <%= text_area_tag(:description_external_referrals, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Video Views:
-      <%= get_number_of_views(@page_video_views_paid) +
+    <div class="well well-white">
+      <h3>Video Views:
+        <%= get_number_of_views(@page_video_views_paid) +
                       get_number_of_views(@page_video_views_organic) %></h3>
-    <%= column_chart [
+      <%= column_chart [
     {name: "Paid Views", data: @page_video_views_paid},
     {name: "Organic Views", data: @page_video_views_organic}
   ], stacked: true %>
-    <%= text_area_tag(:description_video_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <%= text_area_tag(:description_video_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>30 Sec Video Views:
-      <%=  get_number_of_views(@page_video_complete_views_30s_paid) +
+    <div class="well well-white">
+      <h3>30 Sec Video Views:
+        <%=  get_number_of_views(@page_video_complete_views_30s_paid) +
                               get_number_of_views(@page_video_complete_views_30s_organic)%></h3>
-    <%= column_chart [
+      <%= column_chart [
     {name: "Paid Views", data: @page_video_complete_views_30s_paid},
     {name: "Organic Views", data: @page_video_complete_views_30s_organic}
   ], stacked: true %>
-    <%= text_area_tag(:description_complete_video_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <%= text_area_tag(:description_complete_video_views, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Fans by Gender and Age</h3>
-    <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_gender_age, "M")}, {name: "Unisex", data: create_new_sorted_hash_for(@page_fans_gender_age,
-    "U")} ] %>
-    <%= text_area_tag(:description_fans_gender_age, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Fans by Gender and Age</h3>
+      <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_gender_age, "M")}, {name: "Unisex", data: create_new_sorted_hash_for(@page_fans_gender_age,
+      "U")} ] %>
+      <%= text_area_tag(:description_fans_gender_age, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Page Fans Informations</h3>
-    <br>
-    <div id="fb-fans-country" style='display:inline; margin:10px;'></div>
-    <div id="fb-fans-city" style='display:inline; margin:10px;'></div>
-    <div id="fb-fans-locale" style='display:inline; margin:10px;'></div>
-    <br><br>
-    <%= text_area_tag(:description_fans_information, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Page Fans Informations</h3>
+      <br>
+      <div id="fb-fans-country" style='display:inline; margin:10px;'></div>
+      <div id="fb-fans-city" style='display:inline; margin:10px;'></div>
+      <div id="fb-fans-locale" style='display:inline; margin:10px;'></div>
+      <br><br>
+      <%= text_area_tag(:description_fans_information, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Reached Fans by Gender and Age in the last 28 days</h3>
-    <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "M")}, {name: "Unisex", data:
-    create_new_sorted_hash_for(@page_fans_reached_gender_age, "U")} ] %>
-    <%= text_area_tag(:description_reached_fans_gender_age, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Reached Fans by Gender and Age in the last 28 days</h3>
+      <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_fans_reached_gender_age, "M")}, {name: "Unisex", data:
+      create_new_sorted_hash_for(@page_fans_reached_gender_age, "U")} ] %>
+      <%= text_area_tag(:description_reached_fans_gender_age, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Reached Fans Informations</h3>
-    <br>
-    <div id="fb-fans-reached-country" style='display:inline; margin:10px;'></div>
-    <div id="fb-fans-reached-city" style='display:inline; margin:10px;'></div>
-    <div id="fb-fans-reached-locale" style='display:inline; margin:10px;'></div>
-    <br><br>
-    <%= text_area_tag(:description_reached_fans_information, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Reached Fans Informations</h3>
+      <br>
+      <div id="fb-fans-reached-country" style='display:inline; margin:10px;'></div>
+      <div id="fb-fans-reached-city" style='display:inline; margin:10px;'></div>
+      <div id="fb-fans-reached-locale" style='display:inline; margin:10px;'></div>
+      <br><br>
+      <%= text_area_tag(:description_reached_fans_information, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Storytellers by Gender and Age in the last 28 days</h3>
-    <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "M")}, {name: "Unisex", data:
-    create_new_sorted_hash_for(@page_storytellers_gender_age, "U")} ] %>
-    <%= text_area_tag(:description_storytellers_gender_age, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Storytellers by Gender and Age in the last 28 days</h3>
+      <%= column_chart [ {name: "Female", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "F")}, {name: "Male", data: create_new_sorted_hash_for(@page_storytellers_gender_age, "M")}, {name: "Unisex", data:
+      create_new_sorted_hash_for(@page_storytellers_gender_age, "U")} ] %>
+      <%= text_area_tag(:description_storytellers_gender_age, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
 
-    <h3>Storytellers Informations</h3>
-    <br>
-    <div id="fb-storytellers-country" style='display:inline; margin:10px;'></div>
-    <div id="fb-storytellers-city" style='display:inline; margin:10px;'></div>
-    <div id="fb-storytellers-locale" style='display:inline; margin:10px;'></div>
-    <br><br>
-    <%= text_area_tag(:description_storytellers_information, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <div class="well well-white">
+      <h3>Storytellers Informations</h3>
+      <br>
+      <div id="fb-storytellers-country" style='display:inline; margin:10px;'></div>
+      <div id="fb-storytellers-city" style='display:inline; margin:10px;'></div>
+      <div id="fb-storytellers-locale" style='display:inline; margin:10px;'></div>
+      <br><br>
+      <%= text_area_tag(:description_storytellers_information, "", class: "form-control", maxlength: "485", rows: 3) %>
+    </div>
     <br><br>
     <%= submit_tag("Create Report", class: "btn btn-primary") %>
 
