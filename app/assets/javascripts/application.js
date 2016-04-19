@@ -19,4 +19,5 @@
 //= require country-codes.js
 //= require chart-creator.js
 //= require chartkick
+//= require cloudinary 
 //= require_tree .
