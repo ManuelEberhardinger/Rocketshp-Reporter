@@ -83,6 +83,10 @@ gem 'puma', group: :production
 # calendar gem to create view for a calendar
 gem 'simple_calendar'
 
+# gems for image upload on cloud in heroku
+gem 'carrierwave'
+gem 'cloudinary'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

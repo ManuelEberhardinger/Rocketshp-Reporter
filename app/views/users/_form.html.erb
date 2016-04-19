@@ -11,6 +11,8 @@
     </div>
   <% end %>
   <br>
+  <%= image_tag(@user.picture_url(:thumbnail), :width => 50, :height => 50) if @user.avatar? %>
+  <br>
   <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name, class: "form-control" %>
@@ -22,6 +24,11 @@
   </div>
   <br>
   <div class="field">
+    <%= f.label :role %>
+    <%= f.text_field :role, class: "form-control" %>
+  </div>
+  <br>
+  <div class="field">
     <%= f.label :password %>
     <%= f.password_field :password, class: "form-control" %>
   </div>
@@ -29,6 +36,11 @@
   <div class="field">
     <%= f.label :password_confirmation, "Confirmation"%>
     <%= f.password_field :password_confirmation, class: "form-control" %>
+  </div>
+  <div class="field">
+    <%= f.label :picture %>
+    <%= f.file_field :picture, class: "form-control" %>
+    <%= f.hidden_field :picture_cache %>
   </div>
   <br>
   <% if current_user.admin? %>
