@@ -13,7 +13,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   version :thumbnail do
     eager
-    resize_to_fit(50, 50)
+    cloudinary_transformation radius: 20, width: 100, height: 100, crop: :thumb, gravity: :face
   end
 
   def public_id
