@@ -86,6 +86,7 @@ gem 'simple_calendar'
 # gems for image upload on cloud in heroku
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'file_validators'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

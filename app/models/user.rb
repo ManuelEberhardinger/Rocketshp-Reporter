@@ -9,5 +9,6 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   has_many :time_trackings, dependent: :destroy
   mount_uploader :picture, PictureUploader
-  validates :picture, file_size: { less_than: 2.megabytes }
+  validates :picture, file_size: { less_than_or_equal_to: 2.megabytes },
+                      file_content_type: { allow: ['image/jpeg', 'image/png'] }
 end
