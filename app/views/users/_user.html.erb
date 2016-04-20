@@ -1,5 +1,6 @@
 <% if @user.picture? %>
-<%= image_tag(@user.picture_url) %>
+<%= image_tag(@user.picture_url(:standard)) %>
+<br>
 <% end %>
 <p>
   <strong>Email:</strong>
