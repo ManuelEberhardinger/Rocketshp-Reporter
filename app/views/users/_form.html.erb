@@ -39,8 +39,8 @@
   </div>
   <br>
   <div class="field" id="picture-field">
-    <%= f.label :picture %>
-    <%= f.file_field :picture, "Picture (Size < 2MB)", class: "form-control", accept: "image/jpeg, image/png" %>
+    <%= f.label :picture, "Picture (Size < 2MB)" %>
+    <%= f.file_field :picture, class: "form-control", accept: "image/jpeg, image/png" %>
     <%= f.hidden_field :picture_cache %>
   </div>
   <br>
