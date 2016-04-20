@@ -57,9 +57,9 @@
 <% end %>
 <script type='text/javascript'>
 $(document).ready(function() {
-   $("user_picture").change(function ()
+   $("#user_picture").change(function ()
    {
-     var iSize = ($("user_picture")[0].files[0].size / 1024);
+     var iSize = ($("#user_picture")[0].files[0].size / 1024);
      iSize = (Math.round((iSize / 1024) * 100) / 100); // size in Mb
      if(iSize < 2) {
        $('input[type="submit"]').prop('disabled', false);
