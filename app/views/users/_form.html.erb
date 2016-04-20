@@ -38,9 +38,9 @@
     <%= f.password_field :password_confirmation, class: "form-control" %>
   </div>
   <br>
-  <div class="field">
+  <div class="field" id="picture-field">
     <%= f.label :picture %>
-    <%= f.file_field :picture, class: "form-control" %>
+    <%= f.file_field :picture, "Picture (Size < 2MB)", class: "form-control", accept: "image/jpeg, image/png" %>
     <%= f.hidden_field :picture_cache %>
   </div>
   <br>
@@ -65,6 +65,7 @@ $(document).ready(function() {
        $('input[type="submit"]').prop('disabled', false);
      } else {
        $('input[type="submit"]').prop('disabled', true);
+       alert("Filesize is to big!")
      }
   });
 });
