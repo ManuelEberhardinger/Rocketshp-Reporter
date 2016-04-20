@@ -39,8 +39,7 @@
   </div>
   <div class="field">
     <%= f.label :picture %>
-    <%= f.cl_unsigned_image_upload :picture, secure: true, class: "form-control" %>
-    <%= f.hidden_field :picture_cache %>
+    <%= f.cl_image_upload :picture, @user.name.split.join, class: "form-control" %>
   </div>
   <br>
   <% if current_user.admin? %>
