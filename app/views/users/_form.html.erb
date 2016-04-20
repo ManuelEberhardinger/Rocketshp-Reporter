@@ -39,7 +39,7 @@
   </div>
   <div class="field">
     <%= f.label :picture %>
-    <%= f.cl_image_upload :picture, @user.name.split.join, class: "form-control" %>
+    <%= f.cl_image_upload :picture %>
   </div>
   <br>
   <% if current_user.admin? %>
