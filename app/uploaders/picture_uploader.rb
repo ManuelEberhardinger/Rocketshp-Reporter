@@ -8,7 +8,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   version :standard do
     eager
-    cloudinary_transformation height: 250, crop: "fit", gravity: :face, radius: 20
+    cloudinary_transformation height: 250, crop: "fit"
   end
 
   version :thumbnail do

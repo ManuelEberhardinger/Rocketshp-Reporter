@@ -1,5 +1,5 @@
 <% if @user.picture? %>
-<%= image_tag(@user.picture_url(:standard)) %>
+<%= image_tag(@user.picture_url(:standard), class: "img-thumbnail center-block") %>
 <br>
 <% end %>
 <p>
