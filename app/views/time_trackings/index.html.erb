@@ -1,7 +1,7 @@
 <h1>Listing Time Trackings</h1>
 <h4>Total Value:
   <%= sum_up_total_value_of_time_trackings(@time_trackings) %>$</h4>
-  
+
 <%= form_tag("/time_trackings", method: :get) do %>
 <div class="form-inline">
   <div class="input-group date">
@@ -38,7 +38,7 @@
   <tbody>
     <% @time_trackings.each do |time_tracking| %>
     <tr>
-      <td><%= time_tracking.user.name %></td>
+      <td><%= link_to time_tracking.user.name, time_tracking.user, remote: true %></td>
       <td><%= time_tracking.company.name %></td>
       <td><%= time_tracking.spent_time %>h</td>
       <td><%= time_tracking.hourly_rate %>$</td>

@@ -10,9 +10,11 @@
       </ul>
     </div>
   <% end %>
+  <% if @user.picture? %>
+  <%= image_tag(@user.picture_url) %>
   <br>
-  <%= image_tag(@user.picture_url(:thumbnail), :width => 100, :height => 100) if @user.picture? %>
-  <br><br>
+  <% end %>
+  <br>
   <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name, class: "form-control" %>
@@ -56,6 +58,7 @@
   </div>
 <% end %>
 <script type='text/javascript'>
+// validates that the picture size is smaller than 2MB
 $(document).ready(function() {
    $("#user_picture").change(function ()
    {

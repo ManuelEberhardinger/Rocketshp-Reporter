@@ -1,0 +1,17 @@
+<% if @user.picture? %>
+<%= image_tag(@user.picture_url) %>
+<% end %>
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Role:</strong>
+  <%= @user.role %>
+</p>
+
+<p>
+  <strong>Admin:</strong>
+  <%= @user.admin %>
+</p>

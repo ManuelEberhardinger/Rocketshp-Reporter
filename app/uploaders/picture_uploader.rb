@@ -8,7 +8,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   version :standard do
     eager
-    process :resize_to_fill => [100, 150, :north]
+    cloudinary_transformation height: 250, crop: "fit", gravity: :face, radius: 20
   end
 
   version :thumbnail do
