@@ -39,7 +39,7 @@
   </div>
   <div class="field">
     <%= f.label :picture %>
-    <%= f.cl_image_upload :picture, class: "form-control" %>
+    <%= f.cl_image_upload :picture, secure: true, class: "form-control" %>
     <%= f.hidden_field :picture_cache %>
   </div>
   <br>
