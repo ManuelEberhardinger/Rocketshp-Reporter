@@ -3,7 +3,6 @@
 class PictureUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
 
-  process :convert => 'png'
   process :tags => ['post_picture']
 
   version :standard do
