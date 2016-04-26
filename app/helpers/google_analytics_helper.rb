@@ -1,10 +1,12 @@
 module GoogleAnalyticsHelper
+  # formate data to a hash with date => value
   def format_data_to_display(data)
     Hash[data.map do |item|
       [Date.parse(item[0]), item[1]]
     end]
   end
 
+  # create hash grouped by the campaing pointing to other hash date => value, so you have a hash of hashes
   def format_campaign_and_date(data)
     Hash[data.group_by { |(campaign, _date, _value)| campaign }.map do |key, value|
            [key,
@@ -14,6 +16,7 @@ module GoogleAnalyticsHelper
          end]
   end
 
+  # format campaings for the 4 selected metrics clicks, cost, cpc, ctr
   def format_campaigns(data)
     Hash[data.map do |item|
       [item[0], Hash[
@@ -26,6 +29,7 @@ module GoogleAnalyticsHelper
     end]
   end
 
+  # get increase or decrease in percent for adwords of the last month
   def get_change(this_month, prev_month)
     this_month = this_month.to_f
     prev_month = prev_month.to_f
@@ -37,20 +41,19 @@ module GoogleAnalyticsHelper
     end
   end
 
+  # round values to 2 digits after point
   def round_values(data)
     data.each do |key, value|
       data[key] = '%.2f' % value
     end
   end
 
+  # chartkick options for pie chart
   def show_pie_chart_value
     options = { plotOptions: { pie: { dataLabels: { enabled: true, format: '<b>{key}</b>: {point.y}' } } } }
   end
 
-  def geo_map_options
-    options = { colorAxis: { colors: ['#e6ffe6', 'green'] }, legend: { textStyle: { fontSize: 10 } } }
-  end
-
+  # change color of label if text value is positive to green otherwise tor red
   def change_color(text)
     if text.include? "+"
       '<span class="label label-success">' + text + '</span>'
@@ -59,6 +62,7 @@ module GoogleAnalyticsHelper
     end
   end
 
+  # change color if text is minus to green otherwise to red
   def change_color_reverse(text)
     if text.include? "-"
       '<span class="label label-success">' + text + '</span>'

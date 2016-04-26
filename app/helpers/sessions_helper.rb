@@ -4,6 +4,7 @@ module SessionsHelper
     session[:user_id] = user.id
   end
 
+  # remember chosen company in session
   def remember_company(company)
     session[:company_id] = company.id
   end
@@ -13,6 +14,7 @@ module SessionsHelper
     @current_user ||= User.find_by(id: session[:user_id])
   end
 
+  # find current company by session company id
   def current_company
     @current_company = Company.find_by(id: session[:company_id])
   end

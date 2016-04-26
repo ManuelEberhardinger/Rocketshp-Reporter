@@ -22,11 +22,14 @@ module CompaniesHelper
     return {} if total.blank?
     hours = {}
     sum = 0
+
     values.each { |v|
       sum = sum + v.spent_time
     }
     left = total - sum
     left = 0 if left < 0
+
+    # save it in hash for chartkick
     hours[:spent] = sum
     hours[:left] = left
     hours
@@ -39,6 +42,8 @@ module CompaniesHelper
     money = {}
     left = total - sum
     left = 0 if left < 0
+
+    # save it in hash for chartkick
     money[:used] = sum
     money[:left] = left
     money
@@ -63,7 +68,7 @@ module CompaniesHelper
     end
   end
 
-  # for creating header in the post pdf report.
+  # for creating header in the post pdf report. get name of month.
   def get_month(start_date)
     if start_date.blank?
       Date.today.strftime("%B")
@@ -105,6 +110,7 @@ module CompaniesHelper
     end
   end
 
+  # get title of the income, different for each dashboard
   def get_name_of_income(status)
     if status == "2"
       "Predicting "
