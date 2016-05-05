@@ -29,8 +29,13 @@
   </p>
 
   <p>
+    <strong>One time cost:</strong>
+    $<%= @company.one_time_cost.to_i %>
+  </p>
+
+  <p>
     <strong>Annual revenue:</strong>
-    $<%= @company.monthly_total.to_i * 12 %>
+    $<%= @company.monthly_total.to_i * 12 + @company.one_time_cost.to_i %>
   </p>
 
   <p>

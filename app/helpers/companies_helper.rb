@@ -8,6 +8,15 @@ module CompaniesHelper
     sum
   end
 
+  # sum up the one time cost of all companies
+  def sum_up_one_time_cost(values)
+    sum = 0
+    values.each { |v|
+      sum = sum + v.one_time_cost.to_i
+    }
+    sum
+  end
+
   # calculate the total amount money used with the spent time
   def sum_up_total_value_of_time_trackings(values)
     sum = 0
