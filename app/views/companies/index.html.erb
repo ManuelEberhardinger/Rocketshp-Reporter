@@ -20,7 +20,7 @@
       <td><%= company.name %></td>
       <td><%= company.lead_source %></td>
       <td><%= company.job_types %></td>
-      <td><%= link_to company.website, company.website, target: 'blank' %></td>
+      <td><%= link_to company.website, url_with_protocol(company.website), target: 'blank' %></td>
       <td>$<%= company.monthly_total.to_i %></td>
       <td>$<%= company.one_time_cost.to_i %></td>
       <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>

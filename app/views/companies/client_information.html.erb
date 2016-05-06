@@ -20,7 +20,7 @@
 
   <p>
     <strong>Website:</strong>
-    <%= link_to @company.website, @company.website, target: 'blank' %>
+    <%= link_to @company.website, url_with_protocol(@company.website), target: 'blank' %>
   </p>
 
   <p>

@@ -108,6 +108,10 @@ module CompaniesHelper
     ]
   end
 
+  def url_with_protocol(url)
+    /^http/i.match(url) ? url : "http://#{url}"
+  end
+
   # maps the status to the name
   def get_name_of_status(status)
     if status == 1
