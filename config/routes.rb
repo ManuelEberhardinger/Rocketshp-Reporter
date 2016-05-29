@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   get 'linkedin/login_page'
   get 'auth/linkedin/callback' => 'linkedin#callback'
   get 'linkedin/logout'
+  get 'linkedin/options'
+  post 'linkedin/report'
 
   get 'instagram/login_page'
   get 'instagram/callback'

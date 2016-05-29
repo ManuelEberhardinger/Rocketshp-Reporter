@@ -1,0 +1,59 @@
+<h1 id="pdf-cover">LinkedIn</h1>
+
+<p style='page-break-after:always;'></p>
+
+<% if @company_updates.to_h["all"] != nil %>
+<div class="well" style="background:white">
+  <h3>Last 10 Posts</h3>
+  <table class="table table-striped table-condensed">
+    <tr>
+      <th>Date</th>
+      <th>Post</th>
+      <th>Likes</th>
+      <th>Comments</th>
+    </tr>
+    <% for item in @company_updates.to_h["all"] %>
+    <tr>
+      <td><%= Time.at(item['timestamp'] / 1000).strftime("%d/%m/%Y") %></td>
+      <td><%= link_to item['update_content']['company_status_update']['share']['comment'], "https://www.linkedin.com/company/" + @id.to_s, target: "_blank" %></td>
+      <td><%= item['num_likes'] %></td>
+      <td><%= item['update_comments']['total'] %></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= @description_linkedin_posts %>
+</div>
+<p style='page-break-after:always;'></p>
+<% end %>
+
+<h3>Follower Count:
+    <%= get_hash_for_time_and_attr(@company_follower_stats, 'total_follower_count').values.last %></h3>
+<%= area_chart [{name: "Organic", data: get_hash_for_time_and_attr(@company_follower_stats, 'organic_follower_count')}, {name: "Paid", data: get_hash_for_time_and_attr(@company_follower_stats, 'paid_follower_count') }], stacked: true %>
+<%= @description_linkedin_followers %>
+<br><br>
+<h3>Click Count</h3>
+<%= line_chart get_hash_for_time_and_attr(@company_historical_stats.to_h, 'click_count') %>
+<%= @description_linkedin_clicks %>
+<p style='page-break-after:always;'></p>
+
+<h3>Impressions</h3>
+<%= line_chart get_hash_for_time_and_attr(@company_historical_stats.to_h, 'impression_count') %>
+<%= @description_linkedin_impressions %>
+<br><br>
+<h3>Likes</h3>
+<%= line_chart get_hash_for_time_and_attr(@company_historical_stats.to_h, 'like_count') %>
+<%= @description_linkedin_likes %>
+<p style='page-break-after:always;'></p>
+
+<h3>Comments</h3>
+<%= line_chart get_hash_for_time_and_attr(@company_historical_stats.to_h, 'comment_count') %>
+<%= @description_linkedin_comments %>
+<br><br>
+<h3>Share Count</h3>
+<%= line_chart get_hash_for_time_and_attr(@company_historical_stats.to_h, 'share_count') %>
+<%= @description_linkedin_shares %>
+<p style='page-break-after:always;'></p>
+
+<h3>Engagement</h3>
+<%= line_chart get_hash_for_time_and_attr(@company_historical_stats.to_h, 'engagement') %>
+<%= @description_linkedin_engagements %>

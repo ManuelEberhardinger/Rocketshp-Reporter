@@ -14,6 +14,8 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# create er diagrams from the models
+gem "rails-erd"
 # use bcrypt for password hashing
 gem 'bcrypt'
 # use mongo for facebook data
