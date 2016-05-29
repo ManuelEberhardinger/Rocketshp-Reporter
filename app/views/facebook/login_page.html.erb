@@ -2,5 +2,11 @@
   <%= render 'layouts/sidebar' %>
 </div>
 <div class="col-sm-10">
-<%= @face.html_safe %>
+  <div id="button-div" class="col-xs-2 col-xs-offset-5">
+    <script>
+    var body_height = $('body').height() + $('#header-bar').height();
+    $('#button-div').css({'margin-top':Math.abs((body_height-$(this).height())/2)+'px'});
+    </script>
+    <%= link_to "Login", "/facebook/login",  class: 'btn btn-lg btn-primary btn-block' %>
+  </div>
 </div>

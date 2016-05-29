@@ -16,7 +16,6 @@ class InstagramController < ApplicationController
   end
 
   def login_page
-    @face = '<a href="/instagram/login">Login</a>'
   end
 
   def login

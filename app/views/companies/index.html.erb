@@ -4,12 +4,12 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Lead source</th>
-      <th>Job types</th>
+      <th>Lead Source</th>
+      <th>Job Types</th>
       <th>Website</th>
-      <th>Monthly total</th>
-      <th>One time cost</th>
-      <th>Anual value</th>
+      <th>Monthly Total</th>
+      <th>One Time Cost</th>
+      <th>Annual Value</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -37,7 +37,7 @@
 
 <div class="row vertical-align">
   <div class="col-sm-4">
-    <h3>Lead Source</h3>
+    <h3>Lead Sources</h3>
     <%= pie_chart @companies.group(:lead_source).count %>
   </div>
   <div class="col-sm-4">

@@ -224,7 +224,6 @@ class FacebookController < ApplicationController
   end
 
   def login_page
-    @face = '<a href="/facebook/login">Login</a>'
   end
 
   def login

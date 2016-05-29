@@ -122,7 +122,7 @@ module CompaniesHelper
   # get title of the income, different for each dashboard
   def get_name_of_income(status)
     if status == "2"
-      "Predicting "
+      "Predicted "
     elsif status == "3"
       "Lost "
     else

@@ -201,7 +201,6 @@ class GoogleAnalyticsController < ApplicationController
   end
 
   def login_page
-    @face = '<a href="/auth/google_oauth2">Login</a>'
   end
 
   def callback

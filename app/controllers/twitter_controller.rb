@@ -29,7 +29,6 @@ class TwitterController < ApplicationController
   end
 
   def login_page
-    @face = '<a href="/auth/twitter">Login</a>'
   end
 
   def callback

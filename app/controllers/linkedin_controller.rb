@@ -103,7 +103,6 @@ class LinkedinController < ApplicationController
   end
 
   def login_page
-    @face = '<a href="/auth/linkedin">Login</a>'
   end
 
   def logout
