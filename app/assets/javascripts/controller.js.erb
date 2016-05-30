@@ -19,4 +19,16 @@ function init() {
       });
     });
   });
+
+  jQuery(function() {
+    return $(".insideLink").on("click", function() {
+      event.stopImmediatePropagation();
+      var postNumber;
+      postNumber = $(this).data("number");
+      $.ajax({
+        url: "/posts/" + postNumber,
+        dataType: 'jsonp'
+      });
+    });
+  });
 }

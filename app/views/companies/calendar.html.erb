@@ -10,9 +10,9 @@
             <%= date.day %>
           </div>
           <% posts.each do |post| %>
-            <div>
-              <%= link_to get_all_post_types[post.post_type].html_safe, post, remote: true %>
-            </div>
+            <%= content_tag :span, class: "insideLink", style: "cursor:pointer;", data: {number: post.id} do %>
+              <%= get_all_post_types[post.post_type].html_safe %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
