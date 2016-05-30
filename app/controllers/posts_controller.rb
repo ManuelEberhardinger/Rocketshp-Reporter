@@ -19,7 +19,7 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new
+    @post = Post.new params[:post] ? post_params : {}
     @post.company_id = current_company.id
     respond_to do |format|
       format.html # new.html.erb

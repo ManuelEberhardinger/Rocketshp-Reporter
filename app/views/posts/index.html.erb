@@ -1,18 +1,18 @@
-
 <%= month_calendar events: @posts do |date, posts| %>
-<div class="navbar-right container-fluid">
-  <%= date.day %>
-</div>
-<% posts.each do |post| %>
-<div>
-  <%= link_to format_company_name_and_symbol(post), post, remote: true %>
-</div>
-<% end %>
+  <div class="navbar-right container-fluid">
+    <%= date.day %>
+  </div>
+
+  <% posts.each do |post| %>
+  <div>
+    <%= link_to format_company_name_and_symbol(post), post, remote: true %>
+  </div>
+  <% end %>
 <% end %>
 
 <div class="footer">
-  <% get_all_post_types.each do |key, value| %>
-  <%= (key + value).html_safe %>
-  <%= "|" unless key == get_all_post_types.keys.last %>
-  <% end %>
+    <% get_all_post_types.each do |key, value| %>
+    <%= (key + value).html_safe %>
+    <%= "|" unless key == get_all_post_types.keys.last %>
+    <% end %>
 </div>

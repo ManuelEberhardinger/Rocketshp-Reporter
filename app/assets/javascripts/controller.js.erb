@@ -7,4 +7,16 @@ function init() {
   $('.collapse-close').click(function () {
       $('.collapse.in').collapse('hide');
   });
+
+  //creates the click callback for clicks on a cell in the simple calendar
+  jQuery(function() {
+    return $(".calendar-day").on("click", function() {
+      var date;
+      date = $(this).data("date");
+      $.ajax({
+        url: "/posts/new?post[start_time]=" + date,
+        dataType: 'jsonp'
+      });
+    });
+  });
 }

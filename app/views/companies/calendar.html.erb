@@ -5,15 +5,21 @@
   <div class="row">
     <div class="container-fluid">
       <%= month_calendar events: @company.posts do |date, posts| %>
-      <div class="navbar-right container-fluid">
-        <%= date.day %>
+        <%= content_tag :div, class: "calendar-day", style: "height:inherit;", data: {date: date} do %>
+          <div class="navbar-right container-fluid">
+            <%= date.day %>
+          </div>
+          <% posts.each do |post| %>
+            <div>
+              <%= link_to get_all_post_types[post.post_type].html_safe, post, remote: true %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+      <div class="pull-right btn-group">
+        <%= link_to "New Post", new_post_path, class: "btn btn-primary", remote: true %>
+        <%= link_to "Create Report", get_month_for_posts_report(@start_date), class: "btn btn-primary" %>
       </div>
-      <% posts.each do |post| %>
-      <%= link_to get_all_post_types[post.post_type].html_safe, post, remote: true %>
-      <% end %>
-      <% end %>
-      <%= link_to "New Post", new_post_path, remote: true %> |
-      <%= link_to "Create Report", get_month_for_posts_report(@start_date) %>
     </div>
   </div>
 </div>
