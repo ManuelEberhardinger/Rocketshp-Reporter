@@ -17,8 +17,8 @@ class FacebookController < ApplicationController
     else
       redirect_to '/facebook/login_page'
     end
-  rescue
-    logout
+  rescue => error
+    logout(error.message)
   end
 
   def check_for_page_id_in_session
@@ -41,10 +41,10 @@ class FacebookController < ApplicationController
 
   def options
     create_client
-  rescue
+  rescue => error
     session['fb_access_token'] = nil
     session['fb_page_id'] = nil
-    redirect_to "/facebook/login_page"
+    redirect_to "/facebook/login_page", notice: error.message
   end
 
   def get_all_posts
@@ -234,10 +234,11 @@ class FacebookController < ApplicationController
     redirect_to oauth.url_for_oauth_code
   end
 
-  def logout
+  def logout(message = nil)
     session['fb_access_token'] = nil
     session['fb_page_id'] = nil
-    redirect_to current_company
+    redirect_to '/facebook/login_page' if message.blank?
+    redirect_to '/facebook/login_page', notice: message
   end
 
   # method to handle the redirect from facebook back to you

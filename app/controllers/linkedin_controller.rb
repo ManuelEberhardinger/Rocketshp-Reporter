@@ -14,8 +14,8 @@ class LinkedinController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  rescue
-    redirect_if_not_logged_in
+  rescue => error
+    redirect_if_not_logged_in(error.message)
   end
 
   def check_since_and_until
@@ -45,8 +45,8 @@ class LinkedinController < ApplicationController
   def options
     create_client
     @all_companies = @client.company(is_admin: 'true')
-  rescue
-    redirect_if_not_logged_in
+  rescue => error
+    redirect_if_not_logged_in(error.message)
   end
 
   def create_client
@@ -107,12 +107,13 @@ class LinkedinController < ApplicationController
 
   def logout
     session['linkedin_auth_hash'] = nil
-    redirect_to current_company
+    redirect_to login_page
   end
 
-  def redirect_if_not_logged_in
+  def redirect_if_not_logged_in(message = nil)
     session['linkedin_auth_hash'] = nil
-    redirect_to '/linkedin/login_page'
+    redirect_to '/linkedin/login_page' if message.blank?
+    redirect_to '/linkedin/login_page', notice: message
   end
 
   def callback

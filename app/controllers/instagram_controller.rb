@@ -11,8 +11,8 @@ class InstagramController < ApplicationController
     else
       redirect_to '/instagram/login_page'
     end
-  rescue
-    logout
+  rescue => error
+    logout(error.message)
   end
 
   def login_page
@@ -34,8 +34,9 @@ class InstagramController < ApplicationController
     redirect_to '/instagram'
   end
 
-  def logout
+  def logout(message = nil)
     session['instagram_auth_hash'] = false
-    redirect_to current_company
+    redirect_to '/instagram/login_page' if message.blank?
+    redirect_to '/instagram/login_page', notice: message
   end
 end

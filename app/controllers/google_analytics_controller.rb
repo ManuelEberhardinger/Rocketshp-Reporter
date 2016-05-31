@@ -31,7 +31,7 @@ class GoogleAnalyticsController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  rescue
+  rescue => error
     redirect_if_not_logged_in(error.message)
   end
 
@@ -60,8 +60,8 @@ class GoogleAnalyticsController < ApplicationController
     all_profiles.items.each { |p|
       @profiles.push(p.to_h)
     }
-  rescue
-    redirect_if_not_logged_in
+  rescue => error
+    redirect_if_not_logged_in(error.message)
   end
 
   def redirect_if_not_logged_in(message = nil)
@@ -222,7 +222,7 @@ class GoogleAnalyticsController < ApplicationController
 
   def logout
     set_google_sessions_to_nil
-    redirect_to '/companies/' + session[:google_company_id].to_s
+    redirect_to '/google_analytics/login_page'
   end
 
   def auth_hash

@@ -14,18 +14,19 @@ class TwitterController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  rescue
-    redirect_if_not_logged_in
+  rescue => error
+    redirect_if_not_logged_in(error.message)
   end
 
   def logout
     session['twitter_auth_hash'] = nil
-    redirect_to current_company
+    redirect_to 'twitter/login_page'
   end
 
-  def redirect_if_not_logged_in
+  def redirect_if_not_logged_in(message = nil)
     session['twitter_auth_hash'] = nil
-    redirect_to '/twitter/login_page'
+    redirect_to '/twitter/login_page' if message.blank?
+    redirect_to '/twitter/login_page', notice: message
   end
 
   def login_page
