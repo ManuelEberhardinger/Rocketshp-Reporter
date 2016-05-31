@@ -13,7 +13,7 @@ class GoogleAnalyticsController < ApplicationController
     else
       redirect_if_not_logged_in
     end
-  rescue
+  rescue => error
     redirect_if_not_logged_in(error.message)
   end
 
