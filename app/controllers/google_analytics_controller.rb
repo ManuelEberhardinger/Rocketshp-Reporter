@@ -14,7 +14,7 @@ class GoogleAnalyticsController < ApplicationController
       redirect_if_not_logged_in
     end
   rescue
-    redirect_if_not_logged_in
+    redirect_if_not_logged_in(error.message)
   end
 
   def adwords
@@ -32,7 +32,7 @@ class GoogleAnalyticsController < ApplicationController
       redirect_if_not_logged_in
     end
   rescue
-    redirect_if_not_logged_in
+    redirect_if_not_logged_in(error.message)
   end
 
   def check_for_page_id_in_session
@@ -64,9 +64,13 @@ class GoogleAnalyticsController < ApplicationController
     redirect_if_not_logged_in
   end
 
-  def redirect_if_not_logged_in
+  def redirect_if_not_logged_in(message = nil)
     set_google_sessions_to_nil
-    redirect_to '/google_analytics/login_page'
+    if message.blank?
+      redirect_to '/google_analytics/login_page'
+    else
+      redirect_to '/google_analytics/login_page', notice: message
+    end
   end
 
   def set_google_sessions_to_nil
