@@ -27,9 +27,9 @@
     <% if @adwords_clicks %>
       <h3>Clicks Overview:
         <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
-      <h4><%= change_color(get_change(
+      <strong><%= change_color(get_change(
               @adwords_clicks.totals_for_all_results.values.first.to_f,
-              @prev_adwords_clicks.rows.first.first.to_f)).html_safe %></h4>
+              @prev_adwords_clicks.rows.first.first.to_f)).html_safe %></strong>
       <%= area_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
         {name: key, data: value}
       }, stacked: true %>
