@@ -64,15 +64,9 @@ class ContactsController < ApplicationController
   # DELETE /contacts/1
   # DELETE /contacts/1.json
   def destroy
-    id = @contact.company.id.to_s unless @contact.company.nil?
-    if @contact.company.nil?
-      url = contacts_path
-    else
-      url = '/companies/' + id
-    end
     @contact.destroy
     respond_to do |format|
-      format.html { redirect_to url, notice: 'Contact was successfully destroyed.' }
+      format.html { redirect_to "/client_contacts", notice: 'Contact was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -15,7 +15,7 @@ class CompaniesController < ApplicationController
       @companies = Company.where(status: @status)
     else
       @companies = Company.where(status: 1) # get all active clients
-      @pipeline = Company.where(status: 2) # get all clients in the pipeline
+      @all_companies = Company.all # get all clients 
     end
   end
 

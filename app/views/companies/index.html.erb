@@ -1,39 +1,66 @@
 <h1><%= get_header(@status) %></h1>
+<% if @status.nil? %>
+  <div class="row">
+    <% (1..3).each do |i| %>
+      <% current_companies = @all_companies.where(status: i) %>
+      <div class="col-sm-4">
+        <h3><%= get_header(i.to_s) %></h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Annual Value</th>
+            </tr>
+          </thead>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Lead Source</th>
-      <th>Job Types</th>
-      <th>Website</th>
-      <th>Monthly Total</th>
-      <th>One Time Cost</th>
-      <th>Annual Value</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @companies.each do |company| %>
-    <tr>
-      <td><%= company.name %></td>
-      <td><%= company.lead_source %></td>
-      <td><%= company.job_types %></td>
-      <td><%= link_to company.website, url_with_protocol(company.website), target: 'blank' %></td>
-      <td>$<%= company.monthly_total.to_i %></td>
-      <td>$<%= company.one_time_cost.to_i %></td>
-      <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>
-      <td><%= link_to 'Show', company %></td>
-      <td><%= link_to 'Edit', edit_company_path(company), remote: true %></td>
-      <% if current_user.admin? %>
-      <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% end %>
-    </tr>
+          <tbody>
+            <% current_companies.each do |company| %>
+            <tr>
+              <td><%= link_to company.name, company %></td>
+              <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     <% end %>
-  </tbody>
-</table>
-<%= link_to 'New Company', new_company_path, remote: true %>
+  </div>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Lead Source</th>
+        <th>Job Types</th>
+        <th>Website</th>
+        <th>Monthly Total</th>
+        <th>One Time Cost</th>
+        <th>Annual Value</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @companies.each do |company| %>
+      <tr>
+        <td><%= company.name %></td>
+        <td><%= company.lead_source %></td>
+        <td><%= company.job_types %></td>
+        <td><%= link_to company.website, url_with_protocol(company.website), target: 'blank' %></td>
+        <td>$<%= company.monthly_total.to_i %></td>
+        <td>$<%= company.one_time_cost.to_i %></td>
+        <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>
+        <td><%= link_to 'Show', company %></td>
+        <td><%= link_to 'Edit', edit_company_path(company), remote: true %></td>
+        <% if current_user.admin? %>
+        <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<%= link_to 'New Company', new_company_path, class: "btn btn-primary", remote: true %>
 
 <div class="row vertical-align">
   <div class="col-sm-4">
@@ -48,7 +75,7 @@
     <%= ('<h3>' + get_name_of_income(@status) + ' Income: $' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
     <%= ('<h3>Annual Revenue: $' + (sum_up_monthly_total(@companies) * 12 + sum_up_one_time_cost(@companies)).to_s + '</h3>').html_safe %>
     <% if @status.nil? %>
-    <%= ('<h3>Pipeline: $' + sum_up_monthly_total(@pipeline).to_s + '</h3>').html_safe %>
+    <%= ('<h3>Pipeline: $' + sum_up_monthly_total(@all_companies.where(status: 2)).to_s + '</h3>').html_safe %>
     <% end %>
   </div>
 </div>

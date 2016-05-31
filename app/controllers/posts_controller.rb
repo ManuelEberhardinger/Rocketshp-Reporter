@@ -68,10 +68,10 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    company = @post.company
+    start_time = @post.start_time
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to company, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to "/companies_calendar?start_date=" + start_time.to_s, notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
