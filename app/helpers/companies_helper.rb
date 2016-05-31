@@ -133,4 +133,12 @@ module CompaniesHelper
   def url_with_protocol(url)
     /^http/i.match(url) ? url : "http://#{url}"
   end
+
+  def check_if_id_exists(social_id, to_add = "")
+    if social_id.nil?
+      return ""
+    else
+      return to_add + social_id
+    end
+  end
 end

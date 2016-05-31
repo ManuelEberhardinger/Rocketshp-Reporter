@@ -29,9 +29,22 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Titillium Black";
 }
 
-th {
+th, strong {
   font-family: "Titillium Bold";
 }
+
+.information {
+  font-size: 20px;
+  h4 {
+    font-size: 25px;
+    font-family: "Titillium Bold";
+  }
+
+  .col-sm-4, .col-sm-3 {
+    margin-left: -15px;
+  }
+}
+
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
