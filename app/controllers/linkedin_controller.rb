@@ -107,7 +107,7 @@ class LinkedinController < ApplicationController
 
   def logout
     session['linkedin_auth_hash'] = nil
-    redirect_to login_page
+    redirect_to "/linkedin/login_page"
   end
 
   def redirect_if_not_logged_in(message = nil)

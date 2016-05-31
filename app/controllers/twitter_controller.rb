@@ -20,7 +20,7 @@ class TwitterController < ApplicationController
 
   def logout
     session['twitter_auth_hash'] = nil
-    redirect_to 'twitter/login_page'
+    redirect_to '/twitter/login_page'
   end
 
   def redirect_if_not_logged_in(message = nil)
