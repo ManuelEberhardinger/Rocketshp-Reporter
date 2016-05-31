@@ -36,7 +36,10 @@ class InstagramController < ApplicationController
 
   def logout(message = nil)
     session['instagram_auth_hash'] = false
-    redirect_to '/instagram/login_page' if message.blank?
-    redirect_to '/instagram/login_page', notice: message
+    if message.blank?
+      redirect_to '/instagram/login_page'
+    else
+      redirect_to '/instagram/login_page', notice: message
+    end
   end
 end

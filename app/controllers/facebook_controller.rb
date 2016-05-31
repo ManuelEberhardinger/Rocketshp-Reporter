@@ -237,8 +237,11 @@ class FacebookController < ApplicationController
   def logout(message = nil)
     session['fb_access_token'] = nil
     session['fb_page_id'] = nil
-    redirect_to '/facebook/login_page' if message.blank?
-    redirect_to '/facebook/login_page', notice: message
+    if message.blank?
+      redirect_to '/facebook/login_page'
+    else
+      redirect_to '/facebook/login_page', notice: message
+    end
   end
 
   # method to handle the redirect from facebook back to you
