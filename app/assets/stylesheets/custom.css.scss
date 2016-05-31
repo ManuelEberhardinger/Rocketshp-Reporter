@@ -3,22 +3,22 @@
 
 @font-face {
   font-family: Titillium Light;
-  src: url("titillium-web-light.ttf");
+  src: font-url("titillium-web-light.ttf");
 }
 
 @font-face {
   font-family: Titillium Regular;
-  src: url("titillium-web-regular.ttf");
+  src: font-url("titillium-web-regular.ttf");
 }
 
 @font-face {
   font-family: Titillium Bold;
-  src: url("titillium-web-bold.ttf");
+  src: font-url("titillium-web-bold.ttf");
 }
 
 @font-face {
   font-family: Titillium Black;
-  src: url("Titillium-Black.otf");
+  src: font-url("Titillium-Black.otf");
 }
 
 body {
