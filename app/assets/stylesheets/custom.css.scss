@@ -1,8 +1,39 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+@font-face {
+  font-family: Titillium Light;
+  src: url("titillium-web-light.ttf");
+}
 
+@font-face {
+  font-family: Titillium Regular;
+  src: url("titillium-web-regular.ttf");
+}
+
+@font-face {
+  font-family: Titillium Bold;
+  src: url("titillium-web-bold.ttf");
+}
+
+@font-face {
+  font-family: Titillium Black;
+  src: url("Titillium-Black.otf");
+}
+
+body {
+  font-family: "Titillium Regular";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Titillium Black";
+}
+
+th {
+  font-family: "Titillium Bold";
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
     height: 100vh;
     margin-left: -30px;

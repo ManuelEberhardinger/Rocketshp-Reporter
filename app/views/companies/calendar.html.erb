@@ -16,9 +16,11 @@
           <% end %>
         <% end %>
       <% end %>
-      <div class="pull-right btn-group">
-        <%= link_to "New Post", new_post_path, class: "btn btn-primary", remote: true %>
-        <%= link_to "Create Report", get_month_for_posts_report(@start_date), class: "btn btn-primary" %>
+      <div class="text-right">
+        <div class="btn-group">
+          <%= link_to "New Post", new_post_path, class: "btn btn-primary", remote: true %>
+          <%= link_to "Create Report", get_month_for_posts_report(@start_date), class: "btn btn-primary" %>
+        </div>
       </div>
     </div>
   </div>
