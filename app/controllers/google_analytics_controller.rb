@@ -80,6 +80,7 @@ class GoogleAnalyticsController < ApplicationController
     @company = current_company
     @company.social_id.google_analytics_id = nil
     @company.social_id.save!
+    session['google_page_id'] = nil
     redirect_to "/google_analytics"
   end
 
@@ -87,6 +88,7 @@ class GoogleAnalyticsController < ApplicationController
     @company = current_company
     @company.social_id.google_adwords_id = nil
     @company.social_id.save!
+    session['google_adwords_id'] = nil
     redirect_to "/google_analytics/adwords"
   end
 
