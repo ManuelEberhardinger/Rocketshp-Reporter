@@ -24,23 +24,34 @@
 
     <%= form_tag("/google_analytics/adwords_report.pdf", method: :post) do %>
 
-    <% if @adwords_clicks %>
+    <% if @adwords_clicks.rows %>
       <h3>Clicks Overview:
         <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
       <strong><%= change_color(get_change(
               @adwords_clicks.totals_for_all_results.values.first.to_f,
-              @prev_adwords_clicks.rows.first.first.to_f)).html_safe %></strong>
+              @prev_adwords_clicks.totals_for_all_results.values.first.to_f)).html_safe %></strong>
       <%= area_chart format_campaign_and_date(@adwords_clicks.rows).map { |key, value|
         {name: key, data: value}
       }, stacked: true %>
       <%= text_area_tag(:description_adwords_clicks, "", class: "form-control", maxlength: "485", rows: 3) %>
+    <% else %>
+      <h3>Clicks Overview:
+        <%= @adwords_clicks.totals_for_all_results.values.first %></h3>
     <% end %>
 
-    <% if @adwords_campaigns %>
+    <% if @adwords_campaigns.rows %>
       <br>
       <% format_campaigns(@adwords_campaigns.rows).each do |key, value| %>
         <%= render 'campaign_details', name: key, values: value, prev_hash: format_campaigns(@prev_adwords_campaigns.rows) %>
         <%= text_area_tag(key, "", class: "form-control", maxlength: "485", rows: 3) %>
+      <% end %>
+    <% else %>
+    <br>
+      <% @adwords_campaigns.totals_for_all_results.each do |key, value| %>
+        <div class="col-xs-3">
+          <h4><%= key[3..-1] %></h4>
+          value
+        </div>
       <% end %>
     <% end %>
     <br><br>
