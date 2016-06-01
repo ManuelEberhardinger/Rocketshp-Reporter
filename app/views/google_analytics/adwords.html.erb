@@ -50,7 +50,8 @@
       <% @adwords_campaigns.totals_for_all_results.each do |key, value| %>
         <div class="col-xs-3">
           <h4><%= key[3..-1] %></h4>
-          value
+          <%= value %>
+          <br><br>
         </div>
       <% end %>
     <% end %>

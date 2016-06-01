@@ -17,7 +17,7 @@
           <i class="glyphicon glyphicon-th"></i>
         </span>
       </div>
-      <%= select_tag :page_id, options_for_select(@profiles.collect {|p| [ p[:name], p[:web_properties][0][:profiles][0][:id] ] }), class: "form-control" %>
+      <%= select_tag :page_id, options_for_select(fill_select_for_accounts(@profiles)), class: "form-control" %>
     </div>
   </div>
   <div class="modal-footer">

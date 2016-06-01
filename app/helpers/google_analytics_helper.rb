@@ -70,4 +70,17 @@ module GoogleAnalyticsHelper
       '<span class="label label-danger">' + text + '</span>'
     end
   end
+
+  def fill_select_for_accounts(profiles)
+    select_list = []
+
+    profiles.each { |profile|
+      profile[:web_properties].each { |views|
+        views[:profiles].each { |view|
+          select_list.push([(views[:name] + " - " + view[:name]), view[:id]])
+        }
+      }
+    }
+    return select_list
+  end
 end

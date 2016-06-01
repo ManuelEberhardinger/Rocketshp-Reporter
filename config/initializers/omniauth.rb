@@ -1,9 +1,9 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :twitter, ENV["TWITTER_API_KEY"], ENV["TWITTER_API_SECRET"]
-  provider :linkedin, ENV["LINKEDIN_API_KEY"], ENV["LINKEDIN_API_SECRET"], scope: 'r_basicprofile,rw_company_admin'
+  provider :twitter, Rails.application.secrets.twitter_api_key, Rails.application.secrets.twitter_api_secret
+  provider :linkedin, Rails.application.secrets.linkedin_api_key, Rails.application.secrets.linkedin_api_secret, scope: 'r_basicprofile,rw_company_admin'
   provider :google_oauth2,
-            ENV["GOOGLE_API_KEY"],
-            ENV["GOOGLE_API_SECRET"],
+            Rails.application.secrets.google_api_key,
+            Rails.application.secrets.google_api_secret,
             { access_type: 'online', approval_prompt: '',
               scope: 'http://gdata.youtube.com,userinfo.email https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/analytics.readonly' }
 end
