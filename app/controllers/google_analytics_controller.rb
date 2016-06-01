@@ -21,9 +21,9 @@ class GoogleAnalyticsController < ApplicationController
     session[:show_adwords] = true
     check_since_and_until
     @company = current_company
-    check_for_page_id_in_session
+    check_for_adwords_id_in_session
 
-    if session['google_auth_hash'] && session['google_page_id']
+    if session['google_auth_hash'] && session['google_adwords_id']
       @face = 'You are logged in! <a href="/google_analytics/logout">Logout</a>'
       get_all_adwords
     elsif session['google_auth_hash']
@@ -47,6 +47,18 @@ class GoogleAnalyticsController < ApplicationController
     end
   end
 
+  def check_for_adwords_id_in_session
+    if @company.social_id.google_adwords_id.blank? && !params[:page_id].blank?
+      @company.social_id.google_adwords_id = "ga:" + params[:page_id].to_s
+      session['google_adwords_id'] = @company.social_id.google_adwords_id
+      @company.social_id.save!
+    elsif @company.social_id.google_adwords_id
+      session['google_adwords_id'] = @company.social_id.google_adwords_id
+    else
+      session['google_adwords_id'] = nil
+    end
+  end
+
   def create_client
     @client = Google::Apis::AnalyticsV3::AnalyticsService.new
     @client.authorization = auth_hash['token']
@@ -64,6 +76,20 @@ class GoogleAnalyticsController < ApplicationController
     redirect_if_not_logged_in(error.message)
   end
 
+  def update_analytics_id
+    @company = current_company
+    @company.social_id.google_analytics_id = nil
+    @company.social_id.save!
+    redirect_to "/google_analytics"
+  end
+
+  def update_adwords_id
+    @company = current_company
+    @company.social_id.google_adwords_id = nil
+    @company.social_id.save!
+    redirect_to "/google_analytics/adwords"
+  end
+
   def redirect_if_not_logged_in(message = nil)
     set_google_sessions_to_nil
     if message.blank?
@@ -78,6 +104,7 @@ class GoogleAnalyticsController < ApplicationController
     session['google_page_id'] = nil
     session['google_since'] = nil
     session['google_until'] = nil
+    session['google_adwords_id'] = nil
   end
 
   def get_all_metrics

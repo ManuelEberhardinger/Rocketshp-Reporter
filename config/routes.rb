@@ -44,6 +44,8 @@ Rails.application.routes.draw do
   post 'google_analytics/report'
   post 'google_analytics/adwords_report'
   get 'google_analytics/options'
+  get 'google_analytics/update_adwords_id'
+  get 'google_analytics/update_analytics_id'
 
   get 'login' => 'sessions#new'
   post 'login'   => 'sessions#create'

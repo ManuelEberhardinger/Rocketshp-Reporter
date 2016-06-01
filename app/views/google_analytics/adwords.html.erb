@@ -3,7 +3,14 @@
 </div>
 <div class="col-sm-10">
   <div id="data-block">
-    <h1>Google Adwords</h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>Google Adwords</h1>
+      </div>
+      <div class="col-sm-6 text-right">
+        <%= link_to 'Update Adwords ID', "/google_analytics/update_adwords_id", class: "btn btn-primary", style: "margin-top:20px" %>
+      </div>
+    </div>
     <%= form_tag("/google_analytics/adwords", method: :get) do %>
     <div class="form-inline">
       <div class="input-group date">
