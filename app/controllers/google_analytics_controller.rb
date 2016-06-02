@@ -133,7 +133,7 @@ class GoogleAnalyticsController < ApplicationController
 
   def get_all_adwords
     create_client
-    @profile_id = session['google_page_id']
+    @profile_id = session['google_adwords_id']
 
     @adwords_clicks = get_metric_from_api('ga:adclicks', "ga:campaign,ga:date")
     @prev_adwords_clicks = get_metric_from_api_30_days_ago('ga:adclicks')
