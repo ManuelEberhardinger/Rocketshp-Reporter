@@ -148,6 +148,6 @@ class CompaniesController < ApplicationController
     def company_params
       params.require(:company).permit(:name, :description, :lead_source, :job_types, :website,
                                       :monthly_total, :address, :status, :total_hours, :one_time_cost,
-                                      :facebook, :twitter, :linkedin, :instagram)
+                                      :facebook, :twitter, :linkedin, :instagram, :notes)
     end
 end
