@@ -15,7 +15,7 @@ class CompaniesController < ApplicationController
       @companies = Company.where(status: @status)
     else
       @companies = Company.where(status: 1) # get all active clients
-      @all_companies = Company.all # get all clients 
+      @all_companies = Company.all # get all clients
     end
   end
 
@@ -146,6 +146,8 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website, :monthly_total, :address, :status, :total_hours, :one_time_cost)
+      params.require(:company).permit(:name, :description, :lead_source, :job_types, :website,
+                                      :monthly_total, :address, :status, :total_hours, :one_time_cost,
+                                      :facebook, :twitter, :linkedin, :instagram)
     end
 end

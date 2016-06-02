@@ -62,6 +62,26 @@
     <%= f.collection_select :status, get_status_collection, :first, :last, class: "form-control" %>
   </div>
   <br>
+  <div class="field">
+    <%= f.label :facebook %>
+    <%= f.text_field :facebook, class: "form-control" %>
+  </div>
+  <br>
+  <div class="field">
+    <%= f.label :twitter %>
+    <%= f.text_field :twitter, class: "form-control" %>
+  </div>
+  <br>
+  <div class="field">
+    <%= f.label :linkedin %>
+    <%= f.text_field :linkedin, class: "form-control" %>
+  </div>
+  <br>
+  <div class="field">
+    <%= f.label :instagram %>
+    <%= f.text_field :instagram, class: "form-control" %>
+  </div>
+  <br>
   <div class="form-inline">
     <%= f.submit class: "btn btn-primary btn-block"%>
   </div>
