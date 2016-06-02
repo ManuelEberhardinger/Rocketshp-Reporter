@@ -49,6 +49,14 @@ class LinkedinController < ApplicationController
     redirect_if_not_logged_in(error.message)
   end
 
+  def update_id
+    @company = current_company
+    @company.social_id.linkedin_id = nil
+    @company.social_id.save!
+    session['linkedin_page_id'] = nil
+    redirect_to "/linkedin"
+  end
+
   def create_client
     @client = LinkedIn::API.new(auth_hash["token"])
   end

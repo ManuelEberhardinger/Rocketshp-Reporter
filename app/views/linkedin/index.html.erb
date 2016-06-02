@@ -3,7 +3,14 @@
 </div>
 <div class="col-sm-10">
     <div id="data-block">
-      <h1>LinkedIn</h1>
+      <div class="row">
+        <div class="col-sm-6">
+          <h1>LinkedIn</h1>
+        </div>
+        <div class="col-sm-6 text-right">
+          <%= link_to 'Update LinkedIn ID', "/linkedin/update_id", class: "btn btn-primary", style: "margin-top:20px" %>
+        </div>
+      </div>
       <div class="well", style="background:white">
         <%= form_tag("/linkedin", method: :get) do %>
         <div class="form-inline">

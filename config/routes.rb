@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   post 'facebook/report'
   get 'facebook/fresh_up_data'
   get 'facebook/options'
+  get 'facebook/update_id'
 
   get 'twitter/login_page'
   get 'auth/twitter/callback' => 'twitter#callback'
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
   get 'linkedin/logout'
   get 'linkedin/options'
   post 'linkedin/report'
+  get 'linkedin/update_id'
 
   get 'instagram/login_page'
   get 'instagram/callback'

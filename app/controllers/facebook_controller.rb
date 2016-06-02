@@ -47,6 +47,14 @@ class FacebookController < ApplicationController
     redirect_to "/facebook/login_page", notice: error.message
   end
 
+  def update_id
+    @company = current_company
+    @company.social_id.facebook_id = nil
+    @company.social_id.save!
+    session['fb_page_id'] = nil
+    redirect_to "/facebook"
+  end
+
   def get_all_posts
     name = @page.to_s + '_posts'
 
