@@ -8,15 +8,10 @@ class CompaniesController < ApplicationController
     if params[:status]
       @status = params[:status]
     else
-      @status = nil
+      @status = 2
     end
 
-    if @status
-      @companies = Company.where(status: @status)
-    else
-      @companies = Company.where(status: 1) # get all active clients
-      @all_companies = Company.all # get all clients
-    end
+    @companies = Company.where(status: @status)
   end
 
   # GET /companies/1

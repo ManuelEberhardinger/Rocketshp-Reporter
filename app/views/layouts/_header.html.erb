@@ -15,10 +15,6 @@
           <ul class="dropdown-menu">
             <li><%= link_to '<i class="fa fa-fw fa-home"></i> Dashboard'.html_safe, companies_path %></li>
             <li class="divider"></li>
-            <li><%= link_to '<i class="fa fa-fw fa-smile-o"></i> Active Clients'.html_safe, companies_path(status: 1) %></li>
-            <li><%= link_to '<i class="fa fa-fw fa-meh-o"></i> Pipeline'.html_safe, companies_path(status: 2) %></li>
-            <li><%= link_to '<i class="fa fa-fw fa-frown-o"></i> Lost Clients'.html_safe, companies_path(status: 3) %></li>
-            <li class="divider"></li>
             <li><%= link_to '<i class="fa fa-fw fa-users"></i> Users'.html_safe, users_path %></li>
             <li><%= link_to '<i class="fa fa-fw fa-phone"></i> Contacts'.html_safe, contacts_path %></li>
             <li><%= link_to '<i class="fa fa-fw fa-clock-o"></i> Time Trackings'.html_safe, time_trackings_path %></li>

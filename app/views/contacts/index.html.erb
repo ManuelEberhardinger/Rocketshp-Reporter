@@ -24,7 +24,7 @@
         <td><%= contact.email %></td>
         <td><%= link_to 'Edit', edit_contact_path(contact), remote: true %></td>
         <% if current_user.admin? %>
-        <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
     <% end %>

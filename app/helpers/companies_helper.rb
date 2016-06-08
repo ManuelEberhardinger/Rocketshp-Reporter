@@ -94,6 +94,8 @@ module CompaniesHelper
       "Pipeline"
     elsif status == "3"
       "Lost Clients"
+    elsif status == "4"
+      "Completed"
     else
       "Dashboard"
     end
@@ -104,26 +106,31 @@ module CompaniesHelper
     status_hash = [
       [1, 'Active'],
       [2, 'Pipeline'],
-      [3, 'Lost']
+      [3, 'Lost'],
+      [4, 'Completed']
     ]
   end
 
   # maps the status to the name
   def get_name_of_status(status)
-    if status == 1
+    if status == 1 || status == "1"
       "Active"
-    elsif status == 2
+    elsif status == 2 || status == "2"
       "Pipeline"
-    elsif status == 3
+    elsif status == 3 || status == "3"
       "Lost"
+    elsif status == 4 || status == "4"
+      "Completed"
+    else
+      ""
     end
   end
 
   # get title of the income, different for each dashboard
   def get_name_of_income(status)
-    if status == "2"
+    if status == "2" || status == 2
       "Predicted "
-    elsif status == "3"
+    elsif status == "3" || status == 3
       "Lost "
     else
       "Monthly "

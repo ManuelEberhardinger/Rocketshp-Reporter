@@ -1,100 +1,72 @@
-<div class="row">
-  <div class="col-sm-6">
-    <h1><%= get_header(@status) %></h1>
-  </div>
-  <div class="col-sm-6 text-right">
-    <%= link_to 'New Client', new_company_path, class: "btn btn-primary", style: "margin-top:20px", remote: true %>
-  </div>
+<div class="col-sm-2">
+  <%= render 'layouts/sidebar_dashboard' %>
 </div>
-
-<% if @status.nil? %>
+<div class="col-sm-10">
   <div class="row">
-    <% (1..3).each do |i| %>
-      <% current_companies = @all_companies.where(status: i) %>
-      <div class="col-sm-4">
-        <h3><%= get_header(i.to_s) %></h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Annual Value</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% current_companies.each do |company| %>
-            <tr>
-              <td><%= link_to company.name, company %></td>
-              <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    <% end %>
+    <div class="col-sm-6">
+      <%= link_to 'New Client', new_company_path, class: "btn btn-primary", style: "margin-top:20px", remote: true %>
+    </div>
+    <div class="col-sm-6 text-right">
+      <%= ('<h3>Total ' + get_name_of_status(@status) + ': $' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
+    </div>
   </div>
-<% else %>
-<div class="row container-fluid">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Lead Source</th>
-        <th>Job Types</th>
-        <th>Website</th>
-        <th>Monthly Total</th>
-        <th>One Time Cost</th>
-        <th>Annual Value</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
+  <div class="row container-fluid">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Lead Source</th>
+          <th>Job Types</th>
+          <th>Website</th>
+          <th>Monthly Total</th>
+          <th>One Time Cost</th>
+          <th>Annual Value</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <% @companies.each do |company| %>
-      <tr>
-        <td><%= company.name %></td>
-        <td><%= company.lead_source %></td>
-        <td><%= company.job_types %></td>
-        <td><%= link_to company.website, url_with_protocol(company.website), target: 'blank' %></td>
-        <td>$<%= company.monthly_total.to_i %></td>
-        <td>$<%= company.one_time_cost.to_i %></td>
-        <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>
-        <td><%= link_to 'Show', company %></td>
-        <td><%= link_to 'Edit', edit_company_path(company), remote: true %></td>
-        <% if current_user.admin? %>
-        <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <tbody>
+        <% @companies.each do |company| %>
+        <tr>
+          <td><%= company.name %></td>
+          <td><%= company.lead_source %></td>
+          <td><%= company.job_types %></td>
+          <td><%= link_to company.website, url_with_protocol(company.website), target: 'blank' %></td>
+          <td>$<%= company.monthly_total.to_i %></td>
+          <td>$<%= company.one_time_cost.to_i %></td>
+          <td>$<%= company.monthly_total.to_i * 12 + company.one_time_cost.to_i %></td>
+          <td><%= link_to 'Show', company %></td>
+          <td><%= link_to 'Edit', edit_company_path(company), remote: true %></td>
+          <% if current_user.admin? %>
+          <td><%= link_to 'Delete', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
         <% end %>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-<% end %>
-<hr>
-<div class="row vertical-align">
-  <div class="col-sm-4">
-    <h3>Lead Sources</h3>
-    <%= pie_chart @companies.group(:lead_source).count %>
+      </tbody>
+    </table>
   </div>
-  <div class="col-sm-4">
-    <h3>Job Types</h3>
-    <%= pie_chart @companies.group(:job_types).count %>
-  </div>
-  <div class="col-sm-4">
-    <div class="col-xs-8">
-      <%= ('<h3>' + get_name_of_income(@status) + ' Income: </h3>').html_safe %>
-      <%= ('<h3>Annual Revenue: </h3>').html_safe %>
-      <% if @status.nil? %>
-      <%= ('<h3>Pipeline: </h3>').html_safe %>
-      <% end %>
+  <hr>
+  <div class="row vertical-align">
+    <div class="col-sm-7">
+      <div class="col-sm-6">
+        <h3>Lead Sources</h3>
+        <%= pie_chart @companies.group(:lead_source).count %>
+      </div>
+      <div class="col-sm-6">
+        <h3>Job Types</h3>
+        <%= pie_chart @companies.group(:job_types).count %>
+      </div>
     </div>
-    <div class="col-xs-4 text-right">
-      <%= ('<h3>$' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
-      <%= ('<h3>$' + (sum_up_monthly_total(@companies) * 12 + sum_up_one_time_cost(@companies)).to_s + '</h3>').html_safe %>
-      <% if @status.nil? %>
-      <%= ('<h3>$' + sum_up_monthly_total(@all_companies.where(status: 2)).to_s + '</h3>').html_safe %>
-      <% end %>
+    <div class="col-sm-5">
+      <div class="col-xs-7">
+        <%= ('<h3>Monthly Income: </h3>').html_safe %>
+        <%= ('<h3>Annual Income: </h3>').html_safe %>
+      </div>
+      <div class="col-xs-5 text-right">
+        <%= ('<h3>$' + sum_up_monthly_total(@companies).to_s + '</h3>').html_safe %>
+        <%= ('<h3>$' + (sum_up_monthly_total(@companies) * 12 + sum_up_one_time_cost(@companies)).to_s + '</h3>').html_safe %>
+      </div>
     </div>
   </div>
+  <br>
 </div>
-<br>

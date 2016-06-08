@@ -1,0 +1,13 @@
+<div class="sidenav row content">
+  <nav class="navbar sidebar-nav">
+    <div id="collapse-group">
+      <ul class="nav nav-pills nav-stacked">
+        <li><%= link_to '<i class="fa fa-fw fa-meh-o"></i> Pipeline'.html_safe, companies_path(status: 2) %></li>
+        <li><%= link_to '<i class="fa fa-fw fa-smile-o"></i> Clients'.html_safe, companies_path(status: 1) %></li>
+        <li><%= link_to '<i class="fa fa-fw fa-frown-o"></i> Lost Clients'.html_safe, companies_path(status: 3) %></li>
+        <li><%= link_to '<i class="fa fa-fw fa-check-circle"></i> Completed'.html_safe, companies_path(status: 4) %></li>
+      </ul>
+    </div>
+    <br>
+  </nav>
+</div>
