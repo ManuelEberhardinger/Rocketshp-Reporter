@@ -2,7 +2,14 @@
   <%= render 'layouts/sidebar' %>
 </div>
 <div class="col-sm-10">
-  <h3>Contacts</h3>
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Contacts</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <%= link_to 'Add Contact', new_contact_path, class: "btn btn-primary", style: "margin-top:15px;", remote: true %>
+    </div>
+  </div>
 
   <table class="table table-striped">
     <thead>
@@ -32,7 +39,4 @@
       <% end %>
     </tbody>
   </table>
-  <div class="text-right">
-    <%= link_to 'Add Contact', new_contact_path, class: "btn btn-primary", remote: true %>
-  </div>
 </div>
