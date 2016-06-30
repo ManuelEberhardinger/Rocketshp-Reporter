@@ -71,6 +71,7 @@ module GoogleAnalyticsHelper
     end
   end
 
+  # fill out select input with all views available in google and not only accounts
   def fill_select_for_accounts(profiles)
     select_list = []
 

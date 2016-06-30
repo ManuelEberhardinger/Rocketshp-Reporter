@@ -1,32 +1,40 @@
 class FacebookController < ApplicationController
   SITE_URL = 'https://quiet-peak-67098.herokuapp.com/'.freeze
 
+  # GET /facebook
   def index
     @company = current_company
 
     check_for_page_id_in_session
 
+    # check if there is a valid token and a facebook id
     if session['fb_access_token'] && session['fb_page_id']
       @face = 'You are logged in! <a href="/facebook/logout">Logout</a>'
       @page = @company.name.split.join
       create_client
       get_insights_variables
       get_all_posts
+    # if there is no id redirected to options to choose an id
     elsif session['fb_access_token']
       redirect_to '/facebook/options'
+    # redirect to login if token is not valid
     else
       redirect_to '/facebook/login_page'
     end
+  # if there is a exception, show error and logout
   rescue => error
     logout(error.message)
   end
 
+  # checks if there is already a facebook id saved
   def check_for_page_id_in_session
+    # if the database is empty and there is a param the id will be saved in the db
     if @company.social_id.facebook_id.blank? && !params[:page_id].blank?
       @company.social_id.facebook_id = params[:page_id]
       session['fb_page_id'] = @company.social_id.facebook_id
       @company.social_id.save!
       fresh_up_data
+    # get id from the db if there is a id saved
     elsif @company.social_id.facebook_id
       session['fb_page_id'] = @company.social_id.facebook_id
     else
@@ -34,11 +42,13 @@ class FacebookController < ApplicationController
     end
   end
 
+  # creates the koala client for connecting with facebook
   def create_client
     @graph = Koala::Facebook::API.new(session['fb_access_token'])
     @pages = @graph.get_object('me/accounts')
   end
 
+  # GET /facebook/options
   def options
     create_client
   rescue => error
@@ -47,6 +57,7 @@ class FacebookController < ApplicationController
     redirect_to "/facebook/login_page", notice: error.message
   end
 
+  # set id in database to nil so next time GET options will be shown
   def update_id
     @company = current_company
     @company.social_id.facebook_id = nil
@@ -55,6 +66,7 @@ class FacebookController < ApplicationController
     redirect_to "/facebook"
   end
 
+  # get all single posts
   def get_all_posts
     name = @page.to_s + '_posts'
 
@@ -81,6 +93,7 @@ class FacebookController < ApplicationController
     FacebookInsights.close_connection
   end
 
+  # gets metrics from the MongoDB database with adapter class FacebookInsights
   def get_insights_variables
     name = @page
     FacebookInsights.connect_with_mongodb
@@ -125,6 +138,7 @@ class FacebookController < ApplicationController
     @page_fans_city = FacebookInsights.get_single_metric(name, 'page_fans_city')
     @page_fans_locale = FacebookInsights.get_single_metric(name, 'page_fans_locale')
 
+    # make these variables available in the js files with the gon gem
     gon.page_fans_country = get_last_element_of_hash @page_fans_country
     gon.page_fans_city = get_last_element_of_hash @page_fans_city
     gon.page_fans_locale = get_last_element_of_hash @page_fans_locale
@@ -152,6 +166,7 @@ class FacebookController < ApplicationController
     return element[element.keys.last]
   end
 
+  # fresh up data from facebook in the database
   def fresh_up_data
     date_since = params[:since]
     date_until = params[:until]
@@ -162,6 +177,7 @@ class FacebookController < ApplicationController
     redirect_to '/facebook'
   end
 
+  # creates the date range for getting facebook data for the given dates
   def create_date_range(date_since, date_until)
     if(date_since.blank?)
       date_range = ""
@@ -173,6 +189,7 @@ class FacebookController < ApplicationController
     return date_range
   end
 
+  # fresh up data from facebook in the database
   def fresh_up_data_without_redirect(date_range)
     create_client
     @company = current_company
@@ -184,6 +201,7 @@ class FacebookController < ApplicationController
     FacebookInsights.fresh_up_data(@page.to_s + "_posts", posts)
   end
 
+  # create a pdf report
   def report
     @company = current_company
     @page = @company.name.split.join
@@ -209,6 +227,7 @@ class FacebookController < ApplicationController
     end
   end
 
+  # params are only available when the create report button is clicked
   def get_description_from_params
     @description_all_fans = params[:description_all_fans]
     @description_likes_unlikes = params[:description_likes_unlikes]
@@ -231,6 +250,7 @@ class FacebookController < ApplicationController
     @description_posts = params[:description_posts]
   end
 
+  # GET /facebook/login_page
   def login_page
   end
 
@@ -242,6 +262,7 @@ class FacebookController < ApplicationController
     redirect_to oauth.url_for_oauth_code
   end
 
+  # reset page id and token
   def logout(message = nil)
     session['fb_access_token'] = nil
     session['fb_page_id'] = nil

@@ -16,6 +16,8 @@ class ContactsController < ApplicationController
   # GET /contacts/new
   def new
     @contact = Contact.new
+    # set the company id for the contact
+    # not changeable in form
     @contact.company_id = current_company.id
     respond_to do |format|
       format.html # new.html.erb

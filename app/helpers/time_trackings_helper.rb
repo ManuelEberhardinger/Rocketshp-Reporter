@@ -9,6 +9,7 @@ module TimeTrackingsHelper
   end
 
   # format value if there is a time
+  # for use in datepicker
   def preset_value(time)
     time.strftime('%d/%m/%Y') unless time.nil?
   end

@@ -21,27 +21,33 @@ class CompaniesController < ApplicationController
     @time_trackings = @company.time_trackings.where("date >= ?", Date.today.beginning_of_month).where("date <= ?", Date.today.end_of_month)
   end
 
+  # shows the calendar of the client with the planned posts
   def calendar
     @start_date = nil
     @start_date = params["start_date"] if params["start_date"]
     @company = current_company
   end
 
+  # shows the information about the client
   def client_information
     @company = current_company
   end
 
+  # shows all contacts of the client
   def client_contacts
     @company = current_company
   end
 
+  # shows a pie chart for the distribution of the planned posts
   def content_distribution
     @posts = current_company.posts.where("start_time >= ?", Date.today.beginning_of_month).where("start_time <= ?", Date.today.end_of_month)
   end
 
+  # create report of all planned posts for the date in the params
   def create_post_report
     @company = current_company
 
+    # create a report with a start_date or with the date of today for the whole month
     if params["start_date"]
       @calendar_date = Date.parse(params["start_date"])
     else
